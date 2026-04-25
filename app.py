@@ -3,15 +3,20 @@ import chromadb
 from chromadb.utils import embedding_functions
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from dotenv import load_dotenv
 import google.generativeai as genai
 
 # Konfigurasi Path
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CHROMA_DATA_PATH = os.path.join(BASE_DIR, "chroma_db")
 
+# Load variabel dari file .env
+load_dotenv()
+
 # Konfigurasi Gemini API
 # API Key akan diambil dari environment variable
-genai.configure(api_key=os.environ.get("OPENAI_API_KEY")) # Menggunakan proxy Manus jika tersedia
+api_key = os.getenv("GEMINI_API_KEY")
+genai.configure(api_key=api_key)
 
 app = Flask(__name__)
 CORS(app)
