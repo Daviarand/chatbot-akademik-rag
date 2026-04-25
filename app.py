@@ -13,10 +13,18 @@ CHROMA_DATA_PATH = os.path.join(BASE_DIR, "chroma_db")
 # Load variabel dari file .env
 load_dotenv()
 
+
 # Konfigurasi Gemini API
 # API Key akan diambil dari environment variable
-api_key = os.getenv("GEMINI_API_KEY")
-genai.configure(api_key=api_key)
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+
+print("Daftar model yang tersedia untuk API Key Anda:")
+try:
+    for m in genai.list_models():
+        if 'generateContent' in m.supported_generation_methods:
+            print(f"- {m.name}")
+except Exception as e:
+    print(f"Gagal mengambil daftar model: {e}")
 
 app = Flask(__name__)
 CORS(app)
@@ -27,8 +35,8 @@ embedding_func = embedding_functions.SentenceTransformerEmbeddingFunction(model_
 collection = client.get_collection(name="akademik_uii", embedding_function=embedding_func)
 
 def get_gemini_response(question, context):
-    model = genai.GenerativeModel('gemini-1.5-flash')
-    
+    model = genai.GenerativeModel('models/gemini-2.0-flash')
+
     prompt = f"""
     Anda adalah asisten akademik untuk Program Studi Informatika, Universitas Islam Indonesia (UII).
     Gunakan potongan dokumen berikut untuk menjawab pertanyaan mahasiswa. 
@@ -76,6 +84,7 @@ def chat():
             "sources": results['metadatas'][0]
         })
     except Exception as e:
+        print(f"ERROR TERDETEKSI: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
