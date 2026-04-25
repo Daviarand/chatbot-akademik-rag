@@ -1,0 +1,230 @@
+[
+  [
+    {
+      "question": "Apa itu Global Mobility Program di Jurusan Informatika UII?",
+      "answer": "Global Mobility Program bertujuan untuk menjadikan mahasiswa pemimpin yang berwawasan global melalui pengalaman belajar di luar negeri, seperti program Sakura Science Plan di Jepang atau studi di China."
+    },
+    {
+      "question": "Apa manfaat mengikuti Global Mobility Program?",
+      "answer": "Manfaatnya termasuk mendapatkan ilmu dan wawasan baru dari institusi riset dan teknologi di luar negeri, memahami perbedaan kultur, mengetahui perkembangan negara lain, serta membuka wawasan untuk berkontribusi pada kemajuan di Indonesia. Juga dapat menambah nilai di CV untuk karir di masa depan."
+    },
+    {
+      "question": "Dengan institusi akademik mana saja Jurusan Informatika UII menjalin kemitraan internasional?",
+      "answer": "Jurusan Informatika UII menjalin kemitraan dengan Nanjing Xiaozhuang University (China), Hokkaido Information University (Jepang), Chulalongkorn University (Thailand), University of New South Wales (Australia), Youngsan University (Korea Selatan), RajaMangala University of Technology Thanyaburi (Thailand), University of Twente (Belanda), dan University of the Cordilleras (Filipina)."
+    },
+    {
+      "question": "Apa saja jenis kemitraan yang dilakukan Jurusan Informatika UII dengan institusi mitra?",
+      "answer": "Jenis kemitraan meliputi Kerja Praktik dan Magang, serta kolaborasi dalam kegiatan seperti Summer School dan seminar keilmuan."
+    },
+    {
+      "question": "Apakah Jurusan Informatika UII memiliki kerjasama dengan universitas di Jerman?",
+      "answer": "Ya, Jurusan Informatika FTI UII menjalin kerjasama dengan Heilbronn University of Applied Sciences (HHN), Jerman."
+    },
+    {
+      "question": "Apa itu Collaboration UII and NXU: Design Thinking For Education Summer School 2021?",
+      "answer": "Ini adalah kegiatan Summer School online yang diselenggarakan oleh Departemen Informatika Universitas Islam Indonesia (UII) bekerja sama dengan Nanjing Xiaozhuang University (NXU) China, yang dihadiri oleh mahasiswa UII dan NXU."
+    }
+  ],
+  [
+    {
+      "question": "Berapa jumlah laboratorium yang dimiliki Jurusan Informatika UII dan di mana lokasinya?",
+      "answer": "Jurusan Informatika UII memiliki empat laboratorium yang terletak di Gedung KH Mas Mansyur lantai 3 dan 4."
+    },
+    {
+      "question": "Berapa kapasitas komputer di laboratorium Jurusan Informatika UII?",
+      "answer": "Kapasitas komputer di laboratorium Jurusan Informatika UII beragam, mulai dari 20 hingga 48 komputer."
+    },
+    {
+      "question": "Apa saja nama-nama laboratorium terpadu Informatika FTI UII?",
+      "answer": "Empat laboratorium terpadu Informatika FTI UII terdiri dari Laboratorium Pemrograman Data, Laboratorium Pemrograman Lanjut, Laboratorium Riset, dan Laboratorium Data dan Komunikasi."
+    },
+    {
+      "question": "Siapa Kepala Laboratorium Sistem Siber?",
+      "answer": "Kepala Laboratorium Sistem Siber adalah Dr. Syarif Hidayat, S.Kom., M.I.T."
+    },
+    {
+      "question": "Apa fokus pengembangan Laboratorium Sistem dan Jaringan Komputer?",
+      "answer": "Laboratorium Sistem dan Jaringan Komputer berfokus pada pengembangan kompetensi dan riset di bidang sistem komputer, jaringan komputer, Internet of Things (IoT), Network Security, dan Digital Forensic."
+    },
+    {
+      "question": "Siapa Kepala Laboratorium Multimedia dan Visi Komputer?",
+      "answer": "Kepala Laboratorium Multimedia dan Visi Komputer adalah Izzati Muhimmah, S.T., M.Sc., Ph.D."
+    },
+    {
+      "question": "Fasilitas canggih apa saja yang tersedia di Laboratorium Multimedia dan Visi Komputer?",
+      "answer": "Laboratorium Multimedia dan Visi Komputer memiliki fasilitas canggih seperti perangkat Virtual Reality (VR), motion capture, lisensi animasi Moho Pro, lisensi Grafis Clip Studio Paint, lisensi MATLAB, serta software pendukung lainnya."
+    },
+    {
+      "question": "Siapa Kepala Laboratorium Informatika Teori dan Sistem Cerdas (ITSC)?",
+      "answer": "Kepala Laboratorium Informatika Teori dan Sistem Cerdas (ITSC) adalah Chandra Kusuma Dewa, S.Kom., M.Kom., Ph.D."
+    },
+    {
+      "question": "Apa peran Laboratorium Informatika Teori & Sistem Cerdas (ITSC)?",
+      "answer": "Lab. ITSC memiliki peran mengembangkan subdisiplin informatika teori & sistem cerdas."
+    },
+    {
+      "question": "Siapa Kepala Laboratorium Sistem Informasi dan Rekayasa Perangkat Lunak (SIRKEL)?",
+      "answer": "Kepala Laboratorium Sistem Informasi dan Rekayasa Perangkat Lunak (SIRKEL) adalah Dr. Novi Setiani, S.T., M.T."
+    },
+    {
+      "question": "Kegiatan asistensi mata kuliah apa saja yang dilakukan di Laboratorium SIRKEL?",
+      "answer": "Kegiatan asistensi di Laboratorium SIRKEL meliputi: Semester Ganjil (Pengembangan Aplikasi Berbasis Web dan Pengembangan Aplikasi Bergerak) dan Semester Genap (Fundamen Pengembangan Aplikasi dan Pengembangan Sistem Informasi)."
+    }
+  ],
+  [
+    {
+      "question": "Apakah data yang dihapus secara digital benar-benar hilang?",
+      "answer": "Tidak. Dalam banyak konteks teknis, penghapusan data tidak serta merta menghilangkan data yang mendasarinya. Sistem hanya menandai ruang penyimpanan yang ditempati data tersebut sebagai tersedia untuk ditimpa. Sampai data baru menggantikannya, informasi asli mungkin tetap dapat dipulihkan melalui metode khusus."
+    },
+    {
+      "question": "Apa perbedaan antara menghapus visibilitas dan menghapus keberadaan data?",
+      "answer": "Perbedaan antara menghapus visibilitas dan menghapus keberadaan data adalah fundamental untuk memahami persistensi digital. Apa yang hilang dari antarmuka pengguna mungkin terus ada pada tingkat struktural dalam sistem penyimpanan atau lingkungan jaringan."
+    }
+  ],
+  [
+    {
+      "question": "Apa itu Network Forensics dan mengapa penting dalam keamanan siber?",
+      "answer": "Network forensics adalah penerapan teknik ilmiah dan sistematis untuk mengumpulkan, mengawetkan, memeriksa, dan menganalisis informasi digital yang berasal dari aktivitas jaringan. Ini penting sebagai pelengkap kritis untuk keamanan jaringan karena membantu menentukan tanggung jawab, ruang lingkup, dan dampak ketika terjadi pelanggaran keamanan."
+    },
+    {
+      "question": "Apa perbedaan Network Forensics dengan Digital Forensics tradisional?",
+      "answer": "Berbeda dengan digital forensics tradisional yang sering berfokus pada data yang tersimpan di perangkat fisik, network forensics menekankan sesi jaringan langsung, aliran lalu lintas, dan catatan komunikasi."
+    },
+    {
+      "question": "Apa tujuan utama Network Forensics?",
+      "answer": "Tujuan utamanya adalah untuk merekonstruksi peristiwa yang terjadi dalam lingkungan jaringan, termasuk menganalisis tangkapan paket, file log, metadata lalu lintas, dan riwayat sesi untuk menetapkan akun yang koheren tentang aktivitas mencurigakan atau berbahaya."
+    },
+    {
+      "question": "Apa yang terjadi di balik layar ketika kode Python seperti print(\"Hello World!\") dijalankan?",
+      "answer": "Ketika kode Python dijalankan, terjadi serangkaian proses di balik layar yang melibatkan istilah seperti token, bytecode, hingga virtual machine. Proses ini mengubah perintah sederhana menjadi aksi nyata di console atau IDE."
+    },
+    {
+      "question": "Mengapa penting bagi mahasiswa Informatika untuk memahami proses eksekusi kode?",
+      "answer": "Memahami proses eksekusi kode adalah bekal penting bagi siapa saja yang ingin menulis kode dengan lebih dalam dan bertanggung jawab, meskipun mata kuliah spesifik tentang teknik kompilasi seperti ini mulai jarang diberikan."
+    },
+    {
+      "question": "Apa tema seminar yang diselenggarakan Jurusan Informatika FTI UII pada 1 Juli 2025?",
+      "answer": "Seminar tersebut bertema \"How to Become an SAP Consultant: Your Path to a Rewarding Career in Enterprise Software\"."
+    },
+    {
+      "question": "Siapa pembicara dalam seminar \"How to Become an SAP Consultant\"?",
+      "answer": "Pembicara dalam seminar tersebut adalah Mas Aris Muda, S.Kom., seorang SAP ABAP Consultant dan alumni Informatika UII angkatan 2005."
+    },
+    {
+      "question": "Apa itu ERP (Enterprise Resource Planning) dan mengapa SAP penting?",
+      "answer": "ERP adalah sistem perangkat lunak yang digunakan untuk mengelola dan menyatukan berbagai proses penting dalam sebuah perusahaan. SAP adalah salah satu sistem ERP paling banyak digunakan di dunia industri saat ini, penting karena membantu mengurangi pekerjaan manual, meningkatkan efisiensi, dan memungkinkan pengambilan keputusan berbasis data."
+    },
+    {
+      "question": "Bagaimana platform digital seperti TikTok atau Netflix merekomendasikan konten yang relevan?",
+      "answer": "Platform digital menggunakan teknologi kecerdasan buatan (AI) yang canggih dalam sistem rekomendasi digital. AI memungkinkan komputer meniru fungsi kognitif manusia seperti belajar dan memecahkan masalah, memproses data dalam jumlah besar dengan cepat untuk menciptakan pengalaman yang lebih personal dan menarik bagi pengguna."
+    },
+    {
+      "question": "Apa itu sistem rekomendasi berbasis AI?",
+      "answer": "Sistem rekomendasi berbasis AI adalah teknologi yang mengubah cara media dan platform hiburan berinteraksi dengan penggunanya untuk menciptakan pengalaman yang lebih personal dan menarik, dengan menyesuaikan rekomendasi berdasarkan preferensi pengguna."
+    }
+  ],
+  [
+    {
+      "question": "Kapan Jurusan Informatika FTI UII didirikan?",
+      "answer": "Jurusan Informatika FTI UII didirikan pada tahun 1994 di Yogyakarta."
+    },
+    {
+      "question": "Apa komitmen Jurusan Informatika FTI UII?",
+      "answer": "Jurusan Informatika FTI UII tetap menjaga komitmennya untuk terus belajar dan berkembang serta merespon perkembangan teknologi informasi terkini. Bertekad untuk mendidik mahasiswa-mahasiswanya sehingga menghasilkan profesional teknologi informasi yang berjiwa entrepreneur serta menjunjung tinggi etika."
+    },
+    {
+      "question": "Bagaimana akreditasi Jurusan Informatika UII?",
+      "answer": "Jurusan Informatika UII memiliki akreditasi A sesuai SK BAN-PT No 990/SK/BAN-PT/Akred/S/IX/2015. Selain itu, Jurusan Informatika UII masuk menjadi lima terbaik se-Indonesia untuk program studi Ilmu Komputer dan Sistem Informasi berdasarkan QS University Rankings."
+    },
+    {
+      "question": "Apa saja pusat studi yang dimiliki Jurusan Informatika UII?",
+      "answer": "Jurusan Informatika UII memiliki empat pusat studi: Forensika Digital, Informatika Medis, Sains Data, dan Sistem Informasi Enterprise."
+    },
+    {
+      "question": "Sertifikasi internasional apa saja yang tersedia di pusat pelatihan Jurusan Informatika UII?",
+      "answer": "Jurusan Informatika UII memiliki pusat pelatihan dengan sertifikasi internasional dari Cisco, Oracle, EC-Council, Adobe, dan MikroTik."
+    },
+    {
+      "question": "Kelompok studi apa saja yang ada di Jurusan Informatika UII?",
+      "answer": "Jurusan Informatika UII memiliki beberapa kelompok studi sebagai wadah kreativitas mahasiswa yaitu: Kelompok Studi Informatika Robotika, Kelompok Studi Web Programming, Kelompok Studi Open Source, Kelompok Studi Game Programming, dan Kelompok Studi iOS & Android."
+    },
+    {
+      "question": "Dimana lokasi Jurusan Informatika UII?",
+      "answer": "Jurusan Informatika UII berlokasi di Gedung KH. Mas Mansyur Lantai 2, Universitas Islam Indonesia, Jl. Kaliurang KM. 14,5 Sleman Yogyakarta 55584."
+    },
+    {
+      "question": "Berapa nomor telepon Jurusan Informatika UII?",
+      "answer": "Nomor telepon Jurusan Informatika UII adalah +62 274 895287 ext. 122."
+    },
+    {
+      "question": "Berapa nomor faks Jurusan Informatika UII?",
+      "answer": "Nomor faks Jurusan Informatika UII adalah +62 274 895007."
+    },
+    {
+      "question": "Apa alamat email untuk Jurusan Informatika UII?",
+      "answer": "Alamat email untuk Jurusan Informatika UII adalah jurusan.informatika@uii.ac.id."
+    },
+    {
+      "question": "Apa alamat email untuk Prodi Informatika Program Sarjana UII?",
+      "answer": "Alamat email untuk Prodi Informatika Program Sarjana UII adalah informatika@uii.ac.id."
+    },
+    {
+      "question": "Apa alamat email untuk Prodi Informatika Program Magister UII?",
+      "answer": "Alamat email untuk Prodi Informatika Program Magister UII adalah mi@uii.ac.id."
+    },
+    {
+      "question": "Apa alamat email untuk Prodi Informatika PJJ UII?",
+      "answer": "Alamat email untuk Prodi Informatika PJJ UII adalah informatika.pjj@uii.ac.id."
+    },
+    {
+      "question": "Apa akun Instagram Jurusan Informatika UII?",
+      "answer": "Akun Instagram Jurusan Informatika UII adalah @informatics.uii."
+    }
+  ],
+  [
+    {
+      "question": "Apa visi Program Studi Informatika Program Sarjana UII?",
+      "answer": "Visi Program Studi Informatika – Program Sarjana Universitas Islam Indonesia adalah menjadi rujukan nasional dan berorientasi global yang menghasilkan pemungkin solusi teknologi informasi yang mumpuni dan berwatak mulia."
+    },
+    {
+      "question": "Apa misi Program Studi Informatika Program Sarjana UII?",
+      "answer": "Misi Program Studi Informatika – Program Sarjana Universitas Islam Indonesia adalah: 1. Mengintegrasikan nilai-nilai Islam universal ke dalam pendidikan teknologi informasi. 2. Mengembangkan atmosfer yang kondusif untuk pembelajaran teknologi informasi yang berstandar internasional. 3. Melaksanakan penelitian teknologi informasi yang berkualitas dan relevan untuk pemecahan masalah umat manusia. 4. Mengaplikasikan pengetahuan dan keterampilan teknologi informasi untuk kemaslahatan masyarakat."
+    },
+    {
+      "question": "Apa tujuan Program Studi Informatika Program Sarjana UII?",
+      "answer": "Tujuan Program Studi Informatika – Program Sarjana Universitas Islam Indonesia adalah: 1. Menghasilkan lulusan yang mumpuni dalam bidang teknologi informasi dan berwatak mulia yang siap berkiprah di tataran global. 2. Menghasilkan artefak teknologi informasi yang berimpak pada kemaslahatan umat manusia."
+    },
+    {
+      "question": "Kapan Kurikulum 2020 mulai diterapkan di Program Studi Informatika UII?",
+      "answer": "Kurikulum 2020 mulai diterapkan di Program Studi Informatika UII pada Tahun Akademik 2020/2021."
+    },
+    {
+      "question": "Apa kebijakan utama yang diterapkan dalam Kurikulum 2020?",
+      "answer": "Kurikulum 2020 menerapkan sepenuhnya kebijakan Merdeka Belajar Kampus Merdeka sesuai dengan Peraturan Menteri Pendidikan dan Kebudayaan (Permendikbud) Nomor 3 Tahun 2020."
+    },
+    {
+      "question": "Apa ciri utama Kurikulum 2016 yang dipertahankan di Kurikulum 2020?",
+      "answer": "Ciri utama Kurikulum 2016 yang dipertahankan di Kurikulum 2020 adalah pembelajaran berbasis proyek, integrasi proyek antar mata kuliah, dan penjaluran Tugas Akhir di tahun keempat."
+    },
+    {
+      "question": "Apa saja jalur penjaluran Tugas Akhir di tahun keempat Kurikulum 2020?",
+      "answer": "Jalur penjaluran Tugas Akhir di tahun keempat Kurikulum 2020 meliputi Jalur Penelitian, Pengabdian Masyarakat, Perintisan Bisnis, Magang, dan Kuliah di Luar Negeri."
+    },
+    {
+      "question": "Apa fokus pembelajaran pada tahun keempat Kurikulum 2020?",
+      "answer": "Fokus pembelajaran pada tahun keempat lebih difokuskan kepada pilar pembelajaran untuk hidup bersama (learning to live together) dan pembelajaran untuk menjadi (learning to be)."
+    },
+    {
+      "question": "Apa saja lima jalur yang dapat dipilih mahasiswa pada tahun keempat?",
+      "answer": "Pada tahun keempat, terdapat lima jalur untuk dipilih: Jalur Penelitian, Jalur Perintisan Bisnis, Jalur Magang, Jalur Pengabdian Masyarakat, dan Jalur Kuliah di Luar Negeri."
+    },
+    {
+      "question": "Apa saja prospek karir lulusan Program Studi Informatika UII?",
+      "answer": "Lulusan program studi Informatika dapat berkarier sebagai analis, perancang, dan pengembang sistem pada berbagai platform teknologi informasi (web dan mobile). Secara spesifik, lulusan dapat bekerja sebagai web developer, mobile application developer, software engineer, data engineer, data analyst, security analyst, IT project manager, database administrator, network administrator, systems administrator, dan IT consultant pada berbagai lembaga pemerintahan, BUMD, BUMN, perusahaan swasta nasional atau multinasional, maupun wirausahawan startup bidang Teknologi Informasi."
+    },
+    {
+      "question": "Apa yang dimaksud dengan 'entrepreneurial mindset' bagi lulusan Informatika UII?",
+      "answer": "Istilah 'entrepreneur' tidak diartikan secara sempit sebagai wirausaha, tetapi lebih sebagai orang dengan entrepreneurial mindset, seperti terbuka dengan ide, inovatif, berani mengambil risiko/menghadapi ketidakpastian, mempunyai daya juang tinggi (pantang menyerah)."
+    }
+  ]
+]
