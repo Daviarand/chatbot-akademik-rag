@@ -1,0 +1,78 @@
+[
+    {
+        "question": "Berapa total SKS yang harus ditempuh untuk lulus dari Program Studi Informatika UII?",
+        "answer": "Total SKS yang harus ditempuh untuk lulus dari Program Studi Informatika UII adalah 144 SKS."
+    },
+    {
+        "question": "Apa saja syarat kelulusan dari Program Studi Informatika UII?",
+        "answer": "Syarat kelulusan dari Program Studi Informatika UII meliputi: lulus mata kuliah 144 SKS, memenuhi aktivitas non-kurikuler sebanyak 60 SKP, memiliki IPK minimal 2,25, dan sudah mempublikasikan karya ilmiah."
+    },
+    {
+        "question": "Bagaimana evaluasi tengah masa studi di Informatika UII?",
+        "answer": "Evaluasi tengah masa studi dilakukan pada 4 semester pertama. Mahasiswa harus memenuhi minimal 40 SKS dengan minimal IPK 2,00 (diambil dari 40 SKS terbaik). Jika tidak lolos evaluasi ini, mahasiswa akan dikeluarkan."
+    },
+    {
+        "question": "Apa saja aktivitas wajib non-kurikuler yang diselenggarakan oleh DPPAI UII dan berapa SKP-nya?",
+        "answer": "Aktivitas wajib non-kurikuler yang diselenggarakan oleh DPPAI UII meliputi: Pendalaman Nilai Dasar Islam (PNDI) 20 SKP, Pengembangan Diri Qurani (PDQ) 20 SKP, Pelatihan Pengembangan Diri (PPD) 5 SKP, dan Pelatihan Kepemimpinan dan Dakwah (PKD) 5 SKP. Total SKP wajib adalah 50 SKP."
+    },
+    {
+        "question": "Apa saja aktivitas pilihan non-kurikuler yang bisa diambil mahasiswa dan berapa SKP maksimalnya?",
+        "answer": "Aktivitas pilihan non-kurikuler yang bisa diambil mahasiswa meliputi: Praktik Kepemimpinan Kelembagaan Mahasiswa (maksimal 5 SKP), Bahasa Asing untuk Komunikasi Global (maksimal 10 SKP), Pelatihan Bahasa Arab (maksimal 10 SKP), dan Pengabdian Masyarakat (maksimal 10 SKP)."
+    },
+    {
+        "question": "Bagaimana struktur kurikulum Program Studi Informatika UII untuk arus normal (8 semester)?",
+        "answer": "Struktur kurikulum arus normal (8 semester) meliputi: Semester 1 fokus pada dasar-dasar pemrograman dan matematika; Semester 2 pada struktur data dan algoritma; Semester 3-6 pada mata kuliah inti seperti Basis Data, Jaringan Komputer, Rekayasa Perangkat Lunak, dan Kecerdasan Buatan; Semester 7 pada Metodologi Penelitian dan Magang/Tugas Akhir; dan Semester 8 khusus untuk Tugas Akhir."
+    },
+    {
+        "question": "Bagaimana struktur kurikulum Program Studi Informatika UII untuk arus cepat (3,5 tahun atau 7 semester)?",
+        "answer": "Struktur kurikulum arus cepat (3,5 tahun atau 7 semester) memungkinkan mahasiswa mengambil mata kuliah semester atas lebih awal (akselerasi) pada semester 3-5. Syarat untuk mengikuti jalur ini adalah memiliki IPK tinggi (biasanya > 3,00 atau 3,50) agar dapat mengambil beban SKS maksimal (24 SKS). Pada Semester 7, mahasiswa akan fokus penuh pada penyelesaian Tugas Akhir dan Yudisium."
+    },
+    {
+        "question": "Bagaimana sistem penilaian Indeks Prestasi (IP) di Informatika UII?",
+        "answer": "Sistem penilaian Indeks Prestasi (IP) di Informatika UII menggunakan skala 0 sampai 4. Predikat nilai meliputi: A (4.00), A- (3.75), A/B (3.50), B+ (3.25), B (3.00), B- (2.75), B/C (2.50), C+ (2.24), C (2.00), C- (1.75), C/D (1.50), D+ (1.25), D (1.00), E (0.00), dan F (0.00)."
+    },
+    {
+        "question": "Apa perbedaan antara IPS dan IPK?",
+        "answer": "IPS adalah Indeks Prestasi Semester, sedangkan IPK adalah Indeks Prestasi Kumulatif yang dihitung berdasarkan nilai terbaik."
+    },
+    {
+        "question": "Mata kuliah apa saja yang diambil di semester 1 jalur normal?",
+        "answer": "Di semester 1 jalur normal, mata kuliah yang diambil meliputi dasar-dasar pemrograman, matematika, dan mata kuliah pengantar lainnya."
+    },
+    {
+        "question": "Mata kuliah apa saja yang diambil di semester 2 jalur normal?",
+        "answer": "Di semester 2 jalur normal, mata kuliah yang diambil meliputi struktur data, algoritma, dan mata kuliah lanjutan lainnya."
+    },
+    {
+        "question": "Mata kuliah apa saja yang diambil di semester 3 jalur normal?",
+        "answer": "Di semester 3 jalur normal, mata kuliah yang diambil mulai masuk ke inti seperti Basis Data, Jaringan Komputer, atau Rekayasa Perangkat Lunak."
+    },
+    {
+        "question": "Mata kuliah apa saja yang diambil di semester 4 jalur normal?",
+        "answer": "Di semester 4 jalur normal, mata kuliah yang diambil melanjutkan inti seperti Basis Data, Jaringan Komputer, Rekayasa Perangkat Lunak, atau Kecerdasan Buatan."
+    },
+    {
+        "question": "Mata kuliah apa saja yang diambil di semester 5 jalur normal?",
+        "answer": "Di semester 5 jalur normal, mata kuliah yang diambil melanjutkan inti seperti Basis Data, Jaringan Komputer, Rekayasa Perangkat Lunak, atau Kecerdasan Buatan."
+    },
+    {
+        "question": "Mata kuliah apa saja yang diambil di semester 6 jalur normal?",
+        "answer": "Di semester 6 jalur normal, mata kuliah yang diambil melanjutkan inti seperti Basis Data, Jaringan Komputer, Rekayasa Perangkat Lunak, atau Kecerdasan Buatan."
+    },
+    {
+        "question": "Mata kuliah apa saja yang diambil di semester 7 jalur normal?",
+        "answer": "Di semester 7 jalur normal, mata kuliah yang diambil meliputi Metodologi Penelitian, serta Magang atau Tugas Akhir."
+    },
+    {
+        "question": "Mata kuliah apa saja yang diambil di semester 8 jalur normal?",
+        "answer": "Di semester 8 jalur normal, mahasiswa akan fokus pada penyelesaian Tugas Akhir."
+    },
+    {
+        "question": "Bagaimana cara agar bisa mengikuti jalur cepat (3,5 tahun)?",
+        "answer": "Untuk mengikuti jalur cepat (3,5 tahun), mahasiswa perlu memiliki IPK tinggi (biasanya di atas 3,00 atau 3,50) agar dapat mengambil beban SKS maksimal (24 SKS) pada semester-semester awal (3-5) untuk mengakselerasi studi."
+    },
+    {
+        "question": "Apa fokus utama di semester 7 jalur cepat?",
+        "answer": "Fokus utama di semester 7 jalur cepat adalah penyelesaian penuh Tugas Akhir dan Yudisium."
+    }
+]
