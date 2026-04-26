@@ -10,15 +10,20 @@ CHROMA_DATA_PATH = os.path.join(BASE_DIR, "chroma_db")
 
 def ingest_knowledge_base():
     # Inisialisasi ChromaDB Client
-    # Menggunakan PersistentClient agar data tersimpan di disk
     client = chromadb.PersistentClient(path=CHROMA_DATA_PATH)
     
     # Gunakan model embedding lokal yang ringan (all-MiniLM-L6-v2)
-    # Ini gratis dan cepat untuk dijalankan di sandbox
     embedding_func = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="all-MiniLM-L6-v2")
     
-    # Buat atau ambil koleksi
-    collection = client.get_or_create_collection(
+    # Hapus koleksi lama jika ada untuk memastikan data bersih dan terbaru
+    try:
+        client.delete_collection(name="akademik_uii")
+        print("Koleksi lama dihapus untuk re-indexing...")
+    except:
+        pass
+
+    # Buat koleksi baru
+    collection = client.create_collection(
         name="akademik_uii",
         embedding_function=embedding_func
     )
@@ -40,7 +45,6 @@ def ingest_knowledge_base():
                 with open(file_path, "r", encoding="utf-8") as f:
                     try:
                         data = json.load(f)
-                        # Format data bisa list of objects atau list of lists of objects (hasil gabungan jq)
                         items = []
                         if isinstance(data, list):
                             for element in data:
@@ -54,15 +58,15 @@ def ingest_knowledge_base():
                             answer = item.get("answer", "")
                             
                             if question and answer:
-                                # Gabungkan pertanyaan dan jawaban sebagai dokumen yang di-index
-                                # Ini membantu semantic search menemukan konteks yang tepat
-                                content = f"Pertanyaan: {question}\nJawaban: {answer}"
-                                
-                                documents.append(content)
+                                # OPTIMASI: Kita hanya meng-index PERTANYAAN sebagai dokumen utama
+                                # agar semantic search fokus mencocokkan maksud pertanyaan user
+                                # JAWABAN diletakkan di metadata untuk diambil saat retrieval
+                                documents.append(question) 
                                 metadatas.append({
                                     "source": source_name,
                                     "file": file,
-                                    "question": question
+                                    "original_question": question,
+                                    "answer": answer # Simpan jawaban lengkap di metadata
                                 })
                                 ids.append(f"id_{count}")
                                 count += 1
@@ -72,13 +76,14 @@ def ingest_knowledge_base():
     # Masukkan ke ChromaDB
     if documents:
         print(f"Memasukkan {len(documents)} data ke ChromaDB...")
-        # ChromaDB menyarankan batching jika data sangat besar, tapi untuk ratusan data ini aman
+        # ChromaDB menyarankan batching jika data sangat besar
+        # Untuk ratusan data, kita bisa masukkan sekaligus
         collection.add(
             documents=documents,
             metadatas=metadatas,
             ids=ids
         )
-        print("Ingestion selesai!")
+        print(f"Ingestion selesai! Total {len(documents)} data berhasil di-index.")
     else:
         print("Tidak ada data yang ditemukan.")
 
