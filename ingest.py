@@ -108,12 +108,12 @@ CHROMA_DATA_PATH = os.path.join(BASE_DIR, "chroma_db")
 def ingest_knowledge_base():
     client = chromadb.PersistentClient(path=CHROMA_DATA_PATH)
     
-    # PERBAIKAN 1: Menggunakan model Multilingual (Sangat pintar Bahasa Indonesia)
+    # Menggunakan model Multilingual
     embedding_func = embedding_functions.SentenceTransformerEmbeddingFunction(
         model_name="paraphrase-multilingual-MiniLM-L12-v2"
     )
     
-    # PERBAIKAN 2: Hapus database lama agar tidak ada data yang tumpang tindih (Fresh Start)
+    # Hapus database lama agar tidak ada data yang tumpang tindih 
     try:
         client.delete_collection(name="akademik_uii")
         print("Database lama berhasil direset.")
@@ -161,7 +161,7 @@ def ingest_knowledge_base():
                                     "file": file,
                                     "question": question
                                 })
-                                # PERBAIKAN 3: Membuat ID yang dijamin Unik
+                                # Membuat ID yang dijamin Unik
                                 ids.append(f"doc_{source_name}_{file}_{count}")
                                 count += 1
                     except Exception as e:

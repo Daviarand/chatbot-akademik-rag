@@ -102,9 +102,6 @@
 
 
 
-
-
-
 import os
 import chromadb
 from chromadb.utils import embedding_functions
@@ -128,7 +125,7 @@ CORS(app)
 
 # Inisialisasi ChromaDB
 client_chroma = chromadb.PersistentClient(path=CHROMA_DATA_PATH)
-# PERBAIKAN 1: Samakan dengan model di ingest.py
+# Samakan dengan model di ingest.py
 embedding_func = embedding_functions.SentenceTransformerEmbeddingFunction(
     model_name="paraphrase-multilingual-MiniLM-L12-v2"
 )
@@ -164,7 +161,7 @@ def chat():
     if not user_query:
         return jsonify({"error": "Query tidak boleh kosong"}), 400
     
-    # PERBAIKAN 2: Tingkatkan n_results menjadi 5 agar hasil pencarian lebih kaya
+    # Menigkatkan n_results agar hasil pencarian lebih luas
     results = collection.query(
         query_texts=[user_query],
         n_results=5
@@ -184,3 +181,39 @@ def chat():
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
