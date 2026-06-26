@@ -1,0 +1,110 @@
+[
+  {
+    "question": "Berapa beban studi (SKS) minimum yang harus diselesaikan untuk lulus dari Program Sarjana (S1) Informatika UII?",
+    "answer": "Mahasiswa harus menyelesaikan beban studi minimum sebesar 144 SKS (Satuan Kredit Semester) yang dirancang untuk ditempuh dalam waktu 8 semester (4 tahun)."
+  },
+  {
+    "question": "Apa gelar akademik yang diperoleh lulusan Program Sarjana (S1) Informatika UII?",
+    "answer": "Lulusan akan menyandang gelar akademik Sarjana Komputer (S.Kom.)."
+  },
+  {
+    "question": "Apa profil profesional mandiri (prospek karir) lulusan S1 Informatika UII setelah lulus?",
+    "answer": "Profil lulusan dirancang untuk berkarir sebagai pengembang sistem pintar (Intelligent System Developer), perekayasa perangkat lunak (Software Engineer), analis data (Data Analyst/Data Scientist), praktisi keamanan siber (Cyber Security Specialist), administrator jaringan/sistem, hingga wirausahawan bidang teknologi informasi (IT Startup Founder)."
+  },
+  {
+    "question": "Mata kuliah apa saja yang diperoleh mahasiswa pada semester ke-1 (kesatu)?",
+    "answer": "Pada semester 1, mahasiswa mengambil mata kuliah paket dasar universitas dan prodi dengan total 20 SKS, yaitu:\nPendidikan Agama Islam (UNI600) - 2 SKS\nPendidikan Pancasila (UNI603) - 2 SKS\nPemikiran Desain* (SIF101) - 4 SKS\nFundamen Matematika (SIF102) - 6 SKS\nFundamen Informatika* (SIF103) - 3 SKS\nLogika Pemrograman* (SIF104) - 3 SKS"
+  },
+  {
+    "question": "Apa fokus kompetensi yang ingin dibangun pada mata kuliah semester 1?",
+    "answer": "Fokus utamanya adalah pembentukan nilai karakter dasar Islam dan kebangsaan, pembentukan pola pikir solusi kreatif (Design Thinking), serta fondasi kuat pada logika dasar matematika, konsep dasar informatika, dan algoritma pemrograman terstruktur."
+  },
+  {
+    "question": "Mata kuliah apa saja yang diperoleh mahasiswa pada semester ke-2 (kedua)?",
+    "answer": "Pada semester 2, mahasiswa menempuh total 20 SKS paket kelanjutan dasar prodi, yaitu:\nMatematika Lanjut (SIF201) - 6 SKS\nFundamen Pengembangan Aplikasi (SIF202) - 6 SKS\nAlgoritma dan Struktur Data (SIF203) - 5 SKS\nRekayasa Perangkat Lunak (SIF204) - 3 SKS"
+  },
+  {
+    "question": "Apa fokus kompetensi utama yang dihasilkan dari semester 2?",
+    "answer": "Mahasiswa dibekali kemampuan matematika komputasi tingkat lanjut, keterampilan teknis dalam membangun pondasi aplikasi yang kuat, penguasaan struktur data penyimpanan memori, serta prinsip-prinsip dasar rekayasa perangkat lunak secara sistematis."
+  },
+  {
+    "question": "Mata kuliah apa saja yang diperoleh mahasiswa pada semester ke-3 (ketiga)?",
+    "answer": "Pada semester 3, mahasiswa menempuh total 20 SKS yang didominasi oleh proyek-proyek komprehensif, yaitu:\nPendidikan Kewarganegaraan (UNI604) - 2 SKS\nSistem dan Jaringan Komputer (SIF301) - 6 SKS\nPengembangan Aplikasi Berbasis Web (SIF302) - 6 SKS\nManajemen Pengembangan Teknologi Informasi (SIF303) - 6 SKS"
+  },
+  {
+    "question": "Mengapa bobot SKS mata kuliah di semester 3 sangat besar (masing-masing 6 SKS)?",
+    "answer": "Karena Informatika UII menerapkan pembelajaran berbasis proyek terintegrasi (integrated project-based learning). Melalui mata kuliah Sistem dan Jaringan Komputer, Pengembangan Aplikasi Web, dan Manajemen Pengembangan TI, mahasiswa diajak langsung membangun infrastruktur sistem informasi terdistribusi secara tim layaknya di industri."
+  },
+  {
+    "question": "Mata kuliah apa saja yang diperoleh mahasiswa pada semester ke-4 (keempat)?",
+    "answer": "Pada semester 4, mahasiswa menempuh total 20 SKS yang terdiri dari:\nBahasa Inggris Teknologi Informasi* (UNI606) - 3 SKS\nPengembangan Sistem Informasi (SIF401) - 6 SKS\nSistem Cerdas dan Pendukung Keputusan (SIF402) - 4 SKS\nFundamen Sains Data* (SIF403) - 4 SKS\nGrafika dan Multimedia (SIF404) - 3 SKS"
+  },
+  {
+    "question": "Apa kompetensi utama yang dihasilkan dari pembelajaran semester 4?",
+    "answer": "Mahasiswa memiliki kemampuan komunikasi profesional bahasa Inggris bidang IT, merancang sistem informasi tingkat enterprise, menerapkan pemrosesan data cerdas (Data Science), pemodelan sistem kecerdasan buatan (AI/Decision Support System), serta pengolahan aset grafis dan multimedia."
+  },
+  {
+    "question": "Mata kuliah apa saja yang diperoleh mahasiswa pada semester ke-5 (kelima)?",
+    "answer": "Pada semester 5, mahasiswa menempuh total 20 SKS yang berfokus pada spesialisasi produk digital, yaitu:\nIslam Ulil Albab (UNI601) - 3 SKS\nBahasa Arab Alquran (UNI607) - 2 SKS\nBahasa Indonesia untuk Komunikasi Ilmiah* (SIF501) - 3 SKS\nPengembangan Aplikasi Bergerak* (SIF502) - 4 SKS\nPengembangan Aplikasi Informatika Medis (SIF503) - 4 SKS\nPengembangan Gim* (SIF504) - 4 SKS"
+  },
+  {
+    "question": "Apa keunikan dari penawaran mata kuliah di semester 5?",
+    "answer": "Mahasiswa dibekali kecakapan akademis ilmiah (Bahasa Indonesia untuk BIKI) serta diarahkan langsung pada tiga ranah produk teknologi spesifik yang sangat dicari di industri, yaitu aplikasi mobile (Mobile Development), aplikasi medis komputasi (Health Informatics), dan pengembangan industri kreatif (Game Development)."
+  },
+  {
+    "question": "Mata kuliah apa saja yang diperoleh mahasiswa pada semester ke-6 (keenam)?",
+    "answer": "Pada semester 6, mahasiswa menempuh total 19 SKS yang menitikberatkan pada etika profesional, kepemimpinan Islam, serta pengambilan mata kuliah pilihan spesifik:\nIslam Rahmatan lil 'Alamin (UNI602) - 3 SKS\nKewirausahaan Syariah* (UNI605) - 2 SKS\nEtika Profesi* (SIF601) - 2 SKS\nMatakuliah Pilihan 1 (SIF9XX) - 3 SKS\nMatakuliah Pilihan 2 (SIF9XX) - 3 SKS\nMatakuliah Pilihan 3 (SIF9XX) - 3 SKS\nMatakuliah Pilihan 4 (SIF9XX) - 3 SKS"
+  },
+  {
+    "question": "Mata kuliah apa saja yang diperoleh mahasiswa pada semester ke-7 (ketujuh)?",
+    "answer": "Pada semester 7, mahasiswa menempuh total 12 SKS yang berfokus pada pengabdian sosial dan persiapan jalur tugas akhir:\nKuliah Kerja Nyata (UNI608) - 2 SKS\nMatakuliah jalur tahun keempat (SIF7XX) - 10 SKS"
+  },
+  {
+    "question": "Mata kuliah apa saja yang diperoleh mahasiswa pada semester ke-8 (kedelapan)?",
+    "answer": "Pada semester 8, mahasiswa mengambil total 13 SKS yang difokuskan penuh pada penyelesaian masa studi akhir:\nTugas Akhir (SIF801) - 8 SKS\nKarya Ilmiah (SIF802) - 5 SKS"
+  },
+  {
+    "question": "Apa saja daftar Mata Kuliah Pilihan yang ditawarkan di Informatika UII?",
+    "answer": "Informatika UII menawarkan beragam mata kuliah pilihan spesifik sesuai tren industri, yang dibagi ke dalam beberapa konsentrasi keahlian:\nSains Data & AI: Penambangan Data (Data Mining), Pembelajaran Mesin (Machine Learning), Deep Learning, Pemrosesan Bahasa Alami (NLP), Visi Komputer (Computer Vision), Pengolahan Citra Digital.\nSistem Terdistribusi & Cloud: Cloud Computing, Internet of Things (IoT), Forensika Digital (Digital Forensics), Kriptografi Terapan.\nRekayasa Sistem & Bisnis: Sistem Informasi Enterprise, Manajemen Proyek TI, Game Development, Arsitektur Enterprise."
+  },
+  {
+    "question": "Bagaimana ketentuan pengambilan mata kuliah pilihan bagi mahasiswa?",
+    "answer": "Mata kuliah pilihan baru akan dibuka jika diambil oleh kuota minimum (minimal 6 mahasiswa). Jika sebuah kelas mata kuliah pilihan di-drop karena tidak memenuhi kuota minimum, mahasiswa bersangkutan wajib merevisi isian RAS secara mandiri pada masa key-in revisi."
+  },
+  {
+    "question": "Apa yang dimaksud dengan mata kuliah Capstone Design di Informatika UII?",
+    "answer": "Capstone Design adalah mata kuliah proyek kelompok multidisiplin berbobot 3 SKS yang diambil pada semester 7. Di sini, mahasiswa bekerja sama dalam tim untuk memecahkan masalah nyata di dunia industri atau masyarakat menggunakan pendekatan rekayasa perangkat lunak dan komputasi yang sistematis."
+  },
+  {
+    "question": "Kapan mahasiswa diperbolehkan mengambil mata kuliah Capstone Design?",
+    "answer": "Mahasiswa dapat mengambil Capstone Design jika telah lulus minimal 100 SKS dan telah lulus atau sedang mengambil mata kuliah prasyarat seperti Rekayasa Perangkat Lunak, Analisis dan Perancangan Sistem, serta Basis Data."
+  },
+  {
+    "question": "Apa saja luaran (output) wajib dari proyek Capstone Design?",
+    "answer": "Luaran proyek Capstone wajib meliputi:\nArtefak perangkat lunak (working software product) yang berfungsi dengan baik.\nDokumen laporan perancangan teknis (technical design specification report).\nVideo demonstrasi aplikasi.\nPublikasi produk pada gelaran pameran Informatics Expo."
+  },
+  {
+    "question": "Apa yang dimaksud dengan Jalur Tahun Keempat pada Kurikulum 2020 Informatika UII?",
+    "answer": "Jalur Tahun Keempat adalah inovasi kurikulum yang memberikan kebebasan bagi mahasiswa tingkat akhir untuk menentukan fokus implementasi keilmuannya selama tahun keempat kuliah (Semester 7 & 8) melalui 5 pilihan penjaluran yang setara dengan skripsi tradisional."
+  },
+  {
+    "question": "Sebutkan 5 pilihan Jalur Tahun Keempat yang dapat dipilih oleh mahasiswa!",
+    "answer": "Lima pilihan jalur tersebut adalah:\nJalur Penelitian (Research): Berfokus pada pemecahan masalah algoritma/komputasi secara akademis teoretis (Skripsi Klasik).\nJalur Perintisan Bisnis (Startup/Digital Entrepreneurship): Berfokus pada perancangan produk IT, analisis pasar, dan validasi ide bisnis startup digital secara mandiri atau tim.\nJalur Magang Industri (Internship): Berfokus pada magang kerja di industri teknologi atau mitra korporasi terverifikasi untuk menguji kemampuan teknis di lapangan kerja riil.\nJalur Pengabdian Masyarakat (Community Service): Berfokus pada implementasi teknologi tepat guna untuk membantu digitalisasi UMKM, instansi desa, atau komunitas sosial.\nJalur Kuliah di Luar Negeri (Global Mobility / Study Abroad): Berfokus pada kegiatan akademik di universitas mitra internasional di luar negeri untuk transfer kredit SKS."
+  },
+  {
+    "question": "Apakah mahasiswa diperbolehkan untuk melakukan ganti atau ulang jalur penjaluran?",
+    "answer": "Ya, diperbolehkan melalui pengisian gform penjaluran prodi dan pengajuan perubahan di platform Sekawan (Sekawan V2/V3). Proses ini memerlukan konsultasi dan persetujuan dari Dosen Pembimbing Akademik (DPA) serta Dosen Pembimbing Skripsi terkait."
+  },
+  {
+    "question": "Apa itu kegiatan Informatics Expo di Informatika UII?",
+    "answer": "Informatics Expo adalah pameran produk teknologi informasi publik yang diselenggarakan secara berkala oleh Jurusan Informatika UII. Acara ini berfungsi sebagai media unjuk gigi karya digital mahasiswa hasil dari luaran mata kuliah proyek, khususnya Capstone Design dan Software Project."
+  },
+  {
+    "question": "Siapa saja yang menghadiri gelaran Informatics Expo?",
+    "answer": "Kegiatan pameran ini dihadiri oleh dosen penguji, seluruh mahasiswa Informatika UII, perwakilan asosiasi profesi, investor, pelaku industri (mitra teknologi), serta masyarakat umum secara terbuka."
+  },
+  {
+    "question": "Apa manfaat utama Informatics Expo bagi mahasiswa?",
+    "answer": "1. Validasi Produk: Mendapatkan feedback langsung dari pengguna nyata dan praktisi industri mengenai kekurangan dan kelebihan produk digitalnya.\n2. Penilaian Akhir: Berfungsi sebagai proses penilaian langsung oleh tim dosen penguji eksternal terhadap kualitas fungsional artefak perangkat lunak.\n3. Peluang Karir & Jaringan: Mahasiswa berkesempatan mempresentasikan karyanya langsung di hadapan rekruter industri teknologi untuk peluang magang atau kerja setelah lulus."
+  }
+]
