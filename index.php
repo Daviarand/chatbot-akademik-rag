@@ -77,6 +77,7 @@
         const chatContainer = document.getElementById('chat-container');
         const chatForm = document.getElementById('chat-form');
         const userInput = document.getElementById('user-input');
+        const conversationHistory = [];
 
         // Logika Buka/Tutup Chat
         chatToggle.addEventListener('click', () => {
@@ -119,6 +120,7 @@
             submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
 
             addMessage(query, true);
+            conversationHistory.push({ role: 'user', content: query });
             userInput.value = '';
 
             // Tampilan animasi loading
@@ -131,10 +133,13 @@
             chatContainer.scrollTop = chatContainer.scrollHeight;
 
             try {
-                const response = await fetch('http://localhost:5000/chat', {
+                const response = await fetch('http://127.0.0.1:5000/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ query: query })
+                    body: JSON.stringify({
+                        query: query,
+                        conversation_history: conversationHistory.slice(-11, -1)
+                    })
                 });
 
                 const data = await response.json();
@@ -142,6 +147,7 @@
 
                 if (data.answer) {
                     addMessage(data.answer);
+                    conversationHistory.push({ role: 'assistant', content: data.answer });
                 } else {
                     addMessage('Maaf, terjadi kesalahan saat menghubungi server.');
                 }
@@ -186,6 +192,28 @@
             background-position: center top; 
             background-repeat: no-repeat; 
             background-attachment: fixed;
+        }
+
+        .assistant-message p {
+            margin: 0 0 0.75rem;
+        }
+
+        .assistant-message p:last-child {
+            margin-bottom: 0;
+        }
+
+        .assistant-message ol,
+        .assistant-message ul {
+            margin: 0.25rem 0 0.75rem 1.25rem;
+            padding: 0;
+        }
+
+        .assistant-message li {
+            margin: 0.25rem 0;
+        }
+
+        .assistant-message strong {
+            font-weight: 700;
         }
     </style>
 </head>
@@ -286,12 +314,71 @@
             // Warna disesuaikan dengan tema Hitam Putih
             innerDiv.className = isUser
                 ? 'bg-black text-white p-3 rounded-2xl rounded-tr-sm shadow-sm max-w-[85%] text-sm'
-                : 'bg-white border border-gray-200 text-black p-3 rounded-2xl rounded-tl-sm shadow-sm max-w-[85%] text-sm';
-            innerDiv.innerText = text;
+                : 'assistant-message bg-white border border-gray-200 text-black p-3 rounded-2xl rounded-tl-sm shadow-sm max-w-[85%] text-sm';
+            innerDiv.innerHTML = isUser ? escapeHtml(text) : formatAssistantMessage(text);
 
             div.appendChild(innerDiv);
             chatContainer.appendChild(div);
             chatContainer.scrollTop = chatContainer.scrollHeight; // Auto-scroll ke bawah
+        }
+
+        function escapeHtml(text) {
+            const element = document.createElement('div');
+            element.innerText = text;
+            return element.innerHTML;
+        }
+
+        function formatInlineMarkdown(text) {
+            return text
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                .replace(/__(.+?)__/g, '<strong>$1</strong>')
+                .replace(/\*([^*\n]+)\*/g, '<em>$1</em>')
+                .replace(/_([^_\n]+)_/g, '<em>$1</em>');
+        }
+
+        function formatAssistantMessage(text) {
+            const lines = escapeHtml(text).split('\n');
+            const blocks = [];
+            let paragraph = [];
+            let listType = null;
+            let listItems = [];
+
+            function flushParagraph() {
+                if (paragraph.length) {
+                    blocks.push('<p>' + formatInlineMarkdown(paragraph.join('<br>')) + '</p>');
+                    paragraph = [];
+                }
+            }
+
+            function flushList() {
+                if (!listItems.length) return;
+                blocks.push('<' + listType + '>' + listItems.map(item => '<li>' + formatInlineMarkdown(item) + '</li>').join('') + '</' + listType + '>');
+                listItems = [];
+                listType = null;
+            }
+
+            lines.forEach(line => {
+                const numbered = line.match(/^\s*\d+\.\s+(.*)$/);
+                const bulleted = line.match(/^\s*[-*]\s+(.*)$/);
+
+                if (numbered || bulleted) {
+                    flushParagraph();
+                    const currentType = numbered ? 'ol' : 'ul';
+                    if (listType && listType !== currentType) flushList();
+                    listType = currentType;
+                    listItems.push((numbered || bulleted)[1]);
+                } else if (!line.trim()) {
+                    flushParagraph();
+                    flushList();
+                } else {
+                    flushList();
+                    paragraph.push(line);
+                }
+            });
+
+            flushParagraph();
+            flushList();
+            return blocks.join('');
         }
 
         // Logika Pengiriman Pesan
