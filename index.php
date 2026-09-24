@@ -242,15 +242,20 @@
                 </div>
                 <div>
                     <h3 class="font-semibold text-sm">Asisten Akademik UII</h3>
-                    <p class="text-xs text-gray-300">Online</p>
+                    <p id="mode-status" class="text-xs text-gray-300">Mode: Regular</p>
                 </div>
             </div>
-            <button id="close-chat" class="text-gray-400 hover:text-white transition-colors focus:outline-none">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
+            <div class="flex items-center gap-2">
+                <button id="reset-chat" class="text-[10px] font-semibold uppercase tracking-[0.14em] text-gray-300 hover:text-white transition-colors focus:outline-none">
+                    Reset
+                </button>
+                <button id="close-chat" class="text-gray-400 hover:text-white transition-colors focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
         </div>
 
         <!-- Area Pesan Chat -->
@@ -266,6 +271,14 @@
 
         <!-- Form Input Chat -->
         <div class="bg-white p-3 border-t border-gray-200">
+            <div class="mb-2 flex items-center justify-between gap-2">
+                <label for="response-mode" class="text-[10px] font-semibold uppercase tracking-[0.16em] text-gray-500">Mode</label>
+                <select id="response-mode"
+                    class="rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-black">
+                    <option value="regular">Regular</option>
+                    <option value="ip">International Program</option>
+                </select>
+            </div>
             <form id="chat-form" class="flex items-center gap-2">
                 <input type="text" id="user-input" placeholder="Tanya sesuatu..."
                     class="flex-1 bg-gray-100 text-sm text-black rounded-full px-4 py-2.5 border border-transparent focus:outline-none focus:border-black focus:bg-white transition-colors"
@@ -288,16 +301,31 @@
         const chatToggle = document.getElementById('chat-toggle');
         const chatWindow = document.getElementById('chat-window');
         const closeChat = document.getElementById('close-chat');
+        const resetChatBtn = document.getElementById('reset-chat');
+        const responseMode = document.getElementById('response-mode');
+        const modeStatus = document.getElementById('mode-status');
 
         const chatContainer = document.getElementById('chat-container');
         const chatForm = document.getElementById('chat-form');
         const userInput = document.getElementById('user-input');
+        const conversationHistory = [];
+
+        function getSelectedMode() {
+            return responseMode.value === 'ip' ? 'ip' : 'regular';
+        }
+
+        function updateModeStatus() {
+            const selectedMode = getSelectedMode();
+            const label = selectedMode === 'ip' ? 'International Program' : 'Regular';
+            modeStatus.textContent = 'Mode: ' + label;
+            responseMode.value = selectedMode;
+        }
 
         // Logika Buka/Tutup Chat
         chatToggle.addEventListener('click', () => {
             chatWindow.classList.remove('hidden');
             chatWindow.classList.add('flex');
-            userInput.focus(); // Otomatis fokus ke input text
+            userInput.focus();
         });
 
         closeChat.addEventListener('click', () => {
@@ -305,13 +333,28 @@
             chatWindow.classList.remove('flex');
         });
 
+        resetChatBtn.addEventListener('click', () => {
+            conversationHistory.length = 0;
+            chatContainer.innerHTML = `
+                <div class="flex justify-start">
+                    <div class="bg-white border border-gray-200 text-black p-3 rounded-2xl rounded-tl-sm shadow-sm max-w-[85%] text-sm">
+                        Halo! Saya asisten akademik Informatika UII. Ada yang bisa saya bantu terkait info KRS, syarat lulus, atau beasiswa?
+                    </div>
+                </div>`;
+        });
+
+        responseMode.addEventListener('change', () => {
+            updateModeStatus();
+        });
+
+        updateModeStatus();
+
         // Fungsi menambah gelembung pesan dengan tema Monokrom
         function addMessage(text, isUser = false) {
             const div = document.createElement('div');
             div.className = isUser ? 'flex justify-end' : 'flex justify-start';
 
             const innerDiv = document.createElement('div');
-            // Warna disesuaikan dengan tema Hitam Putih
             innerDiv.className = isUser
                 ? 'bg-black text-white p-3 rounded-2xl rounded-tr-sm shadow-sm max-w-[85%] text-sm'
                 : 'assistant-message bg-white border border-gray-200 text-black p-3 rounded-2xl rounded-tl-sm shadow-sm max-w-[85%] text-sm';
@@ -319,7 +362,7 @@
 
             div.appendChild(innerDiv);
             chatContainer.appendChild(div);
-            chatContainer.scrollTop = chatContainer.scrollHeight; // Auto-scroll ke bawah
+            chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
         function escapeHtml(text) {
@@ -387,15 +430,15 @@
             const query = userInput.value.trim();
             if (!query) return;
 
-            // Nonaktifkan tombol saat loading
             const submitBtn = chatForm.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
             submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
 
+            const selectedMode = getSelectedMode();
             addMessage(query, true);
+            conversationHistory.push({ role: 'user', content: query });
             userInput.value = '';
 
-            // Tampilan animasi loading
             const loadingId = 'loading-' + Date.now();
             const loadingDiv = document.createElement('div');
             loadingDiv.id = loadingId;
@@ -405,10 +448,14 @@
             chatContainer.scrollTop = chatContainer.scrollHeight;
 
             try {
-                const response = await fetch('http://localhost:5000/chat', {
+                const response = await fetch('http://127.0.0.1:5000/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ query: query })
+                    body: JSON.stringify({
+                        query: query,
+                        mode: selectedMode,
+                        conversation_history: conversationHistory.slice(-11, -1)
+                    })
                 });
 
                 const data = await response.json();
@@ -416,6 +463,7 @@
 
                 if (data.answer) {
                     addMessage(data.answer);
+                    conversationHistory.push({ role: 'assistant', content: data.answer });
                 } else {
                     addMessage('Maaf, terjadi kesalahan saat menghubungi server.');
                 }
@@ -426,7 +474,6 @@
                 addMessage('Maaf, tidak dapat terhubung ke server AI.');
                 console.error(error);
             } finally {
-                // Aktifkan kembali tombol
                 submitBtn.disabled = false;
                 submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
                 userInput.focus();
