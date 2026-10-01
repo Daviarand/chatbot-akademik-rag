@@ -177,7 +177,7 @@ Knowledge base dipisahkan secara modular agar sumber informasi mudah dirawat dan
 | `KnowledgeBasePanduanKeyIn` | Jadwal, aturan, paket mata kuliah, syarat, dan prosedur Key-In |
 | `KnowledgeBasePenjelasanAkademikIF` | Penjelasan akademik Informatika |
 
-Pada hasil ingest terakhir, koleksi `akademik_uii` berisi 443 dokumen. Jumlah ini dapat berubah apabila file JSON diperbarui atau proses ingest dijalankan kembali.
+Pada hasil ingest terakhir, koleksi `akademik_uii` berisi 539 dokumen. Jumlah ini dapat berubah apabila file JSON diperbarui atau proses ingest dijalankan kembali.
 
 ## 7. Alur Conversational Clarification
 
@@ -289,6 +289,17 @@ Pengujian tambahan dilakukan melalui Flask test client dengan enam skenario yang
 | Pertanyaan di luar domain tentang juara Liga Champions | Regular | HTTP 200 | Chatbot menolak menjawab di luar pedoman akademik Informatika UII. |
 
 Pengujian menunjukkan bahwa mode bahasa, glossary lokal, pembatasan domain, dan percakapan lanjutan berjalan pada seluruh skenario dengan status HTTP 200. Pertanyaan jadwal yang masih umum perlu menjadi perhatian evaluasi lanjutan karena dokumen dapat memuat beberapa tanggal dari periode berbeda; chatbot sudah menyatakan keterbatasan konteks, tetapi ketepatan klarifikasi periode tetap perlu diuji dengan dataset yang lebih besar.
+
+### 8.2 Verifikasi PR 18 September 2026
+
+Verifikasi khusus dilakukan untuk dua poin PR sebelum pengisian Google Form:
+
+| Poin PR | Bukti verifikasi | Status |
+|---|---|---|
+| Menambahkan Knowledge Base Key-In Talk Ganjil 2026/2027 | File `KnowledgeBase/KnowledgeBaseKeyInTalk/KeyInTalk_Ganjil_2026_2027.json` tersedia dan koleksi aktif memuat 96 dokumen dari file tersebut. | Selesai secara implementasi dan ingest |
+| Menambahkan fitur Informatika Regular dan IP | Endpoint menerima `mode=regular` dan `mode=ip`; pertanyaan umum dan pertanyaan berbasis KB baru menghasilkan HTTP 200, field `mode` sesuai, lima sumber, serta bahasa keluaran yang sesuai. | Selesai secara fungsional |
+
+Catatan kesiapan: `.venv` lokal belum memiliki dependency `chromadb`, sehingga pengujian terakhir menggunakan Python global yang memiliki dependency proyek. Selain itu, satu query panjang terkena HTTP 429 dari Groq karena batas output token pada service tier, bukan karena kegagalan retrieval atau routing mode. Sebelum deployment atau demonstrasi ulang, dependency `.venv` perlu disamakan dan pengaturan batas token/ukuran output Groq sebaiknya diperiksa.
 
 ## 9. Catatan Validasi dan Hal yang Perlu Diperbarui
 
