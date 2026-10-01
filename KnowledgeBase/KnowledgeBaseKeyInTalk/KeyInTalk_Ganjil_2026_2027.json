@@ -1,0 +1,386 @@
+[
+  {
+    "question": "Ingin melakukan alih jalur ke jalur penelitian dan mengambil paket TA dalam 1 semester [Mata Kuliah: Tugas Akhir]",
+    "answer": "Silakan baca file panduan key-in. Penjaluran dilakukan dengan mengisi form penjaluran. Saya cek di form tersebut Anda belum mengisi."
+  },
+  {
+    "question": "Mengulang kelas Metodologi Penelitian karena nilai penjaluran yang belum memenuhi. [Mata Kuliah: Metodologi Penelitian]",
+    "answer": "Btw Anda ULANG JALUR penelitian ya (berdasar isian gform penjaluran yg Anda submit), bukan hanya mengulang Metopel saja. Sehingga tidak perlu rekues untuk matkul Metopel, karena matkul penjaluran adalah 1 paket."
+  },
+  {
+    "question": "Ingin mengajukan Extend untuk karya ilmiah dan Tugas Akhir [Mata Kuliah: Karya Ilmiah dan Tugas Akhir]",
+    "answer": "Silakan baca file panduan key-in. Ekstensi tugas akhir dilakukan melalui pengusulan oleh Dosen Pembimbing Tugas Akhir. Silakan hubungi Dosen Pembimbing TA Anda."
+  },
+  {
+    "question": "Pengajuan Extend untuk Tugas Akhir [Mata Kuliah: Tugas Akhir]",
+    "answer": "Silakan baca file panduan key-in. Ekstensi tugas akhir dilakukan melalui pengusulan oleh Dosen Pembimbing Tugas Akhir. Silakan hubungi Dosen Pembimbing TA Anda."
+  },
+  {
+    "question": "Mengulangi kelas metodologi Penilitian karena nilai penjaluran yang belum memenuhi [Mata Kuliah: Metodologi Penelitian]",
+    "answer": "Sudah dikeyinkan matkul Metopel. Silakan cek Gateway."
+  },
+  {
+    "question": "Ingin melakukan pindah jalur ke penelitian dan mengambil paket TA 1 semester [Mata Kuliah: Tugas Akhir]",
+    "answer": "Anda sudah mengisi gform penjaluran dengan pindah/alih jalur dari Perintisan Bisnis ke Penelitian. Matkul penjaluran Anda sudah dikeyinkan oleh Prodi, silakan cek Gateway. Namun, untuk rekues Anda mengenai 2 semester penjaluran diambil dalam 1 semester, hal ini tidak memungkinkan, karena hal tersebut hanya diperkenankan bagi yang ULANG jalur. Juga untuk prosedur tersebut, Prodi perlu mengonfirmasi ke dosbing skripsi Anda bahwa sekiranya skripsi Anda dapat selesai dalam 1 semester tersebut. Dalam case ini, Anda alih/pindah jalur ke Penelitian (bukan ulang jalur) dan saat ini belum memiliki dosbing skripsi."
+  },
+  {
+    "question": "Mengulang kelas Metodologi Penelitian dikarenakan nilai penjaluran yang tidak memenuhi. [Mata Kuliah: Metodologi Penelitian]",
+    "answer": "Btw meski pada gform penjaluran Anda mengisi untuk penjaluran BARU, namun berdasar histori di Gateway, penjaluran Anda adalah ULANG JALUR penelitian. Sehingga tidak perlu rekues untuk matkul Metopel, karena matkul penjaluran adalah 1 paket. Sudah dikeyinkan paket matkul penjaluran semester 1. Silakan cek Gateway."
+  },
+  {
+    "question": "Ingin mengambil jalur tugas akhir penelitian [Mata Kuliah: Tugas Akhir]",
+    "answer": "Terpantau Anda baru mengisikan gform penjaluran jam 15.10-an tadi ya (9/2/2026 15:10:03). Silakan baca pengumuman yang disampaikan pada halaman pertama file panduan key-in terkait matkul penjaluran."
+  },
+  {
+    "question": "Tanggal 31 Agustus 2026 sekitar pukul 15.08 saya sudah mengisi form penjaluran dan memilih jalur magang Tetapi sampai saat ini gateway saya belum muncul paket mata kuliah untuk penjaluran magang. [Mata Kuliah: Tugas Akhir]",
+    "answer": "Silakan baca pengumuman yang disampaikan pada halaman pertama file panduan key-in terkait matkul penjaluran."
+  },
+  {
+    "question": "Ingin mengambil matakuliah pilihan tetapi bentrok dengan jadwal matakuliah wajib, sedangkan matakuliah pilihan hanya tersedia 1 kelas [Mata Kuliah: Forensika Digital]",
+    "answer": "Silakan ambil mata kuliah pilihan lainnya. Matkul pilihan tersebut dapat Anda ambil pada semester berikutnya (apabila matkul pilihan dibuka/ditawarkan)."
+  },
+  {
+    "question": "Mata Kuliah Metodologi Penelitian kelas A maupun B tidak bisa di Key-in dengan keterangan: Keterisian: 0/1 Peminat 1 [Mata Kuliah: Metodologi Penelitian]",
+    "answer": "Mohon baca file panduan key-in. Semua matkul penjaluran dikey-inkan oleh Prodi."
+  },
+  {
+    "question": "Ingin mengambil matakuliah islam rahmatan lil'alamin kelas c tetapi minat keterisian kelas sudah penuh dan juga kehabisan kelas untuk mk ini [Mata Kuliah: Islam Rahmatan lil 'Alamin, Kelas C]",
+    "answer": "Matkul MKWU penyelenggaranya adalah Akademik Universitas. Sedang dimintakan penambahan kuota. Btw, kelasnya tidak harus kelas C ya, mengingat semua jadwal IRLA untuk Prodi Informatika jadwal hari & jamnya sama, sehingga nantinya kelas apapun yg dilakukan penambahan kuota sama saja. Silakan cek pada file ini untuk memantau update-nya. UPDATE: Sudah ditambahkan kuota pada IRLA kelas D. Silakan lakukan key-in."
+  },
+  {
+    "question": "Ingin Key-in tapi peminat sudah penuh [Mata Kuliah: Fundamen Informatika, Kelas C]",
+    "answer": "Kelas C mata kuliah apa? Harap kolom F diisi."
+  },
+  {
+    "question": "Terkait jatah SKS saya. IPK saya saat ini 3,08, sedangkan untuk mengambil 24 SKS setahu saya minimal IPK yang dipersyaratkan adalah 3.00. Tapi, saya cek di sistem, jatah SKS saya hanya tercantum 23 SKS. [Mata Kuliah: Fundamen Sains Data, Kelas E]",
+    "answer": "Silakan menghubungi Divisi Akademik FTI terkait jatah SKS Anda di Gateway. Kontak WA Divisi Akademik FTI terdapat pada page link berikut: https://fit.uii.ac.id/divisi-administrasi-akademik"
+  },
+  {
+    "question": "Ingin key-in di kelas F tapi sudah penuh peminatnya. Kelas lainpun sudah penuh semuanya, mau ambil di semester ini [Mata Kuliah: Islam Rahmatan lil 'Alamin]",
+    "answer": "Respon serupa dengan baris nomor 12 (Matkul MKWU penyelenggaranya adalah Akademik Universitas. Btw, kelasnya tidak harus kelas tertentu karena semua jadwal IRLA Informatika sama)."
+  },
+  {
+    "question": "Ingin Key-In tapi peminat sudah penuh [Mata Kuliah: Metodologi Penelitian, Kelas A]",
+    "answer": "Mohon baca file panduan key-in. Semua matkul penjaluran dikey-inkan oleh Prodi."
+  },
+  {
+    "question": "Pada tanggal 31 Agustus 2026 saya sudah mengisi gform pengajuan mengulang penjaluran Tugas Akhir jalur Penelitian. Setahu saya matkul penjaluran dipaketkan oleh Prodi, namun sampai saat ini paket tersebut belum muncul di keranjang RAS saya. Mohon informasinya apakah paketnya memang belum diinput atau ada yang perlu saya lengkapi [Mata Kuliah: Tugas Akhir]",
+    "answer": "Silakan baca pengumuman yang disampaikan pada halaman pertama file panduan key-in terkait matkul penjaluran."
+  },
+  {
+    "question": "Kedua mata kuliah tersebut masih belum muncul di keranjang RAS [Mata Kuliah: Tugas Akhir dan Karya Ilmiah]",
+    "answer": "Silakan baca pengumuman yang disampaikan pada halaman pertama file panduan key-in terkait matkul penjaluran."
+  },
+  {
+    "question": "Ingin mengambil matakuliah pilihan manajemen teknologi Informasi kelas a tetapi bentrok dengan matakuliah wajib sehingga tidak bisa mengambil matakuliah tersebut karena matakuliah pilihan hanya tersedia 1 kelas saja. [Mata Kuliah: Manajemen Teknologi Informasi, Kelas A]",
+    "answer": "Silakan ambil mata kuliah pilihan lainnya. Matkul pilihan tersebut dapat Anda ambil pada semester berikutnya (apabila matkul pilihan dibuka/ditawarkan)."
+  },
+  {
+    "question": "Ingin mengambil matakuliah fundamen sains data kelas C dikarenakan jadwal tersebut yang tidak bentrok dengan jadwal mata kuliah saya yang lainnya. Apakah masih bisa? [Mata Kuliah: Fundamen Sains Data]",
+    "answer": "Sudah saya cek, FSD yang tidak bertabrakan dengan jadwal Anda adalah FSD kelas B dan C. Kuota yang masuk ke Keranjang FSD (C) sudah dihapus. Silakan lakukan key-in."
+  },
+  {
+    "question": "Ingin keyin tapi sudah penuh peminatnya, semua kelas sudah penuh semuanya, mau ambil di semester ini. Apakah bisa menambah kursi? Kenapa kalau peminat penuh tapi isinya sedikit tidak bisa di key in [Mata Kuliah: Islam Rahmatan Alamin]",
+    "answer": "Matkul MKWU penyelenggaranya adalah Akademik Universitas. Sedang dimintakan penambahan kuota. Btw, kelasnya tidak harus kelas tertentu karena semua jadwal IRLA Informatika sama."
+  },
+  {
+    "question": "Ingin mengambil mata kuliah pendidikan kewarganegaraan kelas O, tapi sudah penuh. Apakah masih bisa ditambah kuotanya [Mata Kuliah: Pendidikan Kewarganegaraan, Kelas O]",
+    "answer": "Silakan ambil Kewarganegaraan kelas L, kuotanya masih ada."
+  },
+  {
+    "question": "Tolong tambahkan kuota kls B/D Fund. Mat [Mata Kuliah: Fundamen Matematika]",
+    "answer": "Mohon sampaikan dengan detail, kelas apa yang kuotanya Anda rekues (jangan hanya menyampaikan 1 kelas saja, untuk antisipasi apabila kuota kelas tersebut tidak dapat ditambah mengingat kapasitas ruang). UPDATE: Kuota sudah ditambah. Silakan lakukan key-in."
+  },
+  {
+    "question": "Tolong tambahkan kuota kls D Logpro. Saya bersedia jika yang dibuka kelas lainnya dan tidak bertabrakan dengan kls Fund Mat [Mata Kuliah: Logika Pemrograman, Kelas C]",
+    "answer": "Mohon sampaikan dengan detail kelas yang direkues. UPDATE: Kuota sudah ditambah. Silakan lakukan key-in."
+  },
+  {
+    "question": "Ingin mengambil matakuliah fundamen sains data kelas B/C dikarenakan jadwal tersebut tidak bentrok dengan jadwal mata kuliah saya yang lainnya. Apakah masih bisa? [Mata Kuliah: Fundamen Sains Data]",
+    "answer": "FSD yang tidak bertabrakan dengan matkul paket Anda adalah FSD kelas B & C. UPDATE: Kuota sudah ditambah. Silakan lakukan key-in."
+  },
+  {
+    "question": "Pada tanggal 31 Agustus 2026 saya sudah mengisi gform pengajuan mengulang penjaluran Tugas Akhir jalur Penelitian. Setahu saya matkul penjaluran dipaketkan oleh Prodi, namun sampai saat ini paket tersebut belum muncul di keranjang RAS saya. Mohon informasinya apakah paketnya memang belum diinput atau ada yang perlu saya lengkapi [Mata Kuliah: Penelitian]",
+    "answer": "Silakan baca pengumuman yang disampaikan pada halaman pertama file panduan key-in terkait matkul penjaluran."
+  },
+  {
+    "question": "Kedua mata kuliah tersebut masih belum muncul di keranjang RAS di gateway saya. [Mata Kuliah: Tugas Akhir & Karya Ilmiah]",
+    "answer": "Silakan baca pengumuman yang disampaikan pada halaman pertama file panduan key-in terkait matkul penjaluran."
+  },
+  {
+    "question": "Mengulang kelas Metodologi Penelitian karena nilai penjaluran yang belum memenuhi. [Mata Kuliah: Metodologi Penelitian]",
+    "answer": "Silakan baca file panduan key-in. Ekstensi tugas akhir dilakukan melalui pengusulan oleh Dosen Pembimbing Tugas Akhir, termasuk apabila Anda ingin mengulang matkul penjaluran (dalam hal ini adalah metopel). Silakan hubungi Dosen Pembimbing TA Anda."
+  },
+  {
+    "question": "Saya extend TA namun kedua mata kuliah tersebut masih belum muncul di keranjang RAS di gateway saya [Mata Kuliah: Tugas Akhir & Karya Ilmiah]",
+    "answer": "Silakan baca pengumuman yang disampaikan pada halaman pertama file panduan key-in terkait matkul penjaluran."
+  },
+  {
+    "question": "Apa semester ini bisa mengikuti matakuliah kewirausahaan syariah pak/bu.. Saya ingin key in tapi matakuliah tersebut tidak tersedia di semester ini.. Karna itu mata kuliah wajib, dan ingin mengejar sidang di semester ini apakah bisa pak/bu mohon bantuannya bu terimakasih [Mata Kuliah: Kewirausahaan Syariah]",
+    "answer": "Silakan ambil matkul tersebut pada semester genap."
+  },
+  {
+    "question": "Apakah slot karya ilmiah masih bisa ditambahkan lagi? [Mata Kuliah: Karya Ilmiah]",
+    "answer": "Mohon baca file panduan key-in. Semua matkul penjaluran dikey-inkan oleh Prodi."
+  },
+  {
+    "question": "Ingin key in mata kuliah ini di kelas c tetapi sudah penuh apakah bisa ditambahkan kuota kelas untuk mata kuliah ini [Mata Kuliah: Islam Rahmatan lil Alamin]",
+    "answer": "Matkul MKWU penyelenggaranya adalah Akademik Universitas. Btw, kelasnya tidak harus kelas C, semua jadwal IRLA Informatika sama."
+  },
+  {
+    "question": "Ingin mengambil mata kuliah FSD Kelas B. Karena tidak bentrok dengan mata kuliah lainnya. Namun, Jumlah peminat penuh dan tidak bisa saya ambil. Terkait IPK saya sudah memenuhi ketentuan-Apakah bisa jika alokasi kuota tersebut saya ambil? [Mata Kuliah: Fundamen Sains Data]",
+    "answer": "Kuota yang masuk ke Keranjang FSD (B) sudah dihapus. Silakan lakukan key-in."
+  },
+  {
+    "question": "Mohon maaf bu, untuk FSD Kelas B penuh, apakah kuota bisa ditambahkan? Karena Kelas A Bentrok. Kelas C sangat mepet dengan matkul lainnya. Mohon bantuannya bu, terimakasih [Mata Kuliah: Fundamen Sains Data]",
+    "answer": "Kuota sudah ditambah. Silakan lakukan key-in. Harap klik KEY-IN, jangan hanya dimasukkan ke keranjang saja ya."
+  },
+  {
+    "question": "Baik bu, saya sudah membaca pengumuman terkait penghapusan matkul di keranjang dan sudah memahaminya. Mohon informasi apakah masih ada kemungkinan kuota FSD Kelas B/C ditambahkan mengingat saya masih memiliki jatah 4 SKS yang belum terpakai, atau adakah alternatif solusi lain yang bisa saya tempuh. Terimakasih bu [Mata Kuliah: Fundamen Sains Data]",
+    "answer": "UPDATE: Mohon jangan dibiasakan untuk menaruh matkul di keranjang ya, namun klik KEY-IN. Kuota sudah ditambah pada FSD (B). Silakan lakukan key-in."
+  },
+  {
+    "question": "Ingin mengambil mata kuliah FSD Kelas B/C. Karena tidak bentrok dengan mata kuliah lainnya. Namun, Jumlah peminat penuh dan tidak bisa saya ambil. Terkait IPK saya sudah memenuhi ketentuan-Apakah bisa jika alokasi kuota tersebut saya ambil? [Mata Kuliah: Fundamen Sains Data]",
+    "answer": "Kuota sudah ditambah pada FSD (C). Silakan lakukan key-in."
+  },
+  {
+    "question": "Mohon maaf bu, untuk FSD (C) masih penuh, apakah kuota masih bisa ditambahkan? Karena Kelas A Bentrok. Mohon bantuannya bu, terimakasih [Mata Kuliah: Fundamen Sains Data]",
+    "answer": "Harap apabila merekues kuota untuk standby, agar kuota yg sudah ditambah tidak diambil oleh mahasiswa yang lain. Kuota sudah ditambah pada FSD (C). Silakan lakukan key-in."
+  },
+  {
+    "question": "Ingin mengambil matakuliah pilihan manajemen teknologi informasi kelas a tetapi bentrok dengan matakuliah wajib sehingga tidak bisa mengambil matakuliah tersebut karena matakuliah pilihan hanya tersedia 1 kelas saja [Mata Kuliah: Manajemen Teknologi Informasi, Kelas A]",
+    "answer": "Silakan ambil mata kuliah pilihan lainnya. Matkul pilihan tersebut dapat Anda ambil pada semester berikutnya (apabila matkul pilihan dibuka/ditawarkan)."
+  },
+  {
+    "question": "Ingin key in mata kuliah ini di kelas c tetapi sudah penuh, apakah bisa ditambahkan kuota kelas untuk mata kuliah ini [Mata Kuliah: Islam Rahmatan lil 'Alamin, Kelas D]",
+    "answer": "Matkul MKWU penyelenggaranya adalah Akademik Universitas. UPDATE: Kuota sudah ditambah. Silakan lakukan key-in."
+  },
+  {
+    "question": "Mengulang penjaluran dan sudah mengisi gform, tapi belum di key in kan [Mata Kuliah: Metodologi Penelitian]",
+    "answer": "Silakan baca pengumuman yang disampaikan pada halaman pertama file panduan key-in terkait matkul penjaluran."
+  },
+  {
+    "question": "Ingin mengambil mata kuliah Big Data, tetapi kuota sudah penuh. Apakah masih bisa ditambahkan kuota? [Mata Kuliah: Big Data, Kelas A]",
+    "answer": "Kuota yang masuk ke Keranjang matkul tersebut sudah dihapus. Silakan lakukan key-in."
+  },
+  {
+    "question": "Ingin Key-in tapi peminat sudah penuh [Mata Kuliah: Fundamen Informatika, Kelas C]",
+    "answer": "Untuk rekues kuota kita hold dulu ya, kita beralih ke case yang lebih urgent. Silakan konsultasi ke DPA Anda, Bu Fayruz, mengenai file checklist matkul dan KHS Kumulatif di Gateway."
+  },
+  {
+    "question": "Mau key-in, tapi hanya ada satu kelas. Sekalian ingin bertanya, apakah angkatan 22 untuk pengulangan penjaluran key-in paket atau key-in mandiri? Soalnya saya key-in mandiri. [Mata Kuliah: Kajian Pustaka]",
+    "answer": "Pertanda belum membaca file panduan key-in dengan seksama. Matkul penjaluran dikey-inkan oleh Prodi."
+  },
+  {
+    "question": "Mengulang penjaluran dan sudah mengisi gform, tapi belum di key in kan [Mata Kuliah: Metodologi Penelitian]",
+    "answer": "Isikan data diri Anda."
+  },
+  {
+    "question": "Ingin key in mata kuliah ini di kelas A tetapi sudah penuh, apakah bisa ditambahkan kuota kelas untuk mata kuliah ini [Mata Kuliah: Keamanan Siber dan Informasi, Kelas A]",
+    "answer": "Kuota sudah ditambah. Silakan lakukan key-in."
+  },
+  {
+    "question": "Ingin mengambil mata kuliah FSD Kelas B/C, Karena tidak bentrok dengan mata kuliah lainnya. Namun, Jumlah peminat penuh dan tidak bisa saya ambil. Terkait IPK saya sudah memenuhi ketentuan-Apakah bisa jika alokasi kuota tersebut saya ambil? [Mata Kuliah: Fundamen Sains Data, Kelas C]",
+    "answer": "Kuota sudah ditambah pada FSD (B). Silakan lakukan key-in."
+  },
+  {
+    "question": "Ingin mengambil mata kuliah FSD Kelas B/C, Karena tidak bentrok dengan mata kuliah lainnya. Namun, Jumlah peminat penuh dan tidak bisa saya ambil Terkait IPK saya sudah memenuhi ketentuan-Apakah bisa jika alokasi kuota tersebut saya ambil? [Mata Kuliah: Fundamen Sains Data, Kelas C]",
+    "answer": "Kuota sudah ditambah pada FSD (C). Silakan lakukan key-in. Kalau matkulnya hanya di keranjang, nantinya Anda tidak dapat kuliah matkul tersebut. KEY-IN ya btw, bukan keranjang."
+  },
+  {
+    "question": "Kemarin saya mengulang metopen & ganti judul untuk tugas akhir, tetapi belum ada mata kuliah karya ilmiah serta tugas akhir di keranjang saya. [Mata Kuliah: Tugas akhir dan karya ilmiah]",
+    "answer": "Budayakan untuk membaca ya, di halaman pertama file panduan key-in sudah diberi pengumuman bahwa matkul-matkul penjaluran memang belum dilakukan key-in oleh Prodi karena sedang dalam tahap pengecekan. Namun saat ini sudah dikeyinkan, silakan cek Gateway."
+  },
+  {
+    "question": "Terkait jatah sks diawal saya mau key in tetapi jatah sks saya 23, total ipk saya 3,16 sedangkan utk mengambil 24 sks setahu saya minimal ipk 3.00 maka dari itu penindakan perbaikan bagaimana, utk key in fsd dan mkwu [Mata Kuliah: Fundamen Sains Data]",
+    "answer": "Silakan menghubungi Divisi Akademik FTI terkait jatah SKS Anda di Gateway."
+  },
+  {
+    "question": "Ingin mengambil mata kuliah FSD Kelas C. Karena tidak bentrok dengan mata kuliah lainnya. Namun, Jumlah peminat penuh dan tidak bisa saya ambil [Mata Kuliah: Fundamen Sains Data]",
+    "answer": "Btw selain FSD kelas C, ada FSD kelas B yg juga tidak bentrok dengan matkul lainnya. Kuota sudah ditambah pada FSD (C). Silakan lakukan key-in."
+  },
+  {
+    "question": "Assalamu alaikum, Ibu Saya ingin menyampaikan bahwa saya bermaksud mendaftar penjaluran penelitian Namun, karena terkendala jaringan internet di tempat KKN, saya baru dapat mengisi form penjaluran penelitian kemarin, Bu Sebelumnya, saya juga sudah menghubungi Dosen Pembimbing Akademik saya untuk menanyakan apakah masih diperbolehkan mengisi form penjaluran, dan beliau menyampaikan bahwa saya masih diperbolehkan untuk mengisi form. Apakah saya diperbolehkan untuk meminta bantuan Prodi agar penjaluran penelitian saya dapat di key in kan, Bu? [Mata Kuliah: Penelitian]",
+    "answer": "Matkul-matkul penjaluran memang dilakukan key-in secara bertahap oleh Prodi. Saat ini sudah dikeyinkan. Silakan cek Gateway."
+  },
+  {
+    "question": "Mengajukan permohonan mengambil Metodologi Penelitian (Metopen) karena mata kuliah tersebut sudah tidak dapat ditambahkan saat KRS [Mata Kuliah: Metode penelitian]",
+    "answer": "Pertanda belum membaca file panduan key-in dengan seksama. Matkul penjaluran dikey-inkan oleh Prodi. Juga, Anda belum mengisi gform penjaluran."
+  },
+  {
+    "question": "Ingin key in matakuliah Bahasa arab Alquran namun kuota untuk kelas A dan B sudah penuh, karena tidak bisa mengambil kelas C dan D karena bentrok dengan jadwal kelas E. Apakah bisa ditambahkan untuk kuota kelas A atau B untuk mata kuliah Bahasa Arab Alquran [Mata Kuliah: Bahasa Arab Alquran, Kelas E]",
+    "answer": "Kuota yang masuk ke Keranjang Bahasa Arab (B) sudah dihapus. Silakan lakukan key-in. Harap jangan menaruh matkul pada keranjang, tetapi klik KEY-IN."
+  },
+  {
+    "question": "Mohon maaf FSD B sudah terisi mahasiswa yang lain, dikarenakan saya menjadi panitia pesta sehingga tidak bisa standby, Mohon bantuannya, terimakasih. [Mata Kuliah: Fundamen Sains Data, Kelas C]",
+    "answer": "Kuota sudah ditambah pada FSD (B). Silakan lakukan key-in."
+  },
+  {
+    "question": "Ingin key in mata kuliah ini di kelas A tetapi sudah penuh, apakah bisa ditambahkan kuota kelas untuk mata kuliah ini bu? [Mata Kuliah: Keamanan Siber dan Informasi, Kelas A]",
+    "answer": "Kuota sudah ditambah. Silakan lakukan key-in."
+  },
+  {
+    "question": "Kelas yang tersisa untuk bahasa arab alquran hanya kelas D, sedangkan jadwalnya bertabrakan dengan pengembangan aplikasi informatika medis Kelas E. kelas bahasa arab yang tidak bertabrakan dengan jadwal saya hanya kelas A dan B. apakah bisa ditambahkan kuotanya? [Mata Kuliah: Bahasa Arab Alquran]",
+    "answer": "Kuota yang masuk ke Keranjang Bahasa Arab (B) sudah dihapus. Silakan lakukan key-in. Jangan menaruh matkul di keranjang, klik KEY-IN."
+  },
+  {
+    "question": "Saya ingin mengambil matkul big data, tetapi kuotanya sudah penuh. Apakah masih bisa ditambahkan kuota? [Mata Kuliah: Big Data, Kelas A]",
+    "answer": "Kuota yang masuk ke Keranjang matkul tersebut sudah dihapus. Silakan lakukan key-in."
+  },
+  {
+    "question": "Saya ingin membatalkan pengambilan penjaluran yang sudah saya isi dan submit di gform (bukan hanya menghapus matkul Metopel saja) Jadi mohon dihapuskan paket matkul penjaluran semester pertama saya, yaitu Metopel, Kajian Pustaka, dan Penelitian, karena saya tidak jadi mengambil penjaluran tersebut. [Mata Kuliah: Metodologi Penelitian]",
+    "answer": "UPDATE: Matkul penjaluran semester ke-1 Anda sudah dihapus. (Matkul penjaluran adalah paket, jika dibatalkan maka seluruh paket semester 1 dihapus)."
+  },
+  {
+    "question": "Mohon maaf, kelas A sudah full peminat tapi saya hanya bisa jadwalnya kelas A/B apakah bisa di tambah kuotanya untuk kelas A? terimaksaih [Mata Kuliah: Bahasa Arab Alquran]",
+    "answer": "Kuota Bahasa Arab (A) sudah ditambah. Silakan lakukan key-in."
+  },
+  {
+    "question": "Saya sudah mengisi gform penjaluran [Mata Kuliah: Metodologi Penelitian]",
+    "answer": "Harap bersabar, untuk matkul paket dilakukan secara kolektif dan tidak instan."
+  },
+  {
+    "question": "Saya mahasiswa extend tapi di jadwal saya belum ada matkul TA [Mata Kuliah: Tugas Akhir]",
+    "answer": "Dimohon dengan sangat untuk membudayakan membaca sebelum bertanya. Hal tersebut sudah disampaikan pengumumannya pada HALAMAN PERTAMA file panduan key-in."
+  },
+  {
+    "question": "Saya baru mengisi gform penjaluran (mengulang jalur) dan form penawaran judul. Menunggu Prodi meng-key-in-kan Paket Jalur [Mata Kuliah: Metodologi Penelitian]",
+    "answer": "Harap bersabar, untuk matkul paket dilakukan secara kolektif dan tidak instan."
+  },
+  {
+    "question": "Saya ingin mengulang mata kuliah metopen karna belum memenuhi syarat nilai [Mata Kuliah: Metodologi Penelitian]",
+    "answer": "Sudah dikey-inkan ke Gateway Anda. Apabila matkul yang sudah dikey-inkan oleh Prodi tidak muncul, biasanya karena belum dilakukan pembayaran SPP."
+  },
+  {
+    "question": "Saya baru saja mengisi gform penjaluran(mengulang) Mohon bantuannya untuk key in Jalur Penelitian ya, Bu Terima kasih [Mata Kuliah: Metodologi Penelitian]",
+    "answer": "Sebenarnya Anda tidak perlu mengisi Key-in Talks. Anda sudah mengisi form penjaluran, sehingga tinggal ditunggu saja dikey-inkan matkul penjaluran oleh Prodi. Sudah dikeyinkan paket matkul penjaluran semester 1. Silakan cek Gateway."
+  },
+  {
+    "question": "Saya ingin mengulang metopen karena nilai belum memenuhi syarat [Mata Kuliah: Metodologi Penelitian]",
+    "answer": "Sebenarnya Anda tidak perlu mengisi Key-in Talks. Anda sudah mengisi form penjaluran, tinggal ditunggu saja dikey-inkan matkul penjaluran oleh Prodi."
+  },
+  {
+    "question": "Mohon maaf, kelas A dan C sudah full peminat tapi saya hanya bisa ambil jadwal di kelas A atau C apakah bisa ditambah kuotanya untuk kelas A atau C? terima kasih [Mata Kuliah: Bahasa Arab Alquran, Kelas A]",
+    "answer": "Kuota sudah ditambah pada Bahasa Arab (C). Silakan lakukan key-in."
+  },
+  {
+    "question": "Mohon maaf, kelas B D dan E sudah full peminat. apakah bisa ditambah kuotanya untuk kelas B, D atau E? terima kasih [Mata Kuliah: Islam Rahmatan l'Alamin, Kelas A]",
+    "answer": "Matkul MKWU penyelenggaranya adalah Akademik Universitas. Sudah direkueskan penambahan kuota. Btw, kelasnya tidak harus kelas B, D, atau E karena semua jadwal IRLA Informatika sama."
+  },
+  {
+    "question": "Mohon maaf, Ingin key in matakuliah Bahasa arab Alquran namun kuota untuk kelas A dan B sudah penuh, karena tidak bisa mengambil kelas C dan D karena bentrok dengan jadwal kelas E. Apakah bisa ditambahkan untuk kuota kelas A atau B untuk mata kuliah Bahasa Arab Alquran [Mata Kuliah: Alquran Bahasa Arab, Kelas E]",
+    "answer": "UPDATE: Sudah ditambahkan kuota pada IRLA kelas F. Kuota sudah ditambah pada Bahasa Arab (B). Silakan lakukan key-in."
+  },
+  {
+    "question": "Apakah mata kuliah Big Data akan ditambahkan kuotanya lagi, atau sudah maksimum kapasitas mahasiswanya? [Mata Kuliah: Big Data]",
+    "answer": "Kuota sudah ditambah. Silakan lakukan key-in."
+  },
+  {
+    "question": "Saya ingin mengulang mata kuliah metopen karna belum memenuhi syarat nilai [Mata Kuliah: Metodologi Penelitian]",
+    "answer": "Sebenarnya Anda tidak perlu mengisi Key-in Talks. Anda sudah mengisi form penjaluran, tinggal ditunggu saja dikey-inkan matkul penjaluran oleh Prodi."
+  },
+  {
+    "question": "Saya ingin mengikuti kelas FSD tetapi kelas A bentrok dengan jadwal kuliah saya, apakah bisa kuota kelas B/C ditambahkan? terima kasih [Mata Kuliah: Fundamen Sains Data]",
+    "answer": "Kuota sudah ditambah pada FSD (B). Silakan lakukan key-in."
+  },
+  {
+    "question": "Terima kasih, Pak/Bu, kuota Bahasa Arab kelas C sudah ditambahkan. Namun mohon maaf, saat saya cek kembali kuotanya sudah penuh karena sudah diisi mahasiswa lain. Saya sebelumnya juga sudah rutin mengecek update di Key-In Talks. Mohon arahan atau solusi terkait hal ini, Pak/Bu. Terima kasih banyak [Mata Kuliah: Bahasa Arab Alquran]",
+    "answer": "Kuota yang masuk ke Keranjang Bahasa Arab (C) sudah dihapus. Silakan lakukan key-in."
+  },
+  {
+    "question": "Mohon maaf, Ingin key in matakuliah Bahasa arab Alquran namun kuota untuk kelas A dan B sudah penuh, karena tidak bisa mengambil kelas C dan D karena bentrok dengan jadwal kelas A. Apakah bisa ditambahkan untuk kuota kelas A atau B untuk mata kuliah Bahasa Arab Alquran [Mata Kuliah: Bahasa Arab Al-quran]",
+    "answer": "Paket matkul PAB, PAIM, PGim Anda adalah kelas C. Sehingga matkul Bahasa Arab yang bisa diambil oleh kelas Anda adalah kelas A, B, atau C (coba cek kembali Tabel 9 pada file panduan key-in). Kuota sudah ditambah pada Bahasa Arab (B). Silakan lakukan key-in."
+  },
+  {
+    "question": "Saya mau mengambil mata kuliah logika Pemrograman C, tetapi sudah full bisa ditambah kuotanya pak/bu [Mata Kuliah: Logika Pemrograman]",
+    "answer": "LogPro (C) tidak memungkinkan untuk ditambah kuotanya karena kapasitas kelas. Kuota sudah ditambah pada LogPro (D). Silakan lakukan key-in. Jadwal LogPro (D) tidak bertabrakan dengan jadwal kuliah Anda."
+  },
+  {
+    "question": "Saya ingin mengambil mata kuliah Bahasa Arab Al Quran kelas c tetapi kelas nya sudah full apakah masih bisa ditambah kuota kelasnya [Mata Kuliah: Bahasa Arab Al quran, Kelas C]",
+    "answer": "Kuota sudah ditambah pada Bahasa Arab (C). Silakan lakukan key-in."
+  },
+  {
+    "question": "Saya ingin mengambil Logika Pemrograman kelas A. apakah kuotanya bisa ditambah [Mata Kuliah: Logika Pemrograman, Kelas A]",
+    "answer": "Silakan konsultasikan dengan DPA Anda, Pak Syarif, mengenai checklist matkul dan KHS Kumulatif. Kuota sudah ditambah pada LogPro (A). Silakan lakukan key-in."
+  },
+  {
+    "question": "Peminat sudah full, bisa ditambah kuotanya? [Mata Kuliah: Logika Pemrograman, Kelas A]",
+    "answer": "Kuota yang masuk ke Keranjang LogPro (A) sudah dihapus. Silakan lakukan key-in."
+  },
+  {
+    "question": "Ingin mengambil mata kuliah FSD Kelas B/C, Karena tidak bentrok dengan mata kuliah lainnya. Namun, Jumlah peminat penuh dan tidak bisa saya ambil. Terkait IPK saya sudah memenuhi ketentuan-Apakah bisa jika alokasi kuota tersebut saya ambil? [Mata Kuliah: Fundamen Sains Data, Kelas C]",
+    "answer": "Kuota sudah ditambah pada FSD (B). Silakan lakukan key-in."
+  },
+  {
+    "question": "Saya ingin mengambil mata kuliah IRLA kelas E, karena tidak bertabrakan dengan mata kuliah lainnya. Tapi, tidak bisa ambil karena jumlah peminat dikelas E sudah penuh. Apakah bisa tambahkan kuotanya? [Mata Kuliah: Islam Rahmatan Alamin]",
+    "answer": "Matkul MKWU penyelenggaranya adalah Akademik Universitas. UPDATE: Sudah ditambahkan kuota pada IRLA kelas F. Silakan lakukan key-in."
+  },
+  {
+    "question": "Saya mahasiswa extend, tetapi di jadwal belum ada matkul TA [Mata Kuliah: Tugas Akhir]",
+    "answer": "Sudah dikey-inkan ke Gateway Anda. Apabila matkul yang sudah dikey-inkan oleh Prodi tidak muncul, biasanya karena belum dilakukan pembayaran SPP."
+  },
+  {
+    "question": "Saya ingin mengambil matkul IRLA kelas C tetapi kuota sudah penuh bisa tolong ditambahkan kuota, dan ada beberapa matkul yang masih di keranjang bagaimana ya bu/pak ? [Mata Kuliah: Islam Rahmatan lil Alamin, Kelas C]",
+    "answer": "Sudah ditambahkan kuota pada IRLA kelas F. Silakan lakukan key-in."
+  },
+  {
+    "question": "Bapak/Ibu saya salah input kemarin, saya malah mengisi google form ulang jalur, seharusnya saya sekarang penjaluran semester akhir bapak/Ibu. Mohon bantuannya diubah untuk paket jalurnya menjadi semester akhir penjaluran. Terimakasih [Mata Kuliah: Penelitian, Kelas B]",
+    "answer": "Sudah dilakukan penghapusan matkul penjaluran semester pertama dan dikey-inkan matkul penjaluran semester ke-2. Silakan cek Gateway."
+  },
+  {
+    "question": "Saya masih belom mendapatkan matkul IRLA untuk kelas C dan masih belom bisa melakukan key in [Mata Kuliah: Islam Rahmatan l'Alamin, Kelas C]",
+    "answer": "IRLA (F) masih ada kuotanya. Kelasnya tidak harus kelas C, semua jadwal IRLA Informatika sama. Budayakan membaca respon prodi."
+  },
+  {
+    "question": "Meminta untuk di key in kan matkul paket jalur penelitiannya [Mata Kuliah: Tugas Akhir]",
+    "answer": "Harap bersabar, untuk matkul paket dilakukan secara kolektif dan tidak instan. Anda tidak perlu mengisi Key-in Talks jika sudah mengisi form penjaluran."
+  },
+  {
+    "question": "Meminta untuk di key in kan matkul paket jalur penelitiannya [Mata Kuliah: Tugas Akhir]",
+    "answer": "Sudah diisi belum form penjalurannya? Sepertinya belum ya? Ini data Anda belum masuk. First things first, mohon dibaca dulu file panduan key-innya."
+  },
+  {
+    "question": "Mengulang jalur penelitian dan mengambil penjaluran semester awal dan akhir dalam satu semester, sudah dikonfirmasi dengan Dosen Pembimbing TA (Bu Aridhanyati). Di Gateway baru muncul 3 MK semester awal, sedangkan Karya ilmiah dan Tugas Akhir belum ter key-in. Mohon bantuannya untuk dipaketkan dan di key in. Terimakasih [Mata Kuliah: Tugas Akhir & Karya Ilmiah]",
+    "answer": "UPDATE: Sudah dikeyinkan semua matkul penjaluran Penelitian (semester 1 & 2) dalam 1 semester setelah dikonfirmasi ke dosbing. Silakan cek Gateway."
+  },
+  {
+    "question": "Saya sudah key in untuk yang tugas akhir namun metodologi penelitian dan karya tulis ilmiah sudah penuh, pada saat saya check sekarang matkul tugas akhir saya malah hilang. Mohon bantuannya pak buk dan maaf merepotkan. Terima kasih banyak [Mata Kuliah: Tugas Akhir & Karya Ilmiah]",
+    "answer": "Anda mengisi form penjaluran baru sekitar 8 menit yang lalu. Harap bersabar. Kalau \"Karya Ilmiah\" kan matkul penjaluran semester ke-2. Baca dulu panduan key-innya."
+  },
+  {
+    "question": "Saat ini sedang dalam penjaluran semester kedua, namun belum mendapatkan mata kuliah Tugas Akhir & Karya Ilmiah. Mohon bantuan prodi untuk melakukan key-in mata kuliah tersebut. [Mata Kuliah: Tugas Akhir & Karya Ilmiah]",
+    "answer": "Silakan cek KHS Semester Anda di Gateway. Cek di Gateway matkul penjaluran extend Anda sudah ada atau belum (sudah ada). Apabila matkul yang sudah dikey-inkan tidak muncul, biasanya karena belum dilakukan pembayaran SPP."
+  },
+  {
+    "question": "Mengulang jalur penelitian dalam waktu 1 semester dan sudah dikonfirmasi oleh Pak Hari Setiaji sebagai Dosen Pembimbing TA. Kemarin saya belum Key-in kan karena saya sudah konfirmasi dari Kaprodi kalau bakal Key-In secara otomatis jadi saya hanya menunggu Dosen Pembimbing yang baru saja sementara Form Penjaluran belum diubah ke Pak Hari Setiaji dan sekarang sudah ditutup formnya [Mata Kuliah: Tugas Akhir & Karya Ilmiah]",
+    "answer": "UPDATE: Sudah dilakukan konfirmasi ke dosbing skripsi Anda, juga sudah dikeyinkan semua matkul penjaluran Penelitian (semester 1 & 2) dalam 1 semester. Silakan cek Gateway."
+  },
+  {
+    "question": "Saat ini mengulang jalur penelitian, sebelumnya sudah terdaftar di sekawan v3 dengan dosen pembimbing yang berbeda, bagaimana cara mengulang jalur penelitian di website sekawan v3 dan mengganti ke dosen pembimbing di semester ini? [Mata Kuliah: Penelitian]",
+    "answer": "Bagi mahasiswa yang penjalurannya sebelumnya dilakukan melalui Sekawan V3, pendaftaran ulang jalur dilakukan melalui Sekawan V3 dengan cara sebagaimana pendaftaran jalur baru. Selanjutnya sampaikan usulan Anda kepada DPA agar mendapat approval di Sekawan. Jika ada kendala Sekawan, hubungi Mbak Sulis (Staf Prodi)."
+  },
+  {
+    "question": "Posisi sebagai mahasiswa dengan batas semester akhir perkuliahan pada semester ganjil 2026/2027 dan bingung harus mengambil mata kuliah apa saja, sudah berkomunikasi juga dengan Dosen Pembimbing (Pak Irving) bahwa masih bisa melanjutkan kesempatan terakhir dengan Beliau, adapun Saya belum bisa key in karena belum bisa membayar tagihan dan tenggat diberikan hingga pekan depan [Mata Kuliah: Tugas Akhir]",
+    "answer": "Coba dibaca dulu panduan key-innya dengan seksama, di sana sudah diarahkan untuk mengisi file checklist matkul & mengomunikasikannya dengan DPA Anda. Akan dikonfirmasi terlebih dahulu ke dosbing skripsi Anda."
+  },
+  {
+    "question": "Ulang jalur, dan akan ambil penjaluran 2 semester diambil dlm 1 semester, dosbing Pak Rahadian sdh mengizinkan. [Mata Kuliah: Tugas Akhir]",
+    "answer": "UPDATE: Sudah dikeyinkan semua matkul penjaluran Penelitian (semester 1 & 2) dalam 1 semester. Silakan cek Gateway."
+  },
+  {
+    "question": "Disaat posisi key in saya sudah mengambil matkul tersebut tetapi pas setelah mau ngepastiin ulang saya sudah tidak bisa dicek dikarenakan authenticator saya bermasalah yang dikarenakan hp saya hilang, pas mau meminta kode authenticator yang baru saya menghubungi BSI tetapi baru direspon telat jauh dari jadwal key in dan juga saya tidak bisa langsung ke kampus karna posisi saya lagi KKN. Saya mohon pak bu bantuan nya untuk saya ambil matkul tersebut karena saya sama sekali tidak ada matkul disemester ini. Saya mohon pak bu bantuannya. [Mata Kuliah: PAB, PABW, BIKI, FORENSIK DIGITAL]",
+    "answer": "Sudah lewat dari masa key-in revisi, sudah masa aktif kuliah malah. Kenapa baru menghubungi Prodi sekarang? Silakan berkonsultasi dengan DPA Anda, juga menghubungi Divisi Akademik FTI."
+  },
+  {
+    "question": "Adanya kendala pembayaran pada saat pembayaran terakhir membuat saya telat untuk key-in, mata kuliah yang saya perlu key in hanya tugas akhir saja, saya juga udah mengkonfirmasi juga ke mbak sulis [Mata Kuliah: Tugas Akhir & Karya Ilmiah]",
+    "answer": "Disampaikan dengan clear, kalau Anda mhs dengan penjaluran extend, namun matkul yg masuk ke Gateway Anda baru matkul \"Karya Ilmiah\", sedang matkul \"Tugas Akhir\" belum masuk. Silakan cek Gateway Anda. Juga silakan kontak Akademik untuk memasukkan Anda ke Classroom matkul terkait."
+  },
+  {
+    "question": "Ingin merubah matkul pendidikan agama Islam (MKWU) di sem 3 dikarenakan nilai pendidikan sem 1 sudah bagus yaitu A dan ingin merubah nya menjadi matkul Islam rahmatan alamin [Mata Kuliah: Pendidikan Agama Islam, Kelas BB]",
+    "answer": "Silakan ke Divisi Akademik yang berada di Basement Gedung FTI untuk mengurus hal tersebut. Prefer berdiskusi terlebih dahulu dengan DPA Anda, karena MKWU yg disarankan untuk angkatan 2025 adalah matkul Pendidikan Kewarganegaraan."
+  },
+  {
+    "question": "Ingin melakukan Key-In karena baru membayar angsuran. Serta ingin 'freeze' mata kuliah Tugas Akhir dikarenakan sudah selesai, tinggal publikasi Karya Ilmiah dan mengulang mata kuliah Pendidikan Pancasila [Mata Kuliah: Tugas Akhir, Karya Ilmiah dan Pendidikan Pancasila]",
+    "answer": "Matkul penjaluran adalah matkul paket, sehingga tidak dapat mengambil salah satu dari matkul paketnya saja. Silakan cek Gateway."
+  }
+]

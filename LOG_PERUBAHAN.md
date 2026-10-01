@@ -22,30 +22,42 @@ Dokumen ini mencatat perubahan arsitektur, kode, model, basis pengetahuan, dan f
 
 ## 2. Arsitektur Sistem Saat Ini
 
-```text
-Frontend index.php
-    |
-    | HTTP POST /chat melalui 127.0.0.1:5000
-    v
-Middleware app.py (Flask)
-    |
-    | Embedding query dan semantic retrieval
-    v
-ChromaDB lokal (./chroma_db)
-    |
-    | Lima dokumen paling relevan
-    v
-Groq Cloud API
-    |
-    | LLM menyusun jawaban berdasarkan konteks dokumen
-    v
-Jawaban JSON kembali ke Floating Chat Widget
+```mermaid
+flowchart LR
+  subgraph OFFLINE[Ingesti knowledge base]
+    FILES[File JSON KnowledgeBase] --> INGEST[ingest.py: gabungkan tanya-jawab dan metadata]
+    INGEST --> DOCS[Dokumen dan metadata]
+    DOCS --> VECTORS[Embedding multilingual]
+    VECTORS --> STORE[(ChromaDB lokal)]
+  end
+
+  subgraph ONLINE[Alur chat mahasiswa]
+    STUDENT[Mahasiswa] --> UI[index.php: widget chat]
+    UI -->|query, mode, riwayat| API[Flask API: POST /chat]
+    API --> PREP[Validasi query dan normalisasi mode]
+    PREP --> QUERY[Perluas query dengan glossary]
+    QUERY --> RETRIEVE[Embedding query dan semantic retrieval]
+    STORE -->|Top 5 dokumen| RETRIEVE
+    RETRIEVE --> PROMPT[Susun prompt: pertanyaan, konteks, riwayat, glossary]
+    PREP --> PROMPT
+    PROMPT --> LLM[Groq API: Qwen LLM]
+    MODE{Mode jawaban}
+    PREP --> MODE
+    MODE -->|Regular| ID[Instruksi Bahasa Indonesia]
+    MODE -->|International Program| EN[Instruksi Bahasa Inggris]
+    ID --> PROMPT
+    EN --> PROMPT
+    LLM --> ANSWER[Jawaban sesuai mode]
+    ANSWER -->|JSON answer dan sources| UI
+  end
 ```
 
 Sistem menggunakan dua tahap utama:
 
 1. **Ingesti offline**: `ingest.py` membaca file JSON pada folder `KnowledgeBase`, menggabungkan pertanyaan dan jawaban, membuat embedding, lalu menyimpan dokumen beserta metadata ke ChromaDB.
 2. **Interaksi online**: `app.py` menerima pertanyaan, melakukan retrieval semantik, menyusun system prompt, memanggil Groq, dan mengembalikan jawaban ke `index.php`.
+
+Diagram ini dapat dilihat di VS Code melalui **Markdown: Open Preview** (`Ctrl+Shift+V`). Mermaid sudah ditulis langsung di dokumen ini; tidak perlu membuat diagram melalui website eksternal.
 
 ## 3. Matriks Perubahan Arsitektur
 
@@ -177,7 +189,13 @@ Knowledge base dipisahkan secara modular agar sumber informasi mudah dirawat dan
 | `KnowledgeBasePanduanKeyIn` | Jadwal, aturan, paket mata kuliah, syarat, dan prosedur Key-In |
 | `KnowledgeBasePenjelasanAkademikIF` | Penjelasan akademik Informatika |
 
-Pada hasil ingest terakhir, koleksi `akademik_uii` berisi 443 dokumen. Jumlah ini dapat berubah apabila file JSON diperbarui atau proses ingest dijalankan kembali.
+Pada hasil ingest terakhir setelah penambahan FAQ Ganjil 2026/2027, koleksi `akademik_uii` berisi 575 dokumen. Jumlah ini dapat berubah apabila file JSON diperbarui atau proses ingest dijalankan kembali.
+
+### Penambahan FAQ Panduan Key-In
+
+Panduan Word Semester Ganjil 2025/2026 dan Genap 2025/2026 telah dibandingkan dengan FAQ yang tersedia pada JSON periodenya. Pertanyaan langsung `Apa link form checklist MK Informatika UII?` ditambahkan pada masing-masing JSON untuk meningkatkan kecocokan retrieval terhadap cara mahasiswa bertanya.
+
+Untuk Panduan Ganjil 2026/2027 dibuat file `KnowledgeBase/KnowledgeBasePanduanKeyIn/keyin_ganjil2627.json` dengan 34 pasangan tanya-jawab baru. Isinya mencakup syarat dan jadwal Key-In, tautan checklist dan Key-in Talk, aturan Keranjang UIIRAS, paket mata kuliah angkatan 2026/2025/2024, mata kuliah pilihan, penjaluran, ekstensi, KKN, dan MBKM. Semua jadwal dan tenggat diberi konteks periode akademik agar tidak dianggap sebagai jadwal yang berlaku lintas semester.
 
 ## 7. Alur Conversational Clarification
 
@@ -208,6 +226,89 @@ Contoh konteks yang dapat diminta:
 
 Data konteks hanya disimpan di memori JavaScript selama sesi halaman aktif. Belum ada penyimpanan profil pengguna secara permanen ke database.
 
+## 7.1 Arsitektur Regular vs International Program (Satu KB, Mode Runtime)
+
+Pada tahap implementasi berikutnya, proyek memutuskan untuk mempertahankan satu sumber kebenaran basis pengetahuan (single source of truth) dan membedakan keluaran jawaban berdasarkan mode runtime yang dipilih pengguna. Keputusan ini dibuat agar basis data tidak bercabang menjadi dua KB terpisah yang berisiko menghasilkan data yang tidak konsisten.
+
+- Mode Regular: jawaban dalam Bahasa Indonesia, dengan istilah lokal seperti Key-In, DPA, Prodi, Gateway, Sekawan, dan klasifikasi Reguler/IP dipertahankan sesuai konteks.
+- Mode International Program: jawaban dalam Bahasa Inggris, dengan terminologi akademik yang lebih umum tetapi tetap mempertahankan nama resmi lokal bila diperlukan.
+- Retrieval tetap menggunakan embedding multilingual yang sama di seluruh koleksi ChromaDB, sehingga query yang masuk dalam Bahasa Indonesia atau Bahasa Inggris tetap dapat menemukan konteks yang relevan.
+- Glosarium lokal dipasang di system prompt agar istilah akrab mahasiswa tidak terdistorsi selama response generation.
+
+### Flowchart arsitektur mode runtime
+
+```mermaid
+flowchart TD
+  MHS[Mahasiswa] --> UI[Antarmuka index.php: pilih mode dan tulis pertanyaan]
+  UI --> REQ[Request POST /chat: pertanyaan, mode, dan riwayat]
+  REQ --> API[Flask app.py]
+  API --> VALID[Validasi pertanyaan dan normalisasi mode]
+
+  VALID --> MODE{Mode yang dipilih}
+  MODE -->|Regular| REG[Instruksi jawaban Bahasa Indonesia]
+  MODE -->|International Program| IP[Instruksi jawaban Bahasa Inggris]
+
+  VALID --> HISTORY[Gabungkan pertanyaan terbaru dengan pertanyaan pengguna sebelumnya]
+  HISTORY --> EXPAND[Perluas query dengan definisi glossary yang cocok]
+  REG --> EXPAND
+  IP --> EXPAND
+  EXPAND --> EMBED[Buat embedding query dengan model multilingual]
+  EMBED --> SEARCH[Cari maksimal 5 dokumen relevan]
+
+  subgraph INGEST[Ingesti knowledge base, dijalankan terpisah]
+    JSON[Berbagai file JSON: Panduan Key-In, Key-in Talk, profil, dan akademik] --> INGESTPY[ingest.py]
+    INGESTPY --> DOC[Dokumen tanya-jawab dan metadata]
+    DOC --> DOCEMBED[Embedding dokumen multilingual]
+    DOCEMBED --> CHROMA[(Koleksi ChromaDB akademik_uii)]
+  end
+
+  CHROMA -->|Kandidat dokumen| SEARCH
+  SEARCH --> FILTER[Filter metadata program_scope: all atau mode aktif]
+  MODE --> FILTER
+  FILTER -->|Berhasil| CONTEXT[Konteks dokumen hasil retrieval]
+  FILTER -->|Terjadi exception| FALLBACK[Ulangi retrieval tanpa filter metadata]
+  FALLBACK --> CONTEXT
+  CONTEXT --> PROMPT[Susun prompt dengan pertanyaan, konteks, riwayat, dan instruksi mode]
+  HISTORY --> PROMPT
+  REG --> PROMPT
+  IP --> PROMPT
+  PROMPT --> GROQ[Groq API dengan model Qwen]
+  GROQ --> ANSWER[Hasilkan jawaban sesuai bahasa mode aktif]
+  ANSWER --> RESULT[Respons JSON: answer, sources, dan mode]
+  RESULT --> UI
+```
+
+Embedding `paraphrase-multilingual-MiniLM-L12-v2` mendukung pencarian lintas Bahasa Indonesia dan Inggris pada knowledge base yang sama. Tidak ada komponen penerjemah terpisah: mode IP mengirim instruksi Bahasa Inggris ke Qwen, sementara query dan retrieval tetap menggunakan embedding multilingual. Knowledge base berasal dari berbagai file JSON, termasuk Panduan Key-In dan Key-in Talk, bukan hanya satu file `KeyInTalk`.
+
+Diagram ini lebih rinci daripada alur tingkat tinggi karena menampilkan pemilihan dan normalisasi mode, query berbasis riwayat, perluasan glossary, retrieval Top-5, metadata filter, penyusunan prompt, pemanggilan Qwen, serta format respons API. Filter mode mengikuti metadata `program_scope` jika query ChromaDB dengan filter berhasil; kode juga memiliki fallback retrieval tanpa filter apabila filter tersebut menimbulkan exception.
+
+### 7.2 Metadata KB dan filter retrieval mode
+
+Pada pengembangan lanjutan, koleksi ChromaDB ditingkatkan dengan metadata pembantu untuk menjaga traceability dan memperkuat pengelolaan basis pengetahuan tanpa membagi data menjadi dua koleksi terpisah. Setiap dokumen memiliki metadata berikut:
+
+- `source`: nama folder sumber data
+- `file`: nama file JSON asal
+- `question`: pertanyaan utama yang menjadi inti dokumen
+- `language`: status bahasa dokumen, dinilai sebagai `multilingual` untuk KB yang umum dipakai di dua mode
+- `program_scope`: `all`, `regular`, atau `ip`
+- `topic`: klasifikasi topik seperti `panduan_keyin`, `profil_prodi`, `keyin_talk`, atau `penjelasan_akademik`
+- `subtopic`: subkategori tambahan untuk pengorganisasian dokumen
+- `period`: `ganjil`, `genap`, atau `all`
+
+Metadata ini memungkinkan retrieval lebih terarah dan memudahkan traceability ketika kebutuhan evaluasi, debugging, atau pengujian lanjutan muncul.
+
+### 7.3 Penguatan glossary istilah lokal
+
+Pada tahap berikutnya, penguatan glossary dipasang sebagai lapisan tambahan untuk menjaga konsistensi terminologi lokal selama generation. Istilah-Isilah seperti `Key-In`, `DPA`, `Prodi`, `Gateway`, `Sekawan`, `MKWU`, `UIIRAS`, serta konteks `Regular` dan `International Program` tidak lagi dipahami secara bebas oleh model, melainkan dibingkai ulang ke dalam definisi yang konsisten sesuai mode aktif.
+
+Implementasi glossary dilakukan dengan tiga mekanisme:
+
+1. `LOCAL_GLOSSARY`: kamus definisi untuk istilah lokal dan terjemahan teknis lintas mode.
+2. `build_glossary_prompt(mode)`: menyisipkan definisi glosarium ke dalam system prompt agar model selalu memadukan istilah lokal yang benar sesuai mode.
+3. `expand_query_with_glossary(query, mode)`: menambahkan deskripsi singkat istilah yang muncul pada query agar retrieval tetap terarah pada konteks yang tepat.
+
+Tujuan utama dari penguatan glossary ini adalah menjaga agar istilah lokal UII tidak berubah makna saat mode `Regular` atau `IP` dipilih, sekaligus mencegah output LLM yang terlalu umum atau terlalu mengubah istilah yang seharusnya tetap dipertahankan sesuai konteks akademik.
+
 ## 8. Pengujian yang Telah Dilakukan
 
 | Pengujian | Hasil |
@@ -216,11 +317,40 @@ Data konteks hanya disimpan di memori JavaScript selama sesi halaman aktif. Belu
 | Pemeriksaan whitespace | Berhasil menggunakan `git diff --check` |
 | Pemeriksaan JavaScript inline | Berhasil menggunakan parser `new Function` pada dua script block |
 | Pemeriksaan endpoint setelah pergantian model | Berhasil, HTTP 200 dan field `answer` tersedia |
+| Ingest setelah penambahan Panduan Key-In Ganjil 2026/2027 | Berhasil, koleksi `akademik_uii` berisi 575 dokumen |
+| Retrieval link checklist Informatika UII | Berhasil, pertanyaan menemukan FAQ checklist dari ketiga JSON periode |
+| Retrieval jadwal dan mata kuliah pilihan Ganjil 2026/2027 | Berhasil, file `keyin_ganjil2627.json` menjadi sumber teratas |
 | Retrieval collection | Berhasil, koleksi berisi 443 dokumen |
 | Uji semantic retrieval pertanyaan mitra | Dokumen kemitraan berada pada hasil teratas dengan distance 0.2672 |
 | Uji semantic retrieval SKS kelulusan | Dokumen beban studi berada pada hasil teratas dengan distance 0.2721 |
 | Uji semantic retrieval jadwal revisi | Dokumen jadwal Key-In revisi berada pada hasil teratas dengan distance 0.1179 |
 | Uji semantic retrieval pertanyaan semester/kelas | Dokumen rekomendasi kelas FSD semester 3 berada pada hasil teratas dengan distance 0.2404 |
+
+### 8.1 Pengujian skenario nyata mahasiswa
+
+Pengujian tambahan dilakukan melalui Flask test client dengan enam skenario yang meniru pola pertanyaan mahasiswa. Setiap request menggunakan endpoint `POST /chat`, knowledge base lokal, conversation history, dan mode yang sesuai.
+
+| Skenario | Mode | Hasil | Catatan |
+|---|---|---|---|
+| Pertanyaan jadwal Key-In tanpa periode | Regular | HTTP 200 | Chatbot menyebut tanggal yang tersedia dalam dokumen dan menjelaskan bahwa jadwal lengkap belum tercantum. |
+| Jawaban lanjutan berisi angkatan 2025 dan periode Ganjil | Regular | HTTP 200 | Riwayat percakapan digunakan; chatbot membatasi jawaban pada informasi Ganjil 2025/2026 yang tersedia. |
+| Pertanyaan istilah DPA dan hubungannya dengan Key-In | Regular | HTTP 200 | Glossary dan dokumen mendukung jawaban bahwa DPA berarti Dosen Pembimbing Akademik dan berperan dalam konsultasi Key-In. |
+| Pertanyaan prosedur registrasi mata kuliah tanpa detail konteks | IP | HTTP 200 | Chatbot menjawab dalam Bahasa Inggris dan tidak mengarang langkah yang tidak tersedia dalam dokumen. |
+| Follow-up IP dengan semester pertama dan periode Ganjil | IP | HTTP 200 | Riwayat dan glossary dipertahankan; chatbot menyarankan Prodi/DPA karena prosedur spesifik IP tidak tersedia. |
+| Pertanyaan di luar domain tentang juara Liga Champions | Regular | HTTP 200 | Chatbot menolak menjawab di luar pedoman akademik Informatika UII. |
+
+Pengujian menunjukkan bahwa mode bahasa, glossary lokal, pembatasan domain, dan percakapan lanjutan berjalan pada seluruh skenario dengan status HTTP 200. Pertanyaan jadwal yang masih umum perlu menjadi perhatian evaluasi lanjutan karena dokumen dapat memuat beberapa tanggal dari periode berbeda; chatbot sudah menyatakan keterbatasan konteks, tetapi ketepatan klarifikasi periode tetap perlu diuji dengan dataset yang lebih besar.
+
+### 8.2 Verifikasi PR 18 September 2026
+
+Verifikasi khusus dilakukan untuk dua poin PR sebelum pengisian Google Form:
+
+| Poin PR | Bukti verifikasi | Status |
+|---|---|---|
+| Menambahkan Knowledge Base Key-In Talk Ganjil 2026/2027 | File `KnowledgeBase/KnowledgeBaseKeyInTalk/KeyInTalk_Ganjil_2026_2027.json` tersedia dan koleksi aktif memuat 96 dokumen dari file tersebut. | Selesai secara implementasi dan ingest |
+| Menambahkan fitur Informatika Regular dan IP | Endpoint menerima `mode=regular` dan `mode=ip`; pertanyaan umum dan pertanyaan berbasis KB baru menghasilkan HTTP 200, field `mode` sesuai, lima sumber, serta bahasa keluaran yang sesuai. | Selesai secara fungsional |
+
+Catatan kesiapan: `.venv` lokal belum memiliki dependency `chromadb`, sehingga pengujian terakhir menggunakan Python global yang memiliki dependency proyek. Selain itu, satu query panjang terkena HTTP 429 dari Groq karena batas output token pada service tier, bukan karena kegagalan retrieval atau routing mode. Sebelum deployment atau demonstrasi ulang, dependency `.venv` perlu disamakan dan pengaturan batas token/ukuran output Groq sebaiknya diperiksa.
 
 ## 9. Catatan Validasi dan Hal yang Perlu Diperbarui
 
