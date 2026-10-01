@@ -146,5 +146,9 @@
   {
     "question": "Di mana saya bisa melihat pedoman pelaksanaan MBKM?",
     "answer": "Pedoman pelaksanaan MBKM dapat dilihat di: https://informatics.uii.ac.id/2022/11/09/pedoman-pelaksanaan-merdeka-belajar-kampus-merdeka-pada-kurikulum-2022-prodi-informatika-program-sarjana/."
+  },
+  {
+    "question": "Apa link form checklist MK Informatika UII?",
+    "answer": "Form checklist mata kuliah Informatika UII dapat diakses melalui https://tinyurl.com/FormChecklistMatkulInformatika. Jika nilai Minimum kosong, nilai minimal adalah D, dengan catatan nilai D maksimal 10% dari total SKS."
   }
 ]

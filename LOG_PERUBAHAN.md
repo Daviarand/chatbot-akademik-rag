@@ -22,30 +22,42 @@ Dokumen ini mencatat perubahan arsitektur, kode, model, basis pengetahuan, dan f
 
 ## 2. Arsitektur Sistem Saat Ini
 
-```text
-Frontend index.php
-    |
-    | HTTP POST /chat melalui 127.0.0.1:5000
-    v
-Middleware app.py (Flask)
-    |
-    | Embedding query dan semantic retrieval
-    v
-ChromaDB lokal (./chroma_db)
-    |
-    | Lima dokumen paling relevan
-    v
-Groq Cloud API
-    |
-    | LLM menyusun jawaban berdasarkan konteks dokumen
-    v
-Jawaban JSON kembali ke Floating Chat Widget
+```mermaid
+flowchart LR
+  subgraph OFFLINE[Ingesti knowledge base]
+    FILES[File JSON KnowledgeBase] --> INGEST[ingest.py: gabungkan tanya-jawab dan metadata]
+    INGEST --> DOCS[Dokumen dan metadata]
+    DOCS --> VECTORS[Embedding multilingual]
+    VECTORS --> STORE[(ChromaDB lokal)]
+  end
+
+  subgraph ONLINE[Alur chat mahasiswa]
+    STUDENT[Mahasiswa] --> UI[index.php: widget chat]
+    UI -->|query, mode, riwayat| API[Flask API: POST /chat]
+    API --> PREP[Validasi query dan normalisasi mode]
+    PREP --> QUERY[Perluas query dengan glossary]
+    QUERY --> RETRIEVE[Embedding query dan semantic retrieval]
+    STORE -->|Top 5 dokumen| RETRIEVE
+    RETRIEVE --> PROMPT[Susun prompt: pertanyaan, konteks, riwayat, glossary]
+    PREP --> PROMPT
+    PROMPT --> LLM[Groq API: Qwen LLM]
+    MODE{Mode jawaban}
+    PREP --> MODE
+    MODE -->|Regular| ID[Instruksi Bahasa Indonesia]
+    MODE -->|International Program| EN[Instruksi Bahasa Inggris]
+    ID --> PROMPT
+    EN --> PROMPT
+    LLM --> ANSWER[Jawaban sesuai mode]
+    ANSWER -->|JSON answer dan sources| UI
+  end
 ```
 
 Sistem menggunakan dua tahap utama:
 
 1. **Ingesti offline**: `ingest.py` membaca file JSON pada folder `KnowledgeBase`, menggabungkan pertanyaan dan jawaban, membuat embedding, lalu menyimpan dokumen beserta metadata ke ChromaDB.
 2. **Interaksi online**: `app.py` menerima pertanyaan, melakukan retrieval semantik, menyusun system prompt, memanggil Groq, dan mengembalikan jawaban ke `index.php`.
+
+Diagram ini dapat dilihat di VS Code melalui **Markdown: Open Preview** (`Ctrl+Shift+V`). Mermaid sudah ditulis langsung di dokumen ini; tidak perlu membuat diagram melalui website eksternal.
 
 ## 3. Matriks Perubahan Arsitektur
 
@@ -177,7 +189,13 @@ Knowledge base dipisahkan secara modular agar sumber informasi mudah dirawat dan
 | `KnowledgeBasePanduanKeyIn` | Jadwal, aturan, paket mata kuliah, syarat, dan prosedur Key-In |
 | `KnowledgeBasePenjelasanAkademikIF` | Penjelasan akademik Informatika |
 
-Pada hasil ingest terakhir, koleksi `akademik_uii` berisi 539 dokumen. Jumlah ini dapat berubah apabila file JSON diperbarui atau proses ingest dijalankan kembali.
+Pada hasil ingest terakhir setelah penambahan FAQ Ganjil 2026/2027, koleksi `akademik_uii` berisi 575 dokumen. Jumlah ini dapat berubah apabila file JSON diperbarui atau proses ingest dijalankan kembali.
+
+### Penambahan FAQ Panduan Key-In
+
+Panduan Word Semester Ganjil 2025/2026 dan Genap 2025/2026 telah dibandingkan dengan FAQ yang tersedia pada JSON periodenya. Pertanyaan langsung `Apa link form checklist MK Informatika UII?` ditambahkan pada masing-masing JSON untuk meningkatkan kecocokan retrieval terhadap cara mahasiswa bertanya.
+
+Untuk Panduan Ganjil 2026/2027 dibuat file `KnowledgeBase/KnowledgeBasePanduanKeyIn/keyin_ganjil2627.json` dengan 34 pasangan tanya-jawab baru. Isinya mencakup syarat dan jadwal Key-In, tautan checklist dan Key-in Talk, aturan Keranjang UIIRAS, paket mata kuliah angkatan 2026/2025/2024, mata kuliah pilihan, penjaluran, ekstensi, KKN, dan MBKM. Semua jadwal dan tenggat diberi konteks periode akademik agar tidak dianggap sebagai jadwal yang berlaku lintas semester.
 
 ## 7. Alur Conversational Clarification
 
@@ -221,18 +239,48 @@ Pada tahap implementasi berikutnya, proyek memutuskan untuk mempertahankan satu 
 
 ```mermaid
 flowchart TD
-    A[User question] --> B{Selected mode}
-    B -->|Regular| C[Indonesian response + local glossary]
-    B -->|IP| D[English response + international glossary]
-    C --> E[Same KB query via multilingual embedding]
-    D --> E
-    E --> F[Semantic retrieval from ChromaDB]
-    F --> G[Context + conversation history + mode instruction]
-    G --> H[Groq LLM generates answer]
-    H --> I[Return answer in selected language]
+  MHS[Mahasiswa] --> UI[Antarmuka index.php: pilih mode dan tulis pertanyaan]
+  UI --> REQ[Request POST /chat: pertanyaan, mode, dan riwayat]
+  REQ --> API[Flask app.py]
+  API --> VALID[Validasi pertanyaan dan normalisasi mode]
+
+  VALID --> MODE{Mode yang dipilih}
+  MODE -->|Regular| REG[Instruksi jawaban Bahasa Indonesia]
+  MODE -->|International Program| IP[Instruksi jawaban Bahasa Inggris]
+
+  VALID --> HISTORY[Gabungkan pertanyaan terbaru dengan pertanyaan pengguna sebelumnya]
+  HISTORY --> EXPAND[Perluas query dengan definisi glossary yang cocok]
+  REG --> EXPAND
+  IP --> EXPAND
+  EXPAND --> EMBED[Buat embedding query dengan model multilingual]
+  EMBED --> SEARCH[Cari maksimal 5 dokumen relevan]
+
+  subgraph INGEST[Ingesti knowledge base, dijalankan terpisah]
+    JSON[Berbagai file JSON: Panduan Key-In, Key-in Talk, profil, dan akademik] --> INGESTPY[ingest.py]
+    INGESTPY --> DOC[Dokumen tanya-jawab dan metadata]
+    DOC --> DOCEMBED[Embedding dokumen multilingual]
+    DOCEMBED --> CHROMA[(Koleksi ChromaDB akademik_uii)]
+  end
+
+  CHROMA -->|Kandidat dokumen| SEARCH
+  SEARCH --> FILTER[Filter metadata program_scope: all atau mode aktif]
+  MODE --> FILTER
+  FILTER -->|Berhasil| CONTEXT[Konteks dokumen hasil retrieval]
+  FILTER -->|Terjadi exception| FALLBACK[Ulangi retrieval tanpa filter metadata]
+  FALLBACK --> CONTEXT
+  CONTEXT --> PROMPT[Susun prompt dengan pertanyaan, konteks, riwayat, dan instruksi mode]
+  HISTORY --> PROMPT
+  REG --> PROMPT
+  IP --> PROMPT
+  PROMPT --> GROQ[Groq API dengan model Qwen]
+  GROQ --> ANSWER[Hasilkan jawaban sesuai bahasa mode aktif]
+  ANSWER --> RESULT[Respons JSON: answer, sources, dan mode]
+  RESULT --> UI
 ```
 
-Dengan skema ini, tidak ada duplikasi pengetahuan, tidak ada pemisahan koleksi yang tidak selaras, dan semua pertanyaan tetap dapat dijalankan dengan satu knowledge base tunggal yang kemudian diterjemahkan secara runtime sesuai kebutuhan mode pengguna.
+Embedding `paraphrase-multilingual-MiniLM-L12-v2` mendukung pencarian lintas Bahasa Indonesia dan Inggris pada knowledge base yang sama. Tidak ada komponen penerjemah terpisah: mode IP mengirim instruksi Bahasa Inggris ke Qwen, sementara query dan retrieval tetap menggunakan embedding multilingual. Knowledge base berasal dari berbagai file JSON, termasuk Panduan Key-In dan Key-in Talk, bukan hanya satu file `KeyInTalk`.
+
+Diagram ini lebih rinci daripada alur tingkat tinggi karena menampilkan pemilihan dan normalisasi mode, query berbasis riwayat, perluasan glossary, retrieval Top-5, metadata filter, penyusunan prompt, pemanggilan Qwen, serta format respons API. Filter mode mengikuti metadata `program_scope` jika query ChromaDB dengan filter berhasil; kode juga memiliki fallback retrieval tanpa filter apabila filter tersebut menimbulkan exception.
 
 ### 7.2 Metadata KB dan filter retrieval mode
 
@@ -269,6 +317,9 @@ Tujuan utama dari penguatan glossary ini adalah menjaga agar istilah lokal UII t
 | Pemeriksaan whitespace | Berhasil menggunakan `git diff --check` |
 | Pemeriksaan JavaScript inline | Berhasil menggunakan parser `new Function` pada dua script block |
 | Pemeriksaan endpoint setelah pergantian model | Berhasil, HTTP 200 dan field `answer` tersedia |
+| Ingest setelah penambahan Panduan Key-In Ganjil 2026/2027 | Berhasil, koleksi `akademik_uii` berisi 575 dokumen |
+| Retrieval link checklist Informatika UII | Berhasil, pertanyaan menemukan FAQ checklist dari ketiga JSON periode |
+| Retrieval jadwal dan mata kuliah pilihan Ganjil 2026/2027 | Berhasil, file `keyin_ganjil2627.json` menjadi sumber teratas |
 | Retrieval collection | Berhasil, koleksi berisi 443 dokumen |
 | Uji semantic retrieval pertanyaan mitra | Dokumen kemitraan berada pada hasil teratas dengan distance 0.2672 |
 | Uji semantic retrieval SKS kelulusan | Dokumen beban studi berada pada hasil teratas dengan distance 0.2721 |

@@ -194,5 +194,9 @@
   {
     "question": "Apakah ada mata kuliah wajib yang harus dicek kembali sebelum key-in bagi mahasiswa semester 7 ke atas?",
     "answer": "Ya, mahasiswa dihimbau untuk mengecek kembali mata kuliah wajib yang mungkin belum diambil atau belum lulus, seperti Pendidikan Kewarganegaraan, Bahasa Indonesia untuk Komunikasi Ilmiah, Bahasa Arab Al-Qur'an, atau mata kuliah wajib lainnya. Gunakan form checklist mata kuliah untuk memudahkan pengecekan."
+  },
+  {
+    "question": "Apa link form checklist MK Informatika UII?",
+    "answer": "Form checklist mata kuliah Informatika UII dapat diakses melalui https://tinyurl.com/FormChecklistMatkulInformatika. Jika nilai Minimum kosong, nilai minimal adalah D, dengan catatan nilai D maksimal 10% dari total SKS."
   }
 ]
