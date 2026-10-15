@@ -1,0 +1,37 @@
+﻿model_id,case_id,expected_criteria,regular_input,regular_correctness,regular_median_latency_seconds,regular_latency_runs_seconds,regular_http_statuses,regular_sources,regular_answer,ip_input,ip_correctness,ip_median_latency_seconds,ip_latency_runs_seconds,ip_http_statuses,ip_sources,ip_answer
+qwen/qwen3.8-27b,checklist_link,Contains the official Informatics UII course checklist URL.,Apa link form checklist MK Informatika UII?,,1.920,1.920,200,"KeyInTalk_Ganjil_2025_2026.json, KeyInTalk_Ganjil_2026_2027.json, keyin_ganjil2526.json, keyin_ganjil2627.json, keyin_genap2526.json","Form checklist mata kuliah Informatika UII dapat diakses melalui https://tinyurl.com/FormChecklistMatkulInformatika.
+
+Catatan penting: Jika kolom nilai Minimum pada checklist kosong, maka nilai minimal yang diterima adalah D, dengan ketentuan bahwa nilai D maksimal 10% dari total SKS.",What is the link to the Informatics UII course checklist form?,,0.417,0.417,200,"FiturProgramStudiInformaticsUII.json, KeyInTalk_Ganjil_2025_2026.json, keyin_ganjil2526.json, keyin_ganjil2627.json, keyin_genap2526.json","The link to the Informatics UII course checklist form is:
+https://tinyurl.com/FormChecklistMatkulInformatika
+
+Please note that if the minimum grade field is left empty on the checklist, the minimum passing grade is D, with the condition that grades of D must not exceed 10% of the total SKS (credit hours)."
+qwen/qwen3.8-27b,keyin_schedule,Gives the RAS Key-In dates for Odd Semester 2026/2027 from the guide.,Kapan jadwal Key-In RAS Informatika Semester Ganjil 2026/2027?,,0.399,0.399,200,"keyin_ganjil2526.json, keyin_ganjil2627.json, keyin_genap2526.json","Menurut Panduan Key-In Ganjil 2026/2027, masa Key-In RAS berlangsung dari **Rabu, 2 September 2026 pukul 15.00 WIB** sampai dengan **Senin, 7 September 2026 pukul 23.59 WIB**.",When is the RAS course registration period for Odd Semester 2026/2027?,,1.437,1.437,200,"keyin_ganjil2526.json, keyin_ganjil2627.json, keyin_genap2526.json","Based on the official guidelines for the Odd Semester 2026/2027, the Key-In (course registration) period for the Informatics Study Program is:
+
+**Wednesday, 2 September 2026 at 15:00 WIB** to **Monday, 7 September 2026 at 23:59 WIB**.
+
+Please ensure you complete your registration through the Gateway/UIIRAS system within this timeframe."
+openai/gpt-oss-20b,checklist_link,Contains the official Informatics UII course checklist URL.,Apa link form checklist MK Informatika UII?,,0.581,0.581,200,"KeyInTalk_Ganjil_2025_2026.json, KeyInTalk_Ganjil_2026_2027.json, keyin_ganjil2526.json, keyin_ganjil2627.json, keyin_genap2526.json","Link form checklist mata kuliah Informatika UII:  
+**https://tinyurl.com/FormChecklistMatkulInformatika**",What is the link to the Informatics UII course checklist form?,,0.746,0.746,200,"FiturProgramStudiInformaticsUII.json, KeyInTalk_Ganjil_2025_2026.json, keyin_ganjil2526.json, keyin_ganjil2627.json, keyin_genap2526.json","The course checklist form for the Informatics (Informatika) program at UII can be accessed here:  
+
+**[https://tinyurl.com/FormChecklistMatkulInformatika](https://tinyurl.com/FormChecklistMatkulInformatika)**  
+
+Feel free to download and complete the checklist before proceeding with your Key‑In registration."
+openai/gpt-oss-20b,keyin_schedule,Gives the RAS Key-In dates for Odd Semester 2026/2027 from the guide.,Kapan jadwal Key-In RAS Informatika Semester Ganjil 2026/2027?,,0.699,0.699,200,"keyin_ganjil2526.json, keyin_ganjil2627.json, keyin_genap2526.json","Jadwal Key‑In RAS Informatika Semester Ganjil 2026/2027 berlangsung dari **Rabu, 2 September 2026 pukul 15.00 WIB** sampai **Senin, 7 September 2026 pukul 23.59 WIB**.",When is the RAS course registration period for Odd Semester 2026/2027?,,0.771,0.771,200,"keyin_ganjil2526.json, keyin_ganjil2627.json, keyin_genap2526.json","The RAS course registration (Key‑In) for the Odd Semester 2026/2027 runs from **Wednesday, 2 September 2026 at 15:00 WIB** until **Monday, 7 September 2026 at 23:59 WIB**."
+openai/gpt-oss-120b,checklist_link,Contains the official Informatics UII course checklist URL.,Apa link form checklist MK Informatika UII?,,0.950,0.950,200,"KeyInTalk_Ganjil_2025_2026.json, KeyInTalk_Ganjil_2026_2027.json, keyin_ganjil2526.json, keyin_ganjil2627.json, keyin_genap2526.json","Form checklist mata kuliah Informatika UII dapat diakses melalui tautan berikut:
+
+**https://tinyurl.com/FormChecklistMatkulInformatika**
+
+Jika nilai Minimum pada checklist kosong, nilai minimal yang berlaku adalah **D**, dengan ketentuan nilai D tidak boleh melebihi **10 %** dari total SKS.",What is the link to the Informatics UII course checklist form?,,0.862,0.862,200,"FiturProgramStudiInformaticsUII.json, KeyInTalk_Ganjil_2025_2026.json, keyin_ganjil2526.json, keyin_ganjil2627.json, keyin_genap2526.json","The Informatics UII course checklist form can be accessed at the following link:
+
+**https://tinyurl.com/FormChecklistMatkulInformatika**"
+openai/gpt-oss-120b,keyin_schedule,Gives the RAS Key-In dates for Odd Semester 2026/2027 from the guide.,Kapan jadwal Key-In RAS Informatika Semester Ganjil 2026/2027?,,1.019,1.019,200,"keyin_ganjil2526.json, keyin_ganjil2627.json, keyin_genap2526.json","Jadwal **Key‑In RAS Informatika** Semester Ganjil 2026/2027 adalah:
+
+- **Mulai:** Rabu, 2 September 2026 pukul 15.00 WIB  
+- **Selesai:** Senin, 7 September 2026 pukul 23.59 WIB  
+
+Silakan lakukan Key‑In melalui **Gateway** dalam rentang waktu tersebut.",When is the RAS course registration period for Odd Semester 2026/2027?,,1.008,1.008,200,"keyin_ganjil2526.json, keyin_ganjil2627.json, keyin_genap2526.json","The RAS Key‑In (course registration) period for the **Odd Semester 2026/2027** is scheduled as follows:
+
+- **Start:** Wednesday, 2 September 2026 at 15:00 WIB  
+- **End:** Monday, 7 September 2026 at 23:59 WIB  
+
+During this window you can complete your registration through the Gateway/UIIRAS system. If you need further assistance, please contact your DPA or the International Program office."

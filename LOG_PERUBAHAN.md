@@ -352,6 +352,45 @@ Verifikasi khusus dilakukan untuk dua poin PR sebelum pengisian Google Form:
 
 Catatan kesiapan: `.venv` lokal belum memiliki dependency `chromadb`, sehingga pengujian terakhir menggunakan Python global yang memiliki dependency proyek. Selain itu, satu query panjang terkena HTTP 429 dari Groq karena batas output token pada service tier, bukan karena kegagalan retrieval atau routing mode. Sebelum deployment atau demonstrasi ulang, dependency `.venv` perlu disamakan dan pengaturan batas token/ukuran output Groq sebaiknya diperiksa.
 
+### 8.3 Skrip benchmark model
+
+Skrip `benchmark_models.py` ditambahkan untuk membandingkan model yang tersedia pada Groq melalui alur endpoint Flask yang sama. Skrip mengukur latensi end-to-end dengan `time.perf_counter()`, menjalankan skenario dalam mode Regular dan IP, serta menyimpan model, input, kriteria acuan, status HTTP, median latensi, waktu tiap pengulangan, sumber, dan jawaban ke CSV. Kolom correctness sengaja dibiarkan kosong untuk penilaian manual terhadap kriteria acuan.
+
+Model awal yang disiapkan adalah Qwen aktif dan `openai/gpt-oss-20b` serta `openai/gpt-oss-120b`. Daftar model dapat diganti dengan opsi `--models`. Skrip meminta konfirmasi sebelum mengirim request ke Groq karena jumlah panggilan bergantung pada model, skenario, mode, pengulangan, dan warm-up. Hasil benchmark belum diambil; file ini baru divalidasi melalui compile dan pemeriksaan opsi CLI.
+
+Untuk alur pengujian yang dipilih, frontend `index.php` menampilkan timer sementara pada setiap jawaban sukses. Timer dimulai tepat sebelum request `/chat` dan berhenti setelah body JSON diterima, sehingga mencatat latensi end-to-end yang dirasakan pengguna, bukan durasi inference LLM saja. Penilai menguji pertanyaan yang sama secara manual pada masing-masing model/mode, menilai correctness berdasarkan kriteria acuan, dan menyalin latensi dari UI ke tabel perbandingan. CSV dari `benchmark_models.py` tidak diperlukan untuk alur ini; skrip tetap tersedia sebagai opsi otomatis.
+
+| Pemeriksaan timer frontend | Hasil |
+|---|---|
+| Parse JavaScript inline | Berhasil untuk dua blok script dengan Node.js `new Function` |
+| Pemeriksaan whitespace | Berhasil menggunakan `git diff --check` |
+
+### 8.4 Evaluasi awal PR nomor 2: confusion matrix
+
+Dokumen `Tabel Perbandingan Model Chatbot RAG Informatika.docx` berisi 15 skenario yang seluruhnya memiliki fakta jawaban di Knowledge Base. Dengan definisi klasifikasi bahwa kelas positif adalah “pertanyaan dapat dijawab dengan benar berdasarkan KB”, label `Correct` dihitung sebagai TP dan `Incorrect` sebagai FN. Karena belum ada pertanyaan negatif, TN dan FP belum dapat diukur dan sementara bernilai 0 pada perhitungan dataset ini.
+
+| Model | Mode | TP | TN | FP | FN | Akurasi sementara |
+|---|---|---:|---:|---:|---:|---:|
+| `qwen/qwen3.8-27b` | Regular | 4 | 0 | 0 | 11 | 26.7% |
+| `qwen/qwen3.8-27b` | IP | 4 | 0 | 0 | 11 | 26.7% |
+| `openai/gpt-oss-20b` | Regular | 4 | 0 | 0 | 11 | 26.7% |
+| `openai/gpt-oss-20b` | IP | 11 | 0 | 0 | 4 | 73.3% |
+| `openai/gpt-oss-120b` | Regular | 14 | 0 | 0 | 1 | 93.3% |
+| `openai/gpt-oss-120b` | IP | 11 | 0 | 0 | 4 | 73.3% |
+
+Jika dua mode digabung, hasil sementara adalah Qwen TP=8/FN=22 (26.7%), GPT-OSS 20B TP=15/FN=15 (50.0%), dan GPT-OSS 120B TP=25/FN=5 (83.3%). Nilai tersebut adalah akurasi pada kumpulan pertanyaan positif saja, bukan evaluasi lengkap kemampuan menolak jawaban. Label Correct/Incorrect di dokumen Word digunakan sebagai sumber hitung; jawaban mentah model tidak disertakan sehingga label tersebut belum dapat diaudit ulang dari dokumen itu saja.
+
+Untuk melengkapi TN dan FP, evaluasi berikutnya perlu menyertakan pertanyaan negatif yang sudah dipastikan jawabannya tidak tersedia atau tidak dapat diketahui dari KB, misalnya:
+
+| Skenario negatif | Respons yang diharapkan | Klasifikasi jika sesuai | Klasifikasi jika model mengarang/menjawab tanpa dukungan |
+|---|---|---|---|
+| Siapa juara Liga Champions tahun ini? | Menyatakan informasi di luar KB akademik Informatika UII. | TN | FP |
+| Apakah pembayaran SPP saya sudah lunas? | Menyatakan tidak memiliki akses ke status pembayaran pribadi. | TN | FP |
+| Mata kuliah apa yang harus saya ambil? tanpa angkatan/semester | Meminta klarifikasi, bukan memilihkan mata kuliah secara spesifik. | TN | FP |
+| Berapa nilai/IPK saya saat ini? | Menyatakan data nilai pribadi tidak tersedia dan menyarankan cek portal akademik. | TN | FP |
+
+Satu pertanyaan negatif yang dijawab secara tepat dapat menambah TN; satu jawaban yang tidak didukung dapat menambah FP. Setelah pertanyaan negatif diuji pada semua model dan mode, hitung ulang akurasi dengan rumus `(TP + TN) / (TP + TN + FP + FN)`. Untuk laporan akhir, simpan jawaban mentah tiap model agar penilaian Correct/Incorrect dan label confusion matrix dapat ditelusuri.
+
 ## 9. Catatan Validasi dan Hal yang Perlu Diperbarui
 
 Bagian ini penting untuk menjaga kesesuaian antara laporan dan implementasi aktual.
@@ -389,6 +428,16 @@ python ingest.py
 ```powershell
 python app.py
 ```
+
+### Menjalankan benchmark model
+
+Benchmark memakai Flask test client dan tidak memerlukan server Flask yang terpisah. Contoh uji kecil:
+
+```powershell
+python benchmark_models.py --limit 2 --repeats 1 --warmups 0 --output results/model_comparison.csv
+```
+
+Untuk menguji seluruh skenario dengan pengulangan lebih banyak, hilangkan `--limit` atau sesuaikan nilainya. Periksa jumlah request yang ditampilkan dan konfirmasi sebelum benchmark berjalan. Isi kolom `regular_correctness` dan `ip_correctness` secara manual berdasarkan `expected_criteria` dan jawaban yang tersimpan di CSV.
 
 ### Konfigurasi environment minimal
 

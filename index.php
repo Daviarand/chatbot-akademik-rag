@@ -365,6 +365,19 @@
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
+        function addResponseTime(seconds) {
+            const timingRow = document.createElement('div');
+            timingRow.className = 'flex justify-start -mt-3';
+
+            const timingLabel = document.createElement('span');
+            timingLabel.className = 'text-[11px] font-mono text-gray-500';
+            timingLabel.textContent = 'Waktu respons: ' + seconds.toFixed(2) + ' detik';
+
+            timingRow.appendChild(timingLabel);
+            chatContainer.appendChild(timingRow);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
         function escapeHtml(text) {
             const element = document.createElement('div');
             element.innerText = text;
@@ -448,6 +461,7 @@
             chatContainer.scrollTop = chatContainer.scrollHeight;
 
             try {
+                const requestStartedAt = performance.now();
                 const response = await fetch('http://127.0.0.1:5000/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -459,10 +473,12 @@
                 });
 
                 const data = await response.json();
+                const responseTimeSeconds = (performance.now() - requestStartedAt) / 1000;
                 document.getElementById(loadingId).remove();
 
                 if (data.answer) {
                     addMessage(data.answer);
+                    addResponseTime(responseTimeSeconds);
                     conversationHistory.push({ role: 'assistant', content: data.answer });
                 } else {
                     addMessage('Maaf, terjadi kesalahan saat menghubungi server.');

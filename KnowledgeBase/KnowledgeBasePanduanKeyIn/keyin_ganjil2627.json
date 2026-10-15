@@ -134,5 +134,328 @@
   {
     "question": "Apa yang perlu diperhatikan mahasiswa peserta MBKM terkait jatah SKS saat Key-In?",
     "answer": "Mahasiswa peserta MBKM perlu menyisakan jatah SKS sesuai dengan mata kuliah yang akan diusulkan sebagai mata kuliah konversi pada semester tersebut. Pedoman MBKM tersedia di https://informatics.uii.ac.id/2022/11/09/pedoman-pelaksanaan-merdeka-belajar-kampus-merdeka-pada-kurikulum-2022-prodi-informatika-program-sarjana/."
+  },{
+    "question": "Apa judul dan periode panduan ini?",
+    "answer": "Panduan ini adalah Panduan Key-In Praktis untuk Semester Ganjil Tahun Akademik 2026/2027, versi v1.2026.08.25, untuk Program Studi Informatika Program Sarjana Universitas Islam Indonesia."
+  },
+  {
+    "question": "Apa syarat utama agar mahasiswa dapat melakukan key-in?",
+    "answer": "Pembayaran SPP (angsuran 1 Tahun Akademik 2026/2027) harus sudah dipenuhi/lunas agar mahasiswa dapat melakukan key-in."
+  },
+  {
+    "question": "Apakah ada masa pra key-in dan fitur Keranjang UIIRAS untuk mata kuliah yang ditawarkan Prodi Informatika?",
+    "answer": "Tidak ada masa pra key-in dan fitur Keranjang (UIIRAS) untuk mata kuliah yang ditawarkan oleh Prodi Informatika."
+  },
+  {
+    "question": "Kapan masa key-in RAS Semester Ganjil 2026/2027?",
+    "answer": "Masa key-in RAS berlangsung pada Rabu, 2 September 2026 pukul 15.00 WIB sampai Senin, 7 September 2026 pukul 23.59 WIB."
+  },
+  {
+    "question": "Kapan masa key-in revisi Semester Ganjil 2026/2027?",
+    "answer": "Masa key-in revisi berlangsung pada Rabu, 9 September 2026 pukul 08.00 WIB sampai Kamis, 10 September 2026 pukul 23.59 WIB."
+  },
+  {
+    "question": "Apakah mata kuliah yang berada di keranjang sudah dianggap sebagai key-in?",
+    "answer": "Belum. Mata kuliah yang masih berada di keranjang belum dianggap sebagai key-in. Mahasiswa harus mengeklik tombol “Key-in” agar mata kuliah benar-benar terdaftar."
+  },
+  {
+    "question": "Apa akibat jika mata kuliah masih berada di keranjang sampai masa revisi berakhir?",
+    "answer": "Mata kuliah tersebut dianggap tidak di-key-in sehingga mahasiswa tidak dapat mengikuti perkuliahan mata kuliah tersebut."
+  },
+  {
+    "question": "Apakah Prodi dapat menghapus mata kuliah yang masih berada di keranjang?",
+    "answer": "Ya. Prodi dapat menghapus mata kuliah yang masih berada di keranjang, terutama jika ada permintaan kuota mata kuliah tersebut dari mahasiswa lain."
+  },
+  {
+    "question": "Bagaimana cara menghapus mata kuliah yang sudah di-key-in?",
+    "answer": "Mata kuliah yang sudah di-key-in dapat dihapus melalui menu “Isian”."
+  },
+  {
+    "question": "Di mana mahasiswa dapat memperoleh video tutorial UIIRAS?",
+    "answer": "Video tutorial UIIRAS tersedia di https://youtu.be/D7f4oK_qeJQ."
+  },
+  {
+    "question": "Apa fungsi form checklist mata kuliah?",
+    "answer": "Form checklist membantu mahasiswa melacak mata kuliah yang sudah atau belum ditempuh beserta nilainya, sehingga dapat memeriksa kewajiban studi sebelum key-in."
+  },
+  {
+    "question": "Di mana form checklist mata kuliah dapat diunduh?",
+    "answer": "Form checklist dapat diunduh melalui https://tinyurl.com/FormChecklistMatkulInformatika."
+  },
+  {
+    "question": "Jika kolom nilai minimum pada form checklist kosong, berapa nilai minimal yang berlaku?",
+    "answer": "Jika nilai minimum kosong, nilai minimal yang berlaku adalah D, dengan ketentuan nilai D maksimal 10% dari total SKS."
+  },
+  {
+    "question": "Kepada siapa mahasiswa dianjurkan berkonsultasi terkait perencanaan kuliah dan key-in?",
+    "answer": "Mahasiswa dianjurkan berkonsultasi dengan Dosen Pembimbing Akademik (DPA), khususnya terkait perencanaan kuliah dan penjaluran tugas akhir."
+  },
+  {
+    "question": "Di mana kendala key-in dapat disampaikan?",
+    "answer": "Kendala key-in dapat disampaikan melalui Key-in Talk di https://tinyurl.com/KeyinTalkGanjil2627."
+  },
+  {
+    "question": "Bagaimana status key-in mata kuliah penjaluran?",
+    "answer": "Mata kuliah penjaluran untuk penjaluran semester ke-1, ke-2, maupun ekstensi di-key-in oleh Prodi, bukan secara mandiri oleh mahasiswa. Mahasiswa perlu memantau Gateway secara berkala."
+  },
+  {
+    "question": "Bagaimana jika mata kuliah penjaluran belum muncul di Gateway sampai akhir masa key-in revisi?",
+    "answer": "Jika sampai hari terakhir key-in revisi mata kuliah penjaluran belum di-key-in ke Gateway, mahasiswa dapat menyampaikannya melalui Key-in Talk."
+  },
+  {
+    "question": "Siapa yang termasuk mahasiswa Semester 1 pada panduan ini?",
+    "answer": "Mahasiswa angkatan 2026 termasuk mahasiswa Semester 1."
+  },
+  {
+    "question": "Apakah mahasiswa Semester 1 angkatan 2026 perlu melakukan key-in mandiri?",
+    "answer": "Tidak. Mahasiswa angkatan 2026 tidak perlu melakukan key-in mandiri karena Prodi akan melakukan key-in paket Semester 1."
+  },
+  {
+    "question": "Apakah mahasiswa Semester 1 angkatan 2026 boleh mengambil mata kuliah semester atas?",
+    "answer": "Tidak. Mahasiswa angkatan 2026 tidak diperkenankan mengambil mata kuliah semester atas."
+  },
+  {
+    "question": "Apa saja mata kuliah paket Semester 1 dan berapa total SKS-nya?",
+    "answer": "Paket Semester 1 terdiri dari Pendidikan Agama Islam (2 SKS), Pendidikan Pancasila (2 SKS), Pemikiran Desain (4 SKS), Fundamen Matematika (6 SKS), Fundamen Informatika (3 SKS), dan Logika Pemrograman (3 SKS), dengan total 20 SKS."
+  },
+  {
+    "question": "Siapa yang melakukan key-in paket mata kuliah Semester 1?",
+    "answer": "Key-in paket mata kuliah Semester 1 dilakukan oleh Prodi Informatika."
+  },
+  {
+    "question": "Siapa yang termasuk mahasiswa Semester 3 pada panduan ini?",
+    "answer": "Mahasiswa angkatan 2025 termasuk mahasiswa Semester 3."
+  },
+  {
+    "question": "Apa saja mata kuliah paket Semester 3 dan berapa total SKS-nya?",
+    "answer": "Paket Semester 3 terdiri dari Sistem dan Jaringan Komputer (SJK) 6 SKS, Pengembangan Aplikasi Berbasis Web (PABW) 6 SKS, dan Manajemen Pengembangan TI (MPTI) 6 SKS, dengan total 18 SKS."
+  },
+  {
+    "question": "Apakah mahasiswa Semester 3 perlu melakukan key-in untuk mata kuliah paketnya?",
+    "answer": "Tidak. Key-in paket SJK, PABW, dan MPTI dilakukan oleh Prodi."
+  },
+  {
+    "question": "Mata kuliah apa yang wajib di-key-in secara mandiri oleh mahasiswa Semester 3?",
+    "answer": "Pendidikan Kewarganegaraan sebagai MKWU wajib Semester 3, sebesar 2 SKS, wajib di-key-in secara mandiri pada jadwal key-in."
+  },
+  {
+    "question": "Mata kuliah tambahan apa yang disarankan untuk mahasiswa Semester 3 yang memiliki jatah 24 SKS?",
+    "answer": "Fundamen Sains Data (FSD) sebesar 4 SKS disarankan sebagai mata kuliah tambahan."
+  },
+  {
+    "question": "Kelas FSD apa yang disarankan untuk mahasiswa yang mengambil SJK, PABW, atau MPTI kelas A?",
+    "answer": "Mahasiswa kelas A dapat mengambil FSD kelas A, B, atau C. FSD kelas A diutamakan; jika sudah penuh, pilih kelas B atau C."
+  },
+  {
+    "question": "Kelas FSD apa yang disarankan untuk mahasiswa kelas B?",
+    "answer": "Mahasiswa kelas B dapat mengambil FSD kelas A, B, atau C. FSD kelas A diutamakan; jika sudah penuh, pilih kelas B atau C."
+  },
+  {
+    "question": "Kelas FSD apa yang disarankan untuk mahasiswa kelas C?",
+    "answer": "Mahasiswa kelas C disarankan mengambil FSD kelas B atau C."
+  },
+  {
+    "question": "Kelas FSD apa yang disarankan untuk mahasiswa kelas D?",
+    "answer": "Mahasiswa kelas D disarankan mengambil FSD kelas B atau C."
+  },
+  {
+    "question": "Kelas FSD apa yang disarankan untuk mahasiswa kelas E?",
+    "answer": "Mahasiswa kelas E disarankan mengambil FSD kelas B atau C."
+  },
+  {
+    "question": "Mata kuliah semester atas apa saja yang tidak boleh diambil oleh mahasiswa Semester 3 saat ini?",
+    "answer": "Mahasiswa Semester 3 tidak boleh mengambil KKN, MK Pilihan, Bahasa Indonesia untuk Komunikasi Ilmiah, Pengembangan Aplikasi Bergerak, Pengembangan Aplikasi Informatika Medis, dan Pengembangan Gim."
+  },
+  {
+    "question": "Siapa yang termasuk mahasiswa Semester 5 pada panduan ini?",
+    "answer": "Mahasiswa angkatan 2024 termasuk mahasiswa Semester 5."
+  },
+  {
+    "question": "Apa saja mata kuliah paket Semester 5 dan berapa total SKS-nya?",
+    "answer": "Paket Semester 5 terdiri dari Pengembangan Aplikasi Bergerak (4 SKS), Pengembangan Aplikasi Informatika Medis (4 SKS), dan Pengembangan Gim (4 SKS), dengan total 12 SKS."
+  },
+  {
+    "question": "Apakah mahasiswa Semester 5 perlu melakukan key-in untuk mata kuliah paketnya?",
+    "answer": "Tidak. Key-in paket mata kuliah Semester 5 dilakukan oleh Prodi."
+  },
+  {
+    "question": "Mata kuliah apa yang wajib di-key-in secara mandiri oleh mahasiswa Semester 5 jika belum pernah ditempuh?",
+    "answer": "Mahasiswa wajib mengambil secara mandiri Islam Ulil Albab (3 SKS), Bahasa Arab Al-Qur’an (2 SKS), dan Bahasa Indonesia untuk Komunikasi Ilmiah (3 SKS), dengan total 8 SKS, jika mata kuliah tersebut belum ditempuh."
+  },
+  {
+    "question": "Mata kuliah tambahan apa yang disarankan untuk mahasiswa Semester 5 yang telah menempuh jalur cepat dan memiliki jatah 24 SKS?",
+    "answer": "Mahasiswa dapat mempertimbangkan Islam Rahmatan lil ’Alamin (3 SKS) dan dua mata kuliah pilihan, masing-masing 3 SKS."
+  },
+  {
+    "question": "Kelas apa yang dapat dipilih untuk Islam Ulil Albab berdasarkan kelas PAB, PAIM, dan PGim?",
+    "answer": "Islam Ulil Albab dapat diambil di semua kelas untuk mahasiswa kelas A, B, C, D, maupun E pada PAB, PAIM, dan PGim."
+  },
+  {
+    "question": "Kelas Bahasa Arab Al-Qur’an apa yang disarankan bagi mahasiswa kelas A?",
+    "answer": "Mahasiswa kelas A disarankan memilih Bahasa Arab Al-Qur’an kelas A, B, atau D; kelas D diutamakan, lalu B. Jika penuh, pilih kelas A."
+  },
+  {
+    "question": "Kelas Bahasa Arab Al-Qur’an apa yang disarankan bagi mahasiswa kelas B?",
+    "answer": "Mahasiswa kelas B disarankan memilih kelas A, C, atau D; kelas D diutamakan, lalu C. Jika penuh, pilih kelas A."
+  },
+  {
+    "question": "Kelas Bahasa Arab Al-Qur’an apa yang disarankan bagi mahasiswa kelas C?",
+    "answer": "Mahasiswa kelas C disarankan memilih kelas A, B, atau C; kelas D tidak tercantum untuk kelas ini, dan kelas B diutamakan sebelum pilihan lainnya sesuai ketersediaan."
+  },
+  {
+    "question": "Kelas Bahasa Arab Al-Qur’an apa yang disarankan bagi mahasiswa kelas D?",
+    "answer": "Mahasiswa kelas D disarankan memilih kelas A atau C; kelas C diutamakan, lalu A jika diperlukan."
+  },
+  {
+    "question": "Kelas Bahasa Arab Al-Qur’an apa yang disarankan bagi mahasiswa kelas E?",
+    "answer": "Mahasiswa kelas E disarankan memilih kelas A atau B; kelas B diutamakan, lalu A jika diperlukan."
+  },
+  {
+    "question": "Kelas BIKI apa yang disarankan berdasarkan kelas PAB, PAIM, dan PGim?",
+    "answer": "Untuk kelas A, B, dan D disarankan BIKI kelas A atau B; untuk kelas C disarankan BIKI kelas B; untuk kelas E disarankan BIKI kelas A atau B. BIKI kelas A diutamakan, lalu kelas B jika kelas A penuh."
+  },
+  {
+    "question": "Apakah Islam Rahmatan lil ’Alamin memiliki batasan kelas pada tabel saran?",
+    "answer": "Tidak. Islam Rahmatan lil ’Alamin tercantum dapat diambil di semua kelas untuk mahasiswa kelas A sampai E."
+  },
+  {
+    "question": "Apa ketentuan pembukaan mata kuliah pilihan?",
+    "answer": "Mata kuliah pilihan dibuka jika memenuhi kuota minimum, yaitu diambil oleh sedikitnya 6 mahasiswa."
+  },
+  {
+    "question": "Apa yang harus dilakukan jika mata kuliah pilihan yang dipilih di-drop karena tidak memenuhi kuota?",
+    "answer": "Mahasiswa wajib melakukan revisi key-in secara mandiri pada masa key-in revisi."
+  },
+  {
+    "question": "Berapa minimal SKS mata kuliah pilihan untuk menyelesaikan studi di Informatika UII?",
+    "answer": "Pada kurikulum yang berlaku, mahasiswa perlu mengambil minimal 12 SKS mata kuliah pilihan untuk menyelesaikan studi."
+  },
+  {
+    "question": "Mata kuliah pilihan apa saja yang ditawarkan dan berapa SKS masing-masing?",
+    "answer": "Mata kuliah pilihan yang ditawarkan adalah Arsitektur Perangkat Lunak, Big Data, Deep Learning, Forensika Digital, Gim Serius, Intelijen Bisnis, Internet of Things, Keamanan Siber dan Informasi, Manajemen Teknologi Informasi, serta Teknologi Blockchain. Masing-masing bernilai 3 SKS."
+  },
+  {
+    "question": "Apakah mahasiswa melakukan key-in mata kuliah pilihan secara mandiri?",
+    "answer": "Ya. Mata kuliah pilihan dilakukan melalui key-in mandiri pada jadwal key-in yang ditentukan."
+  },
+  {
+    "question": "Siapa yang termasuk kelompok mahasiswa angkatan 2023 ke atas?",
+    "answer": "Kelompok ini mencakup mahasiswa angkatan 2023 dan angkatan yang lebih lama."
+  },
+  {
+    "question": "Bagaimana aturan key-in mahasiswa angkatan 2023 ke atas?",
+    "answer": "Key-in dilakukan secara mandiri pada jadwal key-in, kecuali mata kuliah penjaluran semester awal dan semester akhir yang di-key-in oleh Prodi secara paket."
+  },
+  {
+    "question": "Apa saja jalur penjaluran semester awal yang tersedia?",
+    "answer": "Jalur yang tersedia adalah Penelitian, Pengabdian kepada Masyarakat, Perintisan Bisnis, dan Magang."
+  },
+  {
+    "question": "Apa saja mata kuliah pada jalur Penelitian dan berapa SKS-nya?",
+    "answer": "Jalur Penelitian terdiri dari Metodologi Penelitian (3 SKS), Kajian Pustaka (3 SKS), dan Penelitian (4 SKS)."
+  },
+  {
+    "question": "Apa saja mata kuliah pada jalur Pengabdian kepada Masyarakat dan berapa SKS-nya?",
+    "answer": "Jalur Pengabdian kepada Masyarakat terdiri dari Metode Pengabdian Masyarakat (3 SKS), Kajian Situasi (3 SKS), dan Pengabdian Masyarakat (4 SKS)."
+  },
+  {
+    "question": "Apa saja mata kuliah pada jalur Perintisan Bisnis dan berapa SKS-nya?",
+    "answer": "Jalur Perintisan Bisnis terdiri dari Metode Perintisan Bisnis (3 SKS), Kajian Peluang Bisnis (3 SKS), dan Perintisan Bisnis (4 SKS)."
+  },
+  {
+    "question": "Apa saja mata kuliah pada jalur Magang dan berapa SKS-nya?",
+    "answer": "Jalur Magang terdiri dari Manajemen Diri (3 SKS), Magang (4 SKS), dan Diseminasi Hasil Magang (3 SKS)."
+  },
+  {
+    "question": "Apa saja mata kuliah penjaluran semester akhir?",
+    "answer": "Mata kuliah penjaluran semester akhir adalah Tugas Akhir (8 SKS) dan Karya Ilmiah (5 SKS)."
+  },
+  {
+    "question": "Apakah mahasiswa wajib mengecek kembali mata kuliah wajib yang belum diambil atau belum lulus?",
+    "answer": "Ya. Mahasiswa wajib mengecek kembali mata kuliah wajib yang mungkin belum diambil atau belum lulus, misalnya Pendidikan Kewarganegaraan, Bahasa Indonesia untuk Komunikasi Ilmiah, Bahasa Arab Al-Qur’an, dan mata kuliah wajib lainnya."
+  },
+  {
+    "question": "Apakah ada kewajiban presensi pada kelas penjaluran dan Tugas Akhir?",
+    "answer": "Ya. Mulai Semester Ganjil 2026/2027, kelas Penelitian/Pengabdian Masyarakat/Perintisan Bisnis/Magang pada semester pertama penjaluran dan Tugas Akhir pada semester kedua atau ketiga penjaluran mensyaratkan kehadiran minimal 75%."
+  },
+  {
+    "question": "Kapan pendaftaran penjaluran baru, mengulang jalur, atau pindah jalur dilakukan?",
+    "answer": "Mahasiswa harus mengisi form penjaluran paling lambat Senin, 31 Agustus 2026 pukul 23.59 WIB."
+  },
+  {
+    "question": "Di mana form penjaluran diisi?",
+    "answer": "Form penjaluran diisi melalui https://s.id/PenjaluranInformatika-Ganjil2627."
+  },
+  {
+    "question": "Siapa yang melakukan key-in paket jalur setelah form penjaluran diisi?",
+    "answer": "Prodi akan melakukan key-in paket jalur sebelum atau selama masa key-in."
+  },
+  {
+    "question": "Bagaimana prosedur pengambilan judul atau topik skripsi untuk jalur Penelitian?",
+    "answer": "Mahasiswa menghubungi calon dosen pembimbing skripsi terlebih dahulu. Setelah mendapat izin dari calon dosen pembimbing, mahasiswa mengajukan judul/topik melalui https://uii.id/JudulTA26271. Pengambilan topik kemudian dirapatkan di cluster dosen dan Prodi menerbitkan Surat Edaran dosen pembimbing di web Informatics, termasuk untuk penjaluran selain Penelitian."
+  },
+  {
+    "question": "Bagaimana prosedur pendaftaran penjaluran di Sekawan V3?",
+    "answer": "Setelah proses form penjaluran, mahasiswa mendaftarkan penjaluran pada SEKAWAN V3 melalui https://ta.fit.uii.ac.id/sekawan, lalu menyampaikan usulan kepada DPA agar mendapat approval pada Sekawan V3."
+  },
+  {
+    "question": "Di mana panduan penjaluran dapat dibaca?",
+    "answer": "Panduan penjaluran tersedia di https://informatics.uii.ac.id/2023/02/09/prosedur-penjaluran-sarjana-semester-genap-tahun-akademik-2022-2023/."
+  },
+  {
+    "question": "Di mana panduan penggunaan Sekawan V3 dapat dibaca?",
+    "answer": "Panduan penggunaan Sekawan V3 tersedia di https://informatics.uii.ac.id/2025/02/12/buku-panduan-sekawan-v3/."
+  },
+  {
+    "question": "Bagaimana jika mahasiswa semester ke-2 ingin mengulang Metodologi Penelitian, Metode Pengabdian Masyarakat, atau Metode Perintisan Bisnis?",
+    "answer": "Mahasiswa dapat menyampaikan rekues pengulangan mata kuliah penjaluran melalui Key-in Talk, misalnya karena nilai belum memenuhi."
+  },
+  {
+    "question": "Bagaimana prosedur ekstensi tugas akhir?",
+    "answer": "Ekstensi tugas akhir diajukan oleh Dosen Pembimbing Tugas Akhir. Mahasiswa perlu menghubungi Dosen Pembimbing TA, kemudian Prodi melakukan key-in paket untuk usulan tersebut sebelum atau selama masa key-in."
+  },
+  {
+    "question": "Bagaimana jika mahasiswa ekstensi ingin mengulang mata kuliah penjaluran?",
+    "answer": "Mahasiswa menyampaikan rekues kepada Dosen Pembimbing TA. Pengusulan ke Prodi dilakukan oleh Dosen Pembimbing TA, kemudian Prodi melakukan key-in paket sebelum atau selama masa key-in."
+  },
+  {
+    "question": "Apa yang harus dilakukan saat mengulang jalur dengan berganti dosen pembimbing atau pindah jalur?",
+    "answer": "Mahasiswa harus berpamitan terlebih dahulu kepada dosen pembimbing TA sebelumnya."
+  },
+  {
+    "question": "Bagaimana mekanisme key-in dan pelaksanaan KKN?",
+    "answer": "Mekanisme key-in dan pelaksanaan Kuliah Kerja Nyata (KKN) sebesar 2 SKS dapat dilihat di https://dppm.uii.ac.id/kkn/."
+  },
+  {
+    "question": "Apa anjuran bagi mahasiswa yang masih memiliki kewajiban mata kuliah lebih dari 20 SKS?",
+    "answer": "Mahasiswa dihimbau untuk tidak mengambil penjaluran terlebih dahulu dan menyelesaikan perkuliahan. Konsultasikan kondisi tersebut dengan DPA."
+  },
+  {
+    "question": "Apa syarat ekstensi Tugas Akhir atau Karya Ilmiah?",
+    "answer": "Mahasiswa harus telah menyelesaikan minimal 75% proyek Tugas Akhir, belum pernah melakukan ekstensi Tugas Akhir atau Karya Ilmiah, dan perlu mengecek riwayat key-in di UIIAkademik."
+  },
+  {
+    "question": "Berapa kali ekstensi Tugas Akhir dapat dilakukan?",
+    "answer": "Perpanjangan Tugas Akhir hanya dapat dilakukan satu kali, yaitu satu semester, dalam satu kali penjaluran."
+  },
+  {
+    "question": "Bagaimana prosedur mahasiswa yang mengulang atau mengganti penjaluran Tugas Akhir?",
+    "answer": "Selain mengisi form penjaluran, mahasiswa melakukan Ulang Jalur atau Ganti Jalur di Sekawan V2 jika belum pernah mendaftar di Sekawan V3, kemudian mendaftar penjaluran di Sekawan V3. Jika sebelumnya sudah menggunakan Sekawan V3, pendaftaran ulang dilakukan melalui Sekawan V3 seperti pendaftaran jalur baru. Setelah itu, usulan disampaikan kepada DPA untuk approval di Sekawan V2 atau V3 sesuai prosesnya."
+  },
+  {
+    "question": "Di mana akses Sekawan V2 dan V3 untuk proses ulang atau ganti jalur?",
+    "answer": "Sekawan V2 dapat diakses melalui https://sekawan.informatics.uii.ac.id/, sedangkan Sekawan V3 dapat diakses melalui https://ta.fit.uii.ac.id/sekawan."
+  },
+  {
+    "question": "Apa yang harus diperhatikan mahasiswa yang mengambil program MBKM?",
+    "answer": "Mahasiswa harus menyisakan jatah SKS sesuai dengan mata kuliah yang akan diusulkan sebagai mata kuliah konversi dari program MBKM pada semester tersebut."
+  },
+  {
+    "question": "Di mana pedoman pelaksanaan MBKM dapat dibaca?",
+    "answer": "Pedoman tersedia di https://informatics.uii.ac.id/2022/11/09/pedoman-pelaksanaan-merdeka-belajar-kampus-merdeka-pada-kurikulum-2022-prodi-informatika-program-sarjana/."
+  },
+  {
+    "question": "Apa kanal utama jika masih terdapat kendala setelah membaca panduan?",
+    "answer": "Kendala dapat disampaikan melalui Key-in Talk pada https://tinyurl.com/KeyinTalkGanjil2627."
   }
 ]
