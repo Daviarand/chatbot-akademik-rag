@@ -209,6 +209,28 @@ def normalize_mode(mode):
     return MODE_ALIASES.get(mode_key, "regular")
 
 
+def is_contextual_follow_up(question):
+    normalized_question = " ".join(str(question or "").lower().split())
+    follow_up_markers = (
+        "bagaimana dengan ",
+        "bagaimana jika ",
+        "kalau begitu",
+        "lalu bagaimana",
+        "terus bagaimana",
+        "yang tadi",
+        "hal tersebut",
+        "dan untuk ",
+        "what about ",
+        "how about ",
+        "and what about ",
+        "in that case",
+        "what if ",
+        "which one",
+        "what does that",
+    )
+    return any(marker in normalized_question for marker in follow_up_markers)
+
+
 def build_glossary_prompt(mode):
     normalized_mode = normalize_mode(mode)
     glossary_lines = []
@@ -269,6 +291,7 @@ Aturan percakapan:
 7. Jangan menyebut proses internal RAG.
 8. Selalu jawab sesuai mode aktif yang dipilih oleh pengguna. Jika mode IP dipilih, jawaban seluruhnya harus dalam Bahasa Inggris.
 9. Gunakan istilah lokal dan definisi glosarium di atas secara konsisten agar nama lembaga, istilah akademik, dan jalur studi tidak terdistorsi.
+10. Prioritaskan pertanyaan terbaru dan KONTEKS DOKUMEN. Gunakan riwayat hanya untuk menyelesaikan pertanyaan lanjutan; jangan biarkan topik lama mengubah jawaban atas pertanyaan baru yang sudah jelas.
 
 RIWAYAT PERCAKAPAN:
 {history_messages}
@@ -298,12 +321,13 @@ def chat():
     if not user_query:
         return jsonify({"error": "Query tidak boleh kosong"}), 400
 
+    contextual_history = conversation_history[-6:] if is_contextual_follow_up(user_query) else []
     previous_user_queries = [
         message.get("content", "").strip()
-        for message in conversation_history[-10:]
+        for message in contextual_history
         if message.get("role") == "user" and message.get("content", "").strip()
     ]
-    retrieval_query = " ".join(previous_user_queries + [user_query])
+    retrieval_query = " ".join(previous_user_queries[-2:] + [user_query])
     retrieval_query = expand_query_with_glossary(retrieval_query, mode)
 
     mode_filter = {
@@ -328,7 +352,7 @@ def chat():
     context = "\n\n".join(results['documents'][0])
 
     try:
-        answer = get_groq_response(user_query, context, conversation_history, mode=mode)
+        answer = get_groq_response(user_query, context, contextual_history, mode=mode)
         return jsonify({
             "answer": answer,
             "sources": results['metadatas'][0],

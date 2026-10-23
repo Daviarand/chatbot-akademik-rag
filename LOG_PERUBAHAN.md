@@ -391,6 +391,21 @@ Untuk melengkapi TN dan FP, evaluasi berikutnya perlu menyertakan pertanyaan neg
 
 Satu pertanyaan negatif yang dijawab secara tepat dapat menambah TN; satu jawaban yang tidak didukung dapat menambah FP. Setelah pertanyaan negatif diuji pada semua model dan mode, hitung ulang akurasi dengan rumus `(TP + TN) / (TP + TN + FP + FN)`. Untuk laporan akhir, simpan jawaban mentah tiap model agar penilaian Correct/Incorrect dan label confusion matrix dapat ditelusuri.
 
+### 8.5 Analisis dan perbaikan pertanyaan IP yang salah
+
+Kasus uji: pertanyaan Regular tentang paket semester 1 angkatan 2026 menghasilkan jawaban benar, tetapi pertanyaan ekuivalen dalam Bahasa Inggris pada mode IP sebelumnya dinyatakan tidak tersedia. Pemeriksaan Top-5 ChromaDB sebelum perbaikan menemukan dokumen FAQ yang tepat pada query Bahasa Indonesia, tetapi tidak pada query Inggris mandiri; ketika query Inggris digabung dengan riwayat Bahasa Indonesia, FAQ yang benar baru muncul di peringkat kelima. Ini menunjukkan masalah berada pada retrieval lintas bahasa dan kontaminasi query oleh riwayat topik lama, bukan bukti bahwa LLM saja yang salah.
+
+Perbaikan yang diterapkan:
+
+- `app.py` memakai query terbaru secara mandiri untuk pertanyaan lengkap. Riwayat hanya digabungkan jika pertanyaan memiliki penanda follow-up yang dikenali, dibatasi maksimal dua pertanyaan user sebelumnya, dan riwayat relevan yang sama dikirim ke prompt.
+- `ingest.py` mendukung field opsional `alternate_questions` agar pertanyaan terjemahan/parafrase terkurasi ikut masuk ke teks embedding tanpa menduplikasi jawaban.
+- FAQ paket semester 1 angkatan 2026 diberi dua alias pertanyaan Bahasa Inggris.
+- ChromaDB dibangun ulang dan berisi 656 dokumen setelah ingestion.
+
+Validasi pascaperbaikan: pertanyaan `Which courses are included in the first-semester package for the 2026 cohort?` mengambil FAQ paket semester 1 dalam Top-5 retrieval. Uji Flask endpoint dengan mode IP menghasilkan HTTP 200 dan jawaban Bahasa Inggris yang menyebut enam mata kuliah serta total 20 SKS.
+
+Catatan evaluasi: deteksi follow-up saat ini berbasis daftar frasa sederhana, sehingga masih perlu diuji pada paraphrase follow-up. Alias Inggris baru ditambahkan untuk FAQ yang kasusnya sudah teramati; keberhasilan satu kasus ini belum membuktikan seluruh query IP multilingual sudah akurat. Pengujian lanjutan perlu membandingkan query berdiri sendiri, query follow-up yang relevan, dan query follow-up dengan riwayat beda topik.
+
 ## 9. Catatan Validasi dan Hal yang Perlu Diperbarui
 
 Bagian ini penting untuk menjaga kesesuaian antara laporan dan implementasi aktual.
