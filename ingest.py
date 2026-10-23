@@ -201,9 +201,21 @@ def ingest_knowledge_base():
                         for item in items:
                             question = item.get("question", "")
                             answer = item.get("answer", "")
+                            alternate_questions = item.get("alternate_questions", [])
+                            if not isinstance(alternate_questions, list):
+                                alternate_questions = []
+                            alternate_questions = [
+                                str(alternate).strip()
+                                for alternate in alternate_questions
+                                if str(alternate).strip()
+                            ]
 
                             if question and answer:
-                                content = f"Pertanyaan: {question}\nJawaban: {answer}"
+                                alternate_text = "".join(
+                                    f"\nPertanyaan alternatif: {alternate}"
+                                    for alternate in alternate_questions
+                                )
+                                content = f"Pertanyaan: {question}{alternate_text}\nJawaban: {answer}"
                                 documents.append(content)
                                 metadatas.append(build_metadata(source_name, file, question))
                                 ids.append(f"doc_{source_name}_{file}_{count}")
