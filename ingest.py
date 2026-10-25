@@ -211,15 +211,13 @@ def ingest_knowledge_base():
                             ]
 
                             if question and answer:
-                                alternate_text = "".join(
-                                    f"\nPertanyaan alternatif: {alternate}"
-                                    for alternate in alternate_questions
-                                )
-                                content = f"Pertanyaan: {question}{alternate_text}\nJawaban: {answer}"
-                                documents.append(content)
-                                metadatas.append(build_metadata(source_name, file, question))
-                                ids.append(f"doc_{source_name}_{file}_{count}")
-                                count += 1
+                                question_variants = [question] + alternate_questions
+                                for question_variant in question_variants:
+                                    content = f"Pertanyaan: {question_variant}\nJawaban: {answer}"
+                                    documents.append(content)
+                                    metadatas.append(build_metadata(source_name, file, question))
+                                    ids.append(f"doc_{source_name}_{file}_{count}")
+                                    count += 1
                     except Exception as e:
                         print(f"Error membaca {file}: {e}")
 

@@ -189,7 +189,7 @@ Knowledge base dipisahkan secara modular agar sumber informasi mudah dirawat dan
 | `KnowledgeBasePanduanKeyIn` | Jadwal, aturan, paket mata kuliah, syarat, dan prosedur Key-In |
 | `KnowledgeBasePenjelasanAkademikIF` | Penjelasan akademik Informatika |
 
-Pada hasil ingest terakhir setelah penambahan FAQ Ganjil 2026/2027, koleksi `akademik_uii` berisi 575 dokumen. Jumlah ini dapat berubah apabila file JSON diperbarui atau proses ingest dijalankan kembali.
+Pada hasil ingest terakhir setelah penambahan alias pertanyaan multilingual, koleksi `akademik_uii` berisi 665 dokumen vektor. Jumlah ini dapat berubah ketika JSON atau jumlah alias pertanyaan diperbarui dan ingestion dijalankan kembali.
 
 ### Penambahan FAQ Panduan Key-In
 
@@ -391,20 +391,21 @@ Untuk melengkapi TN dan FP, evaluasi berikutnya perlu menyertakan pertanyaan neg
 
 Satu pertanyaan negatif yang dijawab secara tepat dapat menambah TN; satu jawaban yang tidak didukung dapat menambah FP. Setelah pertanyaan negatif diuji pada semua model dan mode, hitung ulang akurasi dengan rumus `(TP + TN) / (TP + TN + FP + FN)`. Untuk laporan akhir, simpan jawaban mentah tiap model agar penilaian Correct/Incorrect dan label confusion matrix dapat ditelusuri.
 
-### 8.5 Analisis dan perbaikan pertanyaan IP yang salah
+### 8.5 Analisis dan perbaikan percakapan panjang serta retrieval bilingual
 
-Kasus uji: pertanyaan Regular tentang paket semester 1 angkatan 2026 menghasilkan jawaban benar, tetapi pertanyaan ekuivalen dalam Bahasa Inggris pada mode IP sebelumnya dinyatakan tidak tersedia. Pemeriksaan Top-5 ChromaDB sebelum perbaikan menemukan dokumen FAQ yang tepat pada query Bahasa Indonesia, tetapi tidak pada query Inggris mandiri; ketika query Inggris digabung dengan riwayat Bahasa Indonesia, FAQ yang benar baru muncul di peringkat kelima. Ini menunjukkan masalah berada pada retrieval lintas bahasa dan kontaminasi query oleh riwayat topik lama, bukan bukti bahwa LLM saja yang salah.
+Uji awal 15 pertanyaan berurutan tanpa reset memperlihatkan bahwa jawaban yang salah tidak semata-mata disebabkan oleh model. Dua penyebab yang ditemukan adalah: (1) `app.py` sebelumnya menggabungkan sampai sepuluh pertanyaan user lama ke setiap query retrieval, termasuk pertanyaan baru yang sudah lengkap; (2) model embedding multilingual tidak selalu menempatkan FAQ cohort/periode yang tepat pada Top-5 untuk query Inggris atau query yang memiliki kata-kata serupa dengan topik lain. Dataset KB juga memiliki FAQ historis untuk angkatan 2024 Semester 3, sedangkan panduan Ganjil 2026/2027 menyebut angkatan 2025 Semester 3; keduanya benar pada periodenya masing-masing, tetapi dapat bersaing pada retrieval.
 
 Perbaikan yang diterapkan:
 
-- `app.py` memakai query terbaru secara mandiri untuk pertanyaan lengkap. Riwayat hanya digabungkan jika pertanyaan memiliki penanda follow-up yang dikenali, dibatasi maksimal dua pertanyaan user sebelumnya, dan riwayat relevan yang sama dikirim ke prompt.
-- `ingest.py` mendukung field opsional `alternate_questions` agar pertanyaan terjemahan/parafrase terkurasi ikut masuk ke teks embedding tanpa menduplikasi jawaban.
-- FAQ paket semester 1 angkatan 2026 diberi dua alias pertanyaan Bahasa Inggris.
-- ChromaDB dibangun ulang dan berisi 656 dokumen setelah ingestion.
+- `app.py` memakai query terbaru untuk pertanyaan lengkap. Riwayat hanya digabung ketika pertanyaan mengandung penanda follow-up yang dikenali, dibatasi maksimal dua pertanyaan user sebelumnya, dan riwayat relevan yang sama dikirim ke prompt.
+- System prompt meminta model memprioritaskan pertanyaan terbaru dan konteks dokumen, serta tidak memindahkan fakta antarangkatan atau periode.
+- `ingest.py` mendukung `alternate_questions` dan mengindeks setiap pertanyaan alternatif sebagai vektor Q&A tersendiri dengan jawaban kanonis yang sama, alih-alih mencampur beberapa bahasa ke dalam satu teks panjang.
+- Alias Bahasa Inggris dan parafrasa terarah ditambahkan pada FAQ paket semester 1 angkatan 2026, Key-In mandiri cohort 2025 Semester 3, serta kanal rekues pengulangan mata kuliah penjaluran.
+- ChromaDB dibangun ulang dan berisi 665 dokumen vektor.
 
-Validasi pascaperbaikan: pertanyaan `Which courses are included in the first-semester package for the 2026 cohort?` mengambil FAQ paket semester 1 dalam Top-5 retrieval. Uji Flask endpoint dengan mode IP menghasilkan HTTP 200 dan jawaban Bahasa Inggris yang menyebut enam mata kuliah serta total 20 SKS.
+Validasi regresi Qwen setelah perbaikan menjalankan 15 pertanyaan berurutan tanpa reset dan bergantian mode Regular/IP. Seluruh 15 request menghasilkan HTTP 200. Tiga kasus yang sebelumnya salah (paket semester 1 Regular/IP, kewajiban Key-In mandiri cohort 2025 IP, dan kanal rekues penjaluran IP) kini menampilkan fakta target pada jawaban. Top-5 retrieval untuk sumber target berada di peringkat 3 untuk paket semester 1 Regular, peringkat 1 untuk paket semester 1 IP, peringkat 1 untuk kewajiban cohort 2025 Regular/IP, dan peringkat 1 untuk kanal rekues IP.
 
-Catatan evaluasi: deteksi follow-up saat ini berbasis daftar frasa sederhana, sehingga masih perlu diuji pada paraphrase follow-up. Alias Inggris baru ditambahkan untuk FAQ yang kasusnya sudah teramati; keberhasilan satu kasus ini belum membuktikan seluruh query IP multilingual sudah akurat. Pengujian lanjutan perlu membandingkan query berdiri sendiri, query follow-up yang relevan, dan query follow-up dengan riwayat beda topik.
+Catatan batasan: status HTTP 200 menunjukkan request berhasil, bukan bahwa semua 15 jawaban sudah diverifikasi akurasinya secara manual. Deteksi follow-up masih memakai daftar penanda frasa; paraphrase lain dapat luput. Hasil ini hanya satu sequence dengan model Qwen, bukan bukti bahwa semua pertanyaan, model, atau pola percakapan sudah bebas kesalahan. Uji berikutnya perlu mencatat jawaban penuh dan menilai ulang kriteria Correct/Incorrect untuk setiap skenario.
 
 ## 9. Catatan Validasi dan Hal yang Perlu Diperbarui
 

@@ -43,7 +43,8 @@
     "question": "Apa saja mata kuliah paket semester 1 untuk mahasiswa angkatan 2026?",
     "alternate_questions": [
       "Which courses are included in the first-semester package for the 2026 cohort?",
-      "What courses does the Informatics program register for new students entering in 2026?"
+      "What courses does the Informatics program register for new students entering in 2026?",
+      "Daftar mata kuliah wajib mahasiswa baru Informatika semester 1 angkatan 2026."
     ],
     "answer": "Paket semester 1 angkatan 2026 terdiri dari Pendidikan Agama Islam (2 SKS), Pendidikan Pancasila (2 SKS), Pemikiran Desain (4 SKS), Fundamen Matematika (6 SKS), Fundamen Informatika (3 SKS), dan Logika Pemrograman (3 SKS), total 20 SKS."
   },
@@ -53,6 +54,12 @@
   },
   {
     "question": "Mata kuliah apa yang wajib di-Key-In mandiri oleh mahasiswa semester 3 angkatan 2025?",
+    "alternate_questions": [
+      "Which course must the 2025 cohort independently register for in semester 3?",
+      "Which compulsory university course must Informatics students from the 2025 cohort register for themselves in semester 3?",
+      "Mata kuliah apa yang harus di-Key-In mandiri mahasiswa angkatan 2025 semester 3?",
+      "Apa MKWU wajib yang harus diambil sendiri oleh mahasiswa Informatika cohort 2025 semester 3?"
+    ],
     "answer": "Mahasiswa semester 3 angkatan 2025 wajib melakukan Key-In mandiri untuk Pendidikan Kewarganegaraan (2 SKS)."
   },
   {
@@ -117,6 +124,10 @@
   },
   {
     "question": "Bagaimana mengulang mata kuliah penjaluran jika nilai belum memenuhi?",
+    "alternate_questions": [
+      "If I do not meet the required grade for a track course, where should I submit a request?",
+      "Where can I request to repeat a track course if my grade does not meet the requirement?"
+    ],
     "answer": "Mahasiswa penjaluran yang ingin mengulang mata kuliah penjaluran, misalnya karena nilai belum memenuhi, dapat menyampaikan permintaan melalui Key-in Talk Ganjil 2026/2027: https://tinyurl.com/KeyinTalkGanjil2627."
   },
   {

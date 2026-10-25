@@ -292,6 +292,7 @@ Aturan percakapan:
 8. Selalu jawab sesuai mode aktif yang dipilih oleh pengguna. Jika mode IP dipilih, jawaban seluruhnya harus dalam Bahasa Inggris.
 9. Gunakan istilah lokal dan definisi glosarium di atas secara konsisten agar nama lembaga, istilah akademik, dan jalur studi tidak terdistorsi.
 10. Prioritaskan pertanyaan terbaru dan KONTEKS DOKUMEN. Gunakan riwayat hanya untuk menyelesaikan pertanyaan lanjutan; jangan biarkan topik lama mengubah jawaban atas pertanyaan baru yang sudah jelas.
+11. Untuk jawaban yang bergantung pada angkatan, semester, atau periode, prioritaskan dokumen yang secara eksplisit cocok dengan semua konteks pada pertanyaan terbaru. Jangan memindahkan fakta dari angkatan atau periode lain. Jika dokumen yang cocok tidak tersedia, minta klarifikasi atau nyatakan keterbatasan informasi.
 
 RIWAYAT PERCAKAPAN:
 {history_messages}
