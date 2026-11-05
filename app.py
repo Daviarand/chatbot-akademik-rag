@@ -103,6 +103,7 @@
 
 
 import os
+import re
 import chromadb
 from chromadb.utils import embedding_functions
 from flask import Flask, request, jsonify
@@ -209,6 +210,42 @@ def normalize_mode(mode):
     return MODE_ALIASES.get(mode_key, "regular")
 
 
+PERSONAL_REFERENCE_PATTERN = re.compile(
+    r"\b(?:my|mine|myself|saya|aku|milik saya|punya saya|saya sendiri)\b"
+    r"|\bi (?:registered|enrolled|paid)\b",
+    re.IGNORECASE,
+)
+PERSONAL_RECORD_TOPIC_PATTERN = re.compile(
+    r"\b(?:gpa|ipk|grade|grades|nilai|tuition|payment|fee|spp|ukt|tagihan|"
+    r"class times|class schedule|classes?|courses?|schedule|timetable|room numbers?|"
+    r"registered courses|enrolled courses|course registration|"
+    r"jadwal|kelas|mata kuliah|ruangan)\b",
+    re.IGNORECASE,
+)
+
+
+def get_personal_record_refusal(question, mode):
+    normalized_question = " ".join(str(question or "").split())
+    if not (
+        PERSONAL_REFERENCE_PATTERN.search(normalized_question)
+        and PERSONAL_RECORD_TOPIC_PATTERN.search(normalized_question)
+    ):
+        return None
+
+    if normalize_mode(mode) == "ip":
+        return (
+            "I cannot access or verify individual student records, including GPA, "
+            "tuition-payment status, or personal class schedules. Please check your "
+            "own account through UII Gateway/UIIRAS."
+        )
+
+    return (
+        "Saya tidak dapat mengakses atau memverifikasi data akademik pribadi, "
+        "seperti IPK, status pembayaran, atau jadwal kuliah individual. Silakan "
+        "cek akun UII Gateway/UIIRAS Anda sendiri."
+    )
+
+
 def is_contextual_follow_up(question):
     normalized_question = " ".join(str(question or "").lower().split())
     follow_up_markers = (
@@ -277,6 +314,12 @@ Mode aktif: {mode_config['label']} ({mode_config['language']})
 GLOSARIUM ISTILAH LOKAL:
 {glossary_prompt}
 
+Batasan data pribadi:
+- Anda tidak memiliki akses ke rekam akademik individu, termasuk IPK, status pembayaran,
+  atau jadwal kelas pribadi. Jangan meminta nama, NIM, kata sandi, atau bukti pembayaran.
+- Jangan memperlakukan pertanyaan atau data historis mahasiswa lain di dokumen sebagai
+  data pengguna saat ini. Arahkan pengguna untuk mengecek akun UII Gateway/UIIRAS miliknya.
+
 Aturan percakapan:
 1. Pertanyaan umum seperti profil prodi, lokasi lab, atau komunitas dapat langsung dijawab secara padat.
 2. Pertanyaan yang bergantung pada semester, angkatan, kelas Reguler/IP, atau tahun akademik harus diperiksa
@@ -292,6 +335,7 @@ Aturan percakapan:
 8. Selalu jawab sesuai mode aktif yang dipilih oleh pengguna. Jika mode IP dipilih, jawaban seluruhnya harus dalam Bahasa Inggris.
 9. Gunakan istilah lokal dan definisi glosarium di atas secara konsisten agar nama lembaga, istilah akademik, dan jalur studi tidak terdistorsi.
 10. Prioritaskan pertanyaan terbaru dan KONTEKS DOKUMEN. Gunakan riwayat hanya untuk menyelesaikan pertanyaan lanjutan; jangan biarkan topik lama mengubah jawaban atas pertanyaan baru yang sudah jelas.
+11. Untuk jawaban yang bergantung pada angkatan, semester, atau periode, prioritaskan dokumen yang secara eksplisit cocok dengan semua konteks pada pertanyaan terbaru. Jangan memindahkan fakta dari angkatan atau periode lain. Jika dokumen yang cocok tidak tersedia, minta klarifikasi atau nyatakan keterbatasan informasi.
 
 RIWAYAT PERCAKAPAN:
 {history_messages}
@@ -320,6 +364,14 @@ def chat():
 
     if not user_query:
         return jsonify({"error": "Query tidak boleh kosong"}), 400
+
+    personal_record_refusal = get_personal_record_refusal(user_query, mode)
+    if personal_record_refusal:
+        return jsonify({
+            "answer": personal_record_refusal,
+            "sources": [],
+            "mode": mode
+        })
 
     contextual_history = conversation_history[-6:] if is_contextual_follow_up(user_query) else []
     previous_user_queries = [
@@ -365,10 +417,6 @@ def chat():
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
-
-
-
-
 
 
 
