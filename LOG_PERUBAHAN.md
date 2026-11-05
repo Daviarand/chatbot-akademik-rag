@@ -40,7 +40,7 @@ flowchart LR
     STORE -->|Top 5 dokumen| RETRIEVE
     RETRIEVE --> PROMPT[Susun prompt: pertanyaan, konteks, riwayat, glossary]
     PREP --> PROMPT
-    PROMPT --> LLM[Groq API: Qwen LLM]
+    PROMPT --> LLM[Groq Chat Completions API<br/>GROQ_MODEL: Qwen 27B | GPT-OSS 20B | GPT-OSS 120B]
     MODE{Mode jawaban}
     PREP --> MODE
     MODE -->|Regular| ID[Instruksi Bahasa Indonesia]
@@ -80,6 +80,7 @@ Diagram ini dapat dilihat di VS Code melalui **Markdown: Open Preview** (`Ctrl+S
 | 2026-09-18 | System prompt | Instruksi hanya berisi persona dan konteks dokumen | Ditambahkan aturan pertanyaan umum, klarifikasi konteks, pembedaan angkatan/semester, dan batasan jawaban | Mengurangi salah tafsir pada jadwal Key-In, kurikulum, pendadaran, remedi, dan penjaluran |
 | 2026-09-18 | Endpoint frontend | `http://localhost:5000/chat` | `http://127.0.0.1:5000/chat` | Menghindari potensi latensi resolusi nama host lokal pada Windows |
 | 2026-09-18 | Format jawaban UI | Markdown dari LLM tampil mentah sebagai karakter `*` | Formatter frontend menampilkan paragraf, teks tebal/miring, daftar bernomor, dan bullet list | Meningkatkan keterbacaan jawaban pada floating widget berukuran kecil |
+| 2026-11-04 | Dokumentasi arsitektur model | Diagram hanya menampilkan Qwen sebagai model LLM | Diagram menunjukkan satu jalur inferensi Groq dengan tiga alternatif model yang dipilih melalui `GROQ_MODEL` | Memperjelas bahwa eksperimen membandingkan model tanpa mengubah pipeline RAG |
 
 ## 4. Catatan Perubahan Per Komponen
 
@@ -235,6 +236,8 @@ Pada tahap implementasi berikutnya, proyek memutuskan untuk mempertahankan satu 
 - Retrieval tetap menggunakan embedding multilingual yang sama di seluruh koleksi ChromaDB, sehingga query yang masuk dalam Bahasa Indonesia atau Bahasa Inggris tetap dapat menemukan konteks yang relevan.
 - Glosarium lokal dipasang di system prompt agar istilah akrab mahasiswa tidak terdistorsi selama response generation.
 
+Mode Regular/IP dan pilihan LLM merupakan dua konfigurasi yang terpisah. Mode menentukan bahasa serta instruksi jawaban; pemilihan Qwen atau GPT-OSS menentukan backend generasi. Pergantian LLM tidak mengubah alur ingesti, embedding, retrieval, penyusunan konteks, atau format request pada implementasi saat ini.
+
 ### Flowchart arsitektur mode runtime
 
 ```mermaid
@@ -358,6 +361,10 @@ Skrip `benchmark_models.py` ditambahkan untuk membandingkan model yang tersedia 
 
 Model awal yang disiapkan adalah Qwen aktif dan `openai/gpt-oss-20b` serta `openai/gpt-oss-120b`. Daftar model dapat diganti dengan opsi `--models`. Skrip meminta konfirmasi sebelum mengirim request ke Groq karena jumlah panggilan bergantung pada model, skenario, mode, pengulangan, dan warm-up. Hasil benchmark belum diambil; file ini baru divalidasi melalui compile dan pemeriksaan opsi CLI.
 
+Pada implementasi, ketiga model memakai pipeline aplikasi yang sama: input dan mode melewati endpoint `/chat`, query diproses dengan aturan dan filter yang sama, ChromaDB mengambil konteks dari KB yang sama, lalu prompt yang dibentuk aplikasi dikirim ke Groq. Di `get_groq_response`, titik pergantian model hanya parameter `model=GROQ_MODEL`; skrip benchmark mengubah nilai tersebut untuk menjalankan tiap model melalui endpoint yang sama. Jadi untuk diagram arsitektur sistem, satu diagram sudah cukup dengan komponen generasi diberi label tiga alternatif model. Jika diperlukan, tiga diagram terpisah dapat dibuat sebagai tiga konfigurasi eksperimen yang sama, bukan tiga alur sistem yang berbeda.
+
+Kesamaan pipeline tidak berarti perilaku model identik. Setiap model dapat menghasilkan jawaban, latensi, dan kepatuhan instruksi yang berbeda; karena itu pengujian dan hasil evaluasi tetap harus dilaporkan per model. Arsitektur internal masing-masing model/provider tidak ditampilkan oleh diagram sistem aplikasi karena layanan dipanggil melalui API eksternal dan detail internalnya bukan bagian dari pipeline yang dikendalikan repository ini.
+
 Untuk alur pengujian yang dipilih, frontend `index.php` menampilkan timer sementara pada setiap jawaban sukses. Timer dimulai tepat sebelum request `/chat` dan berhenti setelah body JSON diterima, sehingga mencatat latensi end-to-end yang dirasakan pengguna, bukan durasi inference LLM saja. Penilai menguji pertanyaan yang sama secara manual pada masing-masing model/mode, menilai correctness berdasarkan kriteria acuan, dan menyalin latensi dari UI ke tabel perbandingan. CSV dari `benchmark_models.py` tidak diperlukan untuk alur ini; skrip tetap tersedia sebagai opsi otomatis.
 
 | Pemeriksaan timer frontend | Hasil |
@@ -407,11 +414,41 @@ Validasi regresi Qwen setelah perbaikan menjalankan 15 pertanyaan berurutan tanp
 
 Catatan batasan: status HTTP 200 menunjukkan request berhasil, bukan bahwa semua 15 jawaban sudah diverifikasi akurasinya secara manual. Deteksi follow-up masih memakai daftar penanda frasa; paraphrase lain dapat luput. Hasil ini hanya satu sequence dengan model Qwen, bukan bukti bahwa semua pertanyaan, model, atau pola percakapan sudah bebas kesalahan. Uji berikutnya perlu mencatat jawaban penuh dan menilai ulang kriteria Correct/Incorrect untuk setiap skenario.
 
+### 8.6 Confusion matrix hasil pengujian P06
+
+Perhitungan berikut dibaca ulang langsung dari `DokumenPendukung/P06-23523193-Daviar Andrianoe A.docx`. Tabel positif berisi 15 skenario untuk masing-masing model dan mode (90 keputusan); tabel negatif berisi 4 skenario untuk masing-masing model dan mode (24 keputusan). Pada data positif, `Correct` dihitung sebagai TP dan `Incorrect` sebagai FN. Pada data negatif, `Correct` dihitung sebagai TN dan `Incorrect` sebagai FP.
+
+| Model | Mode | TP | TN | FP | FN | Jumlah uji | Akurasi |
+|---|---|---:|---:|---:|---:|---:|---:|
+| `qwen/qwen3.8-27b` | Regular | 15 | 4 | 0 | 0 | 19 | 100.00% |
+| `qwen/qwen3.8-27b` | IP | 14 | 4 | 0 | 1 | 19 | 94.74% |
+| `openai/gpt-oss-20b` | Regular | 15 | 4 | 0 | 0 | 19 | 100.00% |
+| `openai/gpt-oss-20b` | IP | 15 | 2 | 2 | 0 | 19 | 89.47% |
+| `openai/gpt-oss-120b` | Regular | 15 | 4 | 0 | 0 | 19 | 100.00% |
+| `openai/gpt-oss-120b` | IP | 15 | 2 | 2 | 0 | 19 | 89.47% |
+| **Gabungan** | **Regular dan IP** | **89** | **20** | **4** | **1** | **114** | **95.61%** |
+
+Akurasi dihitung dengan `(TP + TN) / (TP + TN + FP + FN)`. Jika digabung per model: Qwen memperoleh TP=29, TN=8, FP=0, FN=1, akurasi 97.37%; GPT-OSS 20B memperoleh TP=30, TN=6, FP=2, FN=0, akurasi 94.74%; GPT-OSS 120B memperoleh TP=30, TN=6, FP=2, FN=0, akurasi 94.74%.
+
+Pemeriksaan baris negatif menunjukkan seluruh 4 respons Regular per model berlabel Correct/TN. Empat FP terjadi di IP: GPT-OSS 20B mengarang IPK `3.08` dan menyiratkan dapat mencari jadwal kelas pribadi setelah diminta data tambahan; GPT-OSS 120B meminta data pribadi untuk mengonfirmasi pembayaran SPP dan menyatakan IPK `3.08` berdasarkan informasi yang tidak pernah diberikan. Qwen tidak memiliki FP pada empat pertanyaan negatif yang diuji. Satu FN terjadi pada Qwen IP untuk skenario positif S13.
+
+Catatan audit: tabel negatif menampilkan jawaban pada kolom `Respon Incorrect`, tetapi tidak menyertakan ID/teks pertanyaan negatif pada setiap baris hasil model. Karena itu confusion matrix agregat di atas dapat dihitung dari status dan jumlah skenario, tetapi pengaitan FP ke skenario tertentu mengikuti urutan pengujian dan perlu dibuat lebih eksplisit pada tabel revisi. Hasil ini juga berasal dari 4 pertanyaan negatif saja; jangan digeneralisasi sebagai jaminan keamanan atau kemampuan menolak semua pertanyaan di luar KB.
+
+### 8.7 Tindak lanjut FN S13 dan pertanyaan data pribadi
+
+Audit retrieval lokal untuk pertanyaan S13 berbahasa Inggris sebelumnya tidak menempatkan FAQ yang berisi tautan penjaluran di Top-5. Dokumen terkait hanya memiliki pertanyaan utama berbahasa Indonesia, sementara Top-5 mencakup FAQ periode lain. FAQ Ganjil 2026/2027 kini memiliki variasi pertanyaan Inggris. Setelah koleksi Chroma dibangun ulang, kueri S13 menempatkan FAQ yang benar pada peringkat pertama dengan URL dan tenggat di konteks.
+
+Pertanyaan historis pada `KeyInTalk_Ganjil_2026_2027.json` sebelumnya menyebut IPK mahasiswa `3,08`. Karena ingesti menyimpan pertanyaan bersama jawabannya, pencarian “What is my current GPA?” dapat mengambil rekaman itu sebagai konteks. Angka tersebut telah dihapus dari pertanyaan sumber dengan mempertahankan jawaban prosedural umum tentang ketidaksesuaian jatah SKS. Koleksi lokal dibangun ulang dan berisi 667 dokumen; pencarian IPK setelahnya tidak lagi menemukan nilai `3,08`.
+
+Endpoint `/chat` kini menolak pertanyaan tentang rekam akademik individu sebelum retrieval dan pemanggilan LLM, dengan respons sesuai mode yang mengarahkan mahasiswa mengecek akun UII Gateway/UIIRAS sendiri. Prompt juga melarang model meminta data identitas atau menganggap rekaman mahasiswa lain sebagai data pengguna. Tes otomatis mencakup empat pertanyaan pribadi dalam mode Regular dan IP, serta pemeriksaan agar pertanyaan umum tentang IPK, pembayaran kuliah, dan pertanyaan di luar domain tidak terkena penolakan pribadi.
+
+Validasi ini memastikan jalur kode dan retrieval lokal, bukan generasi langsung seluruh model. Tes mencakup contoh pertanyaan IPK, jadwal, dan pembayaran dalam mode Regular/IP, serta memastikan pertanyaan umum dan di luar domain tidak terkena penolakan data pribadi. Confusion matrix tidak diubah; penilaian akhir model tetap perlu menguji ulang semua skenario pada setiap model/mode dan memperbarui label berdasarkan respons terkini.
+
 ## 9. Catatan Validasi dan Hal yang Perlu Diperbarui
 
 Bagian ini penting untuk menjaga kesesuaian antara laporan dan implementasi aktual.
 
-1. **Model LLM pada dokumentasi lama perlu diperbarui.** Dokumen Word menyebut `llama-3.1-8b-instant` sebagai model final, tetapi implementasi terbaru menggunakan `qwen/qwen3.8-27b` karena model lama tidak tersedia pada akun Groq saat pengujian.
+1. **Model LLM pada dokumentasi lama perlu diperbarui.** Dokumen Word menyebut `llama-3.1-8b-instant` sebagai model final, sedangkan default implementasi saat ini adalah `qwen/qwen3.8-27b`. Eksperimen juga membandingkan `openai/gpt-oss-20b` dan `openai/gpt-oss-120b`; laporan perlu membedakan model default aplikasi dari model-model yang diuji.
 2. **Metrik ChromaDB perlu diverifikasi.** Pemeriksaan terhadap koleksi aktif menunjukkan `collection.metadata` bernilai `None`. Karena koleksi dibuat tanpa `metadata={"hnsw:space": "cosine"}`, nilai retrieval yang tampil saat ini tidak boleh langsung dilaporkan sebagai cosine similarity tanpa verifikasi tambahan.
 3. **Dokumentasi lama menyebut koleksi `informatika_uii` pada bagian ingesti, sedangkan kode aktif menggunakan `akademik_uii`.** Nama koleksi pada laporan harus mengikuti kode yang benar-benar digunakan saat eksperimen final.
 4. **Jumlah file knowledge base pada dokumen Word perlu diselaraskan dengan repository.** Repository saat ini memiliki beberapa file JSON untuk periode Ganjil dan Genap, bukan hanya lima file utama.

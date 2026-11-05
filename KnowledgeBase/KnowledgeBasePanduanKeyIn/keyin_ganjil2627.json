@@ -112,6 +112,10 @@
   },
   {
     "question": "Apa link dan batas waktu pendaftaran penjaluran Ganjil 2026/2027?",
+    "alternate_questions": [
+      "What are the link and deadline for track registration for Odd Semester 2026/2027?",
+      "What is the track registration form link and deadline for Fall 2026/2027?"
+    ],
     "answer": "Pendaftaran penjaluran baru, mengulang jalur, atau pindah jalur dilakukan melalui https://s.id/PenjaluranInformatika-Ganjil2627 paling lambat Senin, 31 Agustus 2026 pukul 23.59 WIB. Prodi akan meng-Key-In paket jalur sebelum atau selama masa Key-In."
   },
   {
