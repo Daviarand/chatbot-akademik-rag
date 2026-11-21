@@ -194,6 +194,22 @@
             background-attachment: fixed;
         }
 
+        .assistant-message {
+            min-width: 0;
+            overflow-wrap: anywhere;
+        }
+
+        .assistant-message a {
+            color: #1d4ed8;
+            text-decoration: underline;
+            overflow-wrap: anywhere;
+            word-break: break-all;
+        }
+
+        .assistant-message a:hover {
+            color: #1e40af;
+        }
+
         .assistant-message p {
             margin: 0 0 0.75rem;
         }
@@ -242,7 +258,7 @@
                 </div>
                 <div>
                     <h3 class="font-semibold text-sm">Asisten Akademik UII</h3>
-                    <p id="mode-status" class="text-xs text-gray-300">Mode: Regular</p>
+                    <p id="mode-status" class="text-xs text-gray-300">Program Studi: Informatika Reguler</p>
                 </div>
             </div>
             <div class="flex items-center gap-2">
@@ -272,11 +288,11 @@
         <!-- Form Input Chat -->
         <div class="bg-white p-3 border-t border-gray-200">
             <div class="mb-2 flex items-center justify-between gap-2">
-                <label for="response-mode" class="text-[10px] font-semibold uppercase tracking-[0.16em] text-gray-500">Mode</label>
+                <label for="response-mode" class="text-[10px] font-semibold uppercase tracking-[0.16em] text-gray-500">Program Studi</label>
                 <select id="response-mode"
                     class="rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-black">
-                    <option value="regular">Regular</option>
-                    <option value="ip">International Program</option>
+                    <option value="regular">Informatika Reguler</option>
+                    <option value="ip">Informatika International Program</option>
                 </select>
             </div>
             <form id="chat-form" class="flex items-center gap-2">
@@ -309,6 +325,7 @@
         const chatForm = document.getElementById('chat-form');
         const userInput = document.getElementById('user-input');
         const conversationHistory = [];
+        let sessionContext = null;
 
         function getSelectedMode() {
             return responseMode.value === 'ip' ? 'ip' : 'regular';
@@ -316,8 +333,10 @@
 
         function updateModeStatus() {
             const selectedMode = getSelectedMode();
-            const label = selectedMode === 'ip' ? 'International Program' : 'Regular';
-            modeStatus.textContent = 'Mode: ' + label;
+            const label = selectedMode === 'ip'
+                ? 'Informatika International Program'
+                : 'Informatika Reguler';
+            modeStatus.textContent = 'Program Studi: ' + label;
             responseMode.value = selectedMode;
         }
 
@@ -335,6 +354,7 @@
 
         resetChatBtn.addEventListener('click', () => {
             conversationHistory.length = 0;
+            sessionContext = null;
             chatContainer.innerHTML = `
                 <div class="flex justify-start">
                     <div class="bg-white border border-gray-200 text-black p-3 rounded-2xl rounded-tl-sm shadow-sm max-w-[85%] text-sm">
@@ -356,7 +376,7 @@
 
             const innerDiv = document.createElement('div');
             innerDiv.className = isUser
-                ? 'bg-black text-white p-3 rounded-2xl rounded-tr-sm shadow-sm max-w-[85%] text-sm'
+                ? 'min-w-0 break-words bg-black text-white p-3 rounded-2xl rounded-tr-sm shadow-sm max-w-[85%] text-sm'
                 : 'assistant-message bg-white border border-gray-200 text-black p-3 rounded-2xl rounded-tl-sm shadow-sm max-w-[85%] text-sm';
             innerDiv.innerHTML = isUser ? escapeHtml(text) : formatAssistantMessage(text);
 
@@ -385,11 +405,40 @@
         }
 
         function formatInlineMarkdown(text) {
-            return text
+            const links = [];
+            let formatted = text.replace(
+                /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/gi,
+                (match, label, url) => {
+                    const index = links.push(
+                        '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' +
+                        label + '</a>'
+                    ) - 1;
+                    return '\u0000' + index + '\u0000';
+                }
+            );
+
+            formatted = formatted
                 .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
                 .replace(/__(.+?)__/g, '<strong>$1</strong>')
                 .replace(/\*([^*\n]+)\*/g, '<em>$1</em>')
                 .replace(/_([^_\n]+)_/g, '<em>$1</em>');
+
+            formatted = formatted.replace(
+                /https?:\/\/[^\s<]+/gi,
+                (url) => {
+                    const trailingPunctuation = url.match(/[.,!?;:]+$/);
+                    const suffix = trailingPunctuation ? trailingPunctuation[0] : '';
+                    const safeUrl = suffix ? url.slice(0, -suffix.length) : url;
+                    return '<a href="' + safeUrl +
+                        '" target="_blank" rel="noopener noreferrer">' +
+                        safeUrl + '</a>' + suffix;
+                }
+            );
+
+            return formatted.replace(
+                /\u0000(\d+)\u0000/g,
+                (placeholder, index) => links[Number(index)]
+            );
         }
 
         function formatAssistantMessage(text) {
@@ -468,6 +517,7 @@
                     body: JSON.stringify({
                         query: query,
                         mode: selectedMode,
+                        session_context: sessionContext,
                         conversation_history: conversationHistory.slice(-11, -1)
                     })
                 });
@@ -477,7 +527,10 @@
                 document.getElementById(loadingId).remove();
 
                 if (data.answer) {
-                    addMessage(data.answer);
+                    sessionContext = data.session_context || sessionContext;
+                    addMessage(data.greeting
+                        ? data.greeting + '\n\n' + data.answer
+                        : data.answer);
                     addResponseTime(responseTimeSeconds);
                     conversationHistory.push({ role: 'assistant', content: data.answer });
                 } else {

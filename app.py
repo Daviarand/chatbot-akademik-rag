@@ -210,40 +210,178 @@ def normalize_mode(mode):
     return MODE_ALIASES.get(mode_key, "regular")
 
 
-PERSONAL_REFERENCE_PATTERN = re.compile(
-    r"\b(?:my|mine|myself|saya|aku|milik saya|punya saya|saya sendiri)\b"
-    r"|\bi (?:registered|enrolled|paid)\b",
+PERSONAL_RECORD_TERMS = (
+    r"(?:gpa|ipk|grade|grades|nilai|tuition|payment|fee|spp|ukt|tagihan|"
+    r"class times|class schedule|classes?|courses?|schedule|timetable|"
+    r"room numbers?|registered courses|enrolled courses|course registration|"
+    r"jadwal|kelas|mata kuliah|ruangan|semester|angkatan|academic record)"
+)
+PERSONAL_RECORD_REFERENCE_PATTERN = re.compile(
+    r"\b(?:my|mine|my own|saya|aku|milik saya|punya saya)\s+"
+    r"(?:(?:current|currently|personal|saat ini|sekarang)\s+)?"
+    + PERSONAL_RECORD_TERMS
+    + r"\b|\b"
+    + PERSONAL_RECORD_TERMS
+    + r"(?:\s+[\w'’-]+){0,2}\s+(?:saya|aku|milik saya|my|mine)\b",
     re.IGNORECASE,
 )
-PERSONAL_RECORD_TOPIC_PATTERN = re.compile(
-    r"\b(?:gpa|ipk|grade|grades|nilai|tuition|payment|fee|spp|ukt|tagihan|"
-    r"class times|class schedule|classes?|courses?|schedule|timetable|room numbers?|"
-    r"registered courses|enrolled courses|course registration|"
-    r"jadwal|kelas|mata kuliah|ruangan)\b",
+FAMILY_MEMBER_PATTERN = r"(?:anak saya|putra saya|putri saya|my child|my son|my daughter)"
+FAMILY_RECORD_REFERENCE_PATTERN = re.compile(
+    r"\b"
+    + FAMILY_MEMBER_PATTERN
+    + r"(?:\s+[\w'’-]+){0,4}\s+"
+    + PERSONAL_RECORD_TERMS
+    + r"\b|\b"
+    + PERSONAL_RECORD_TERMS
+    + r"(?:\s+[\w'’-]+){0,4}\s+"
+    + FAMILY_MEMBER_PATTERN
+    + r"\b",
+    re.IGNORECASE,
+)
+PERSONAL_CLAUSE_SEPARATOR_PATTERN = re.compile(
+    r"[,;.!?]|\b(?:dan|and)\b",
+    re.IGNORECASE,
+)
+
+NAME_TOKEN = r"[^\W\d_][\w.'’\-]*(?:\s+[^\W\d_][\w.'’\-]*){0,3}"
+PARENT_INTRO_PATTERN = re.compile(
+    r"\b(?:saya|aku)\s+(?:adalah\s+)?(?:orang tua|wali)"
+    r"(?:\s+dari\s+(?P<child_name>" + NAME_TOKEN + r")(?=\s+(?:mahasiswa|mahasiswi|"
+    r"student|dan saya|dan ingin|yang)\b|[,.;!?]|$))?",
+    re.IGNORECASE,
+)
+ENGLISH_PARENT_INTRO_PATTERN = re.compile(
+    r"\b(?:i am|i'm|we are|we're)\s+(?:a\s+)?(?:parent|guardian|mother|father)"
+    r"(?:\s+of\s+(?P<child_name>" + NAME_TOKEN + r")(?=,|[.;!?]|$))?",
+    re.IGNORECASE,
+)
+STUDENT_NAME_PATTERN = re.compile(
+    r"\b(?:saya|aku)\s+(?:(?:bernama|adalah)\s+)?(?P<name>" + NAME_TOKEN + r")"
+    r"\s*,?\s+(?:(?:saya|aku)\s+)?(?:adalah\s+)?(?:mahasiswa|mahasiswi)\b",
+    re.IGNORECASE,
+)
+ENGLISH_STUDENT_NAME_PATTERN = re.compile(
+    r"\b(?:i am|i'm)\s+(?P<name>" + NAME_TOKEN + r")\s*,?\s+(?:a\s+)?student\b",
+    re.IGNORECASE,
+)
+EXPLICIT_NAME_PATTERN = re.compile(
+    r"\b(?:nama saya|my name is)\s+(?P<name>" + NAME_TOKEN + r")"
+    r"(?=\s*(?:[,.;!?]|$)|\s+(?:dan saya|and i|mahasiswa|mahasiswi|student|"
+    r"ingin|mau|saya)\b)",
     re.IGNORECASE,
 )
 
 
 def get_personal_record_refusal(question, mode):
     normalized_question = " ".join(str(question or "").split())
-    if not (
-        PERSONAL_REFERENCE_PATTERN.search(normalized_question)
-        and PERSONAL_RECORD_TOPIC_PATTERN.search(normalized_question)
+    clauses = PERSONAL_CLAUSE_SEPARATOR_PATTERN.split(normalized_question)
+    if not any(
+        PERSONAL_RECORD_REFERENCE_PATTERN.search(clause)
+        or FAMILY_RECORD_REFERENCE_PATTERN.search(clause)
+        for clause in clauses
     ):
         return None
 
     if normalize_mode(mode) == "ip":
         return (
-            "I cannot access or verify individual student records, including GPA, "
-            "tuition-payment status, or personal class schedules. Please check your "
-            "own account through UII Gateway/UIIRAS."
+            "I cannot access or disclose individual student records, including a "
+            "student's semester, GPA, tuition-payment status, or personal class "
+            "schedule. Please have the student check their own UII Gateway/UIIRAS account."
         )
 
     return (
-        "Saya tidak dapat mengakses atau memverifikasi data akademik pribadi, "
-        "seperti IPK, status pembayaran, atau jadwal kuliah individual. Silakan "
-        "cek akun UII Gateway/UIIRAS Anda sendiri."
+        "Saya tidak dapat mengakses atau membagikan data akademik pribadi mahasiswa, "
+        "termasuk semester, IPK, status pembayaran, atau jadwal kuliah individual. "
+        "Silakan minta mahasiswa mengecek akun UII Gateway/UIIRAS miliknya sendiri."
     )
+
+
+def _validated_session_context(value):
+    if not isinstance(value, dict):
+        return None
+
+    role = value.get("role")
+    if role not in {"student", "parent", "unknown"}:
+        return None
+
+    context = {"role": role}
+    name = value.get("preferred_name")
+    if isinstance(name, str):
+        name = name.strip()
+        if (
+            0 < len(name) <= 60
+            and all(character.isalpha() or character in " .'’-"
+                    for character in name)
+        ):
+            context["preferred_name"] = name
+    return context
+
+
+def identify_user(question):
+    normalized_question = str(question or "")
+    parent_match = PARENT_INTRO_PATTERN.search(normalized_question)
+    english_parent_match = ENGLISH_PARENT_INTRO_PATTERN.search(normalized_question)
+    if parent_match or english_parent_match:
+        child_name = (
+            parent_match.group("child_name")
+            if parent_match
+            else english_parent_match.group("child_name")
+        )
+        return {"role": "parent"}, child_name
+
+    for pattern in (STUDENT_NAME_PATTERN, ENGLISH_STUDENT_NAME_PATTERN):
+        match = pattern.search(normalized_question)
+        if match:
+            return {
+                "role": "student",
+                "preferred_name": match.group("name").strip(),
+            }, match.group("name").strip()
+
+    match = EXPLICIT_NAME_PATTERN.search(normalized_question)
+    if match:
+        name = match.group("name").strip()
+        return {"role": "unknown", "preferred_name": name}, name
+
+    return None, None
+
+
+def build_session_greeting(session_context, mode):
+    if not session_context:
+        return None
+    if session_context.get("role") == "parent":
+        if normalize_mode(mode) == "ip":
+            return "Hello, and thank you for reaching out."
+        return "Baik, Bapak/Ibu."
+
+    name = session_context.get("preferred_name")
+    if not name:
+        return None
+    greeting = "Hello" if normalize_mode(mode) == "ip" else "Halo"
+    return f"{greeting}, {name}."
+
+
+def redact_personal_name(text, names):
+    redacted_text = str(text or "")
+    redacted_text = PARENT_INTRO_PATTERN.sub("", redacted_text)
+    redacted_text = ENGLISH_PARENT_INTRO_PATTERN.sub("", redacted_text)
+    for name in names:
+        if name:
+            redacted_text = re.sub(
+                r"(?<!\w)" + re.escape(name) + r"(?!\w)",
+                "",
+                redacted_text,
+                flags=re.IGNORECASE,
+            )
+    redacted_text = re.sub(
+        r"\b(?:nama saya|my name is)\s*(?=[,.;!?]|\b(?:dan saya|and i)\b)",
+        "",
+        redacted_text,
+        flags=re.IGNORECASE,
+    )
+    redacted_text = re.sub(r"\b(saya|aku)\s*,\s*", r"\1 ", redacted_text, flags=re.IGNORECASE)
+    redacted_text = re.sub(r"\s+([,.;:!?])", r"\1", redacted_text)
+    redacted_text = re.sub(r"([,.;:])(?:\s*[,.;:])+", r"\1", redacted_text)
+    return re.sub(r"\s+", " ", redacted_text).strip(" ,;:.!?")
 
 
 def is_contextual_follow_up(question):
@@ -317,8 +455,12 @@ GLOSARIUM ISTILAH LOKAL:
 Batasan data pribadi:
 - Anda tidak memiliki akses ke rekam akademik individu, termasuk IPK, status pembayaran,
   atau jadwal kelas pribadi. Jangan meminta nama, NIM, kata sandi, atau bukti pembayaran.
+- Jangan mengakses atau mengungkap data pribadi mahasiswa berdasarkan klaim bahwa pengguna
+  adalah orang tua/wali.
 - Jangan memperlakukan pertanyaan atau data historis mahasiswa lain di dokumen sebagai
   data pengguna saat ini. Arahkan pengguna untuk mengecek akun UII Gateway/UIIRAS miliknya.
+- Jangan menyalin atau mengeja ulang nama pengguna. Sapaan personal ditambahkan oleh aplikasi
+  menggunakan ejaan persis yang diberikan pengguna.
 
 Aturan percakapan:
 1. Pertanyaan umum seperti profil prodi, lokasi lab, atau komunitas dapat langsung dijawab secara padat.
@@ -365,21 +507,58 @@ def chat():
     if not user_query:
         return jsonify({"error": "Query tidak boleh kosong"}), 400
 
+    identified_context, identified_name = identify_user(user_query)
+    session_context = _validated_session_context(data.get("session_context")) or {}
+    if identified_context:
+        if identified_context["role"] in {"student", "parent"}:
+            session_context = identified_context
+        elif session_context.get("role") != "parent":
+            session_context.update(identified_context)
+    elif not session_context:
+        for message in conversation_history:
+            if isinstance(message, dict) and message.get("role") == "user":
+                previous_identity, _ = identify_user(message.get("content", ""))
+                if previous_identity:
+                    session_context = previous_identity
+
+    personal_names = [identified_name, session_context.get("preferred_name")]
+    greeting = (
+        build_session_greeting(identified_context, mode)
+        if identified_context
+        else None
+    )
+
     personal_record_refusal = get_personal_record_refusal(user_query, mode)
     if personal_record_refusal:
-        return jsonify({
+        response_body = {
             "answer": personal_record_refusal,
             "sources": [],
-            "mode": mode
-        })
+            "mode": mode,
+            "session_context": session_context,
+        }
+        if greeting:
+            response_body["greeting"] = greeting
+        return jsonify(response_body)
 
     contextual_history = conversation_history[-6:] if is_contextual_follow_up(user_query) else []
+    sanitized_history = []
+    for message in contextual_history:
+        if not isinstance(message, dict):
+            continue
+        content = str(message.get("content", ""))
+        _, history_name = identify_user(content)
+        sanitized_history.append({
+            "role": message.get("role"),
+            "content": redact_personal_name(content, personal_names + [history_name]),
+        })
+
     previous_user_queries = [
-        message.get("content", "").strip()
-        for message in contextual_history
+        message["content"].strip()
+        for message in sanitized_history
         if message.get("role") == "user" and message.get("content", "").strip()
     ]
-    retrieval_query = " ".join(previous_user_queries[-2:] + [user_query])
+    safe_query = redact_personal_name(user_query, personal_names)
+    retrieval_query = " ".join(previous_user_queries[-2:] + [safe_query])
     retrieval_query = expand_query_with_glossary(retrieval_query, mode)
 
     mode_filter = {
@@ -404,12 +583,16 @@ def chat():
     context = "\n\n".join(results['documents'][0])
 
     try:
-        answer = get_groq_response(user_query, context, contextual_history, mode=mode)
-        return jsonify({
+        answer = get_groq_response(safe_query, context, sanitized_history, mode=mode)
+        response_body = {
             "answer": answer,
             "sources": results['metadatas'][0],
-            "mode": mode
-        })
+            "mode": mode,
+            "session_context": session_context,
+        }
+        if greeting:
+            response_body["greeting"] = greeting
+        return jsonify(response_body)
     except Exception as e:
         print(f"ERROR TERDETEKSI: {str(e)}")
         return jsonify({"error": str(e)}), 500
