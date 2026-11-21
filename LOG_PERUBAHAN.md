@@ -35,12 +35,14 @@ flowchart LR
     STUDENT[Mahasiswa] --> UI[index.php: widget chat]
     UI -->|query, mode, riwayat| API[Flask API: POST /chat]
     API --> PREP[Validasi query dan normalisasi mode]
-    PREP --> QUERY[Perluas query dengan glossary]
+    PREP --> IDENTITY[Deteksi perkenalan opsional dan redaksi nama]
+    IDENTITY --> QUERY[Perluas query dengan glossary]
     QUERY --> RETRIEVE[Embedding query dan semantic retrieval]
     STORE -->|Top 5 dokumen| RETRIEVE
     RETRIEVE --> PROMPT[Susun prompt: pertanyaan, konteks, riwayat, glossary]
-    PREP --> PROMPT
+    IDENTITY --> PROMPT
     PROMPT --> LLM[Groq Chat Completions API<br/>GROQ_MODEL: Qwen 27B | GPT-OSS 20B | GPT-OSS 120B]
+    PREP -->|Pertanyaan rekam pribadi| REFUSAL[Penolakan tanpa retrieval atau LLM]
     MODE{Mode jawaban}
     PREP --> MODE
     MODE -->|Regular| ID[Instruksi Bahasa Indonesia]
@@ -48,7 +50,10 @@ flowchart LR
     ID --> PROMPT
     EN --> PROMPT
     LLM --> ANSWER[Jawaban sesuai mode]
-    ANSWER -->|JSON answer dan sources| UI
+    IDENTITY --> GREETING[Tambahkan sapaan deterministik]
+    ANSWER --> GREETING
+    REFUSAL --> GREETING
+    GREETING -->|JSON answer, greeting, dan sources| UI
   end
 ```
 
@@ -81,6 +86,8 @@ Diagram ini dapat dilihat di VS Code melalui **Markdown: Open Preview** (`Ctrl+S
 | 2026-09-18 | Endpoint frontend | `http://localhost:5000/chat` | `http://127.0.0.1:5000/chat` | Menghindari potensi latensi resolusi nama host lokal pada Windows |
 | 2026-09-18 | Format jawaban UI | Markdown dari LLM tampil mentah sebagai karakter `*` | Formatter frontend menampilkan paragraf, teks tebal/miring, daftar bernomor, dan bullet list | Meningkatkan keterbacaan jawaban pada floating widget berukuran kecil |
 | 2026-11-04 | Dokumentasi arsitektur model | Diagram hanya menampilkan Qwen sebagai model LLM | Diagram menunjukkan satu jalur inferensi Groq dengan tiga alternatif model yang dipilih melalui `GROQ_MODEL` | Memperjelas bahwa eksperimen membandingkan model tanpa mengubah pipeline RAG |
+| 2026-11-21 | Personalisasi percakapan dan label pilihan | Tidak ada konteks sapaan pengguna; kontrol UI berlabel `Mode` | Nama/peran yang disebut eksplisit disimpan sementara di sesi browser, nama disapa secara deterministik dan disamarkan sebelum prompt LLM; kontrol ditampilkan sebagai `Program Studi` | Membuat percakapan lebih natural tanpa mengandalkan model untuk menyalin ejaan nama atau menganggap peran sebagai autentikasi |
+| 2026-11-21 | Tampilan tautan di chat | URL panjang ditampilkan sebagai teks biasa dan dapat melampaui bubble | URL dibungkus di dalam bubble dan tautan HTTP/HTTPS ditampilkan sebagai link yang dapat diklik | Memudahkan akses ke sumber dan menjaga layout chat pada layar sempit |
 
 ## 4. Catatan Perubahan Per Komponen
 
@@ -443,6 +450,20 @@ Pertanyaan historis pada `KeyInTalk_Ganjil_2026_2027.json` sebelumnya menyebut I
 Endpoint `/chat` kini menolak pertanyaan tentang rekam akademik individu sebelum retrieval dan pemanggilan LLM, dengan respons sesuai mode yang mengarahkan mahasiswa mengecek akun UII Gateway/UIIRAS sendiri. Prompt juga melarang model meminta data identitas atau menganggap rekaman mahasiswa lain sebagai data pengguna. Tes otomatis mencakup empat pertanyaan pribadi dalam mode Regular dan IP, serta pemeriksaan agar pertanyaan umum tentang IPK, pembayaran kuliah, dan pertanyaan di luar domain tidak terkena penolakan pribadi.
 
 Validasi ini memastikan jalur kode dan retrieval lokal, bukan generasi langsung seluruh model. Tes mencakup contoh pertanyaan IPK, jadwal, dan pembayaran dalam mode Regular/IP, serta memastikan pertanyaan umum dan di luar domain tidak terkena penolakan data pribadi. Confusion matrix tidak diubah; penilaian akhir model tetap perlu menguji ulang semua skenario pada setiap model/mode dan memperbarui label berdasarkan respons terkini.
+
+### 8.8 Identifikasi percakapan dan personalisasi sapaan
+
+Perkenalan pengguna diproses secara opsional dari teks chat, tanpa formulir awal. Pola eksplisit seperti “Saya Daviar, mahasiswa ...”, “Nama saya Daviar”, atau “Saya orang tua dari ...” dapat menetapkan konteks sesi sementara. Nama yang berhasil dikenali dari pola tersebut disimpan di memori JavaScript selama halaman chat aktif dan dihapus saat tombol Reset ditekan; konteks tersebut bukan autentikasi dan tidak memberikan akses ke data akademik. Jika perkenalan tidak dikenali, chatbot tidak menebak nama dan memakai sapaan netral.
+
+Sapaan nama dibuat oleh aplikasi, bukan LLM, sehingga ejaan yang disapa mengikuti teks perkenalan persis. Nama pengguna (dan nama anak yang terdeteksi pada perkenalan orang tua) disamarkan sebelum teks pertanyaan/riwayat dikirim ke retrieval dan Groq. Sapaan orang tua hanya “Bapak/Ibu” atau sapaan netral bahasa Inggris; nama anak tidak digunakan sebagai sapaan. Pengguna yang tidak memperkenalkan diri tetap mendapat respons tanpa sapaan nama.
+
+Penolakan deterministik untuk rekam pribadi juga mencakup pola pertanyaan tentang semester/IPK/pembayaran/jadwal milik pengguna atau anaknya. Pertanyaan informasi akademik umum tetap diteruskan ke KB; penyebutan peran orang tua saja tidak menyebabkan pertanyaan umum ditolak. Pilihan UI yang sebelumnya berlabel `Mode` kini ditampilkan sebagai `Program Studi` dengan opsi Informatika Reguler dan Informatika International Program; nilai API `regular`/`ip` tetap sama.
+
+Validasi regresi: 8 tes lulus, termasuk ejaan nama yang sengaja dibuat tidak biasa pada perkenalan Indonesia dan Inggris, penyamaran nama sebelum LLM/retrieval, sapaan orang tua tanpa nama anak, retensi konteks sepanjang sesi, penolakan data pribadi anak, serta pertanyaan saran semester umum yang tidak boleh salah ditolak.
+
+### 8.9 Format dan tautan pada bubble chat
+
+Jawaban assistant kini membungkus URL panjang di dalam lebar bubble agar tidak meluber pada layar sempit. URL berprotokol HTTP/HTTPS, baik URL biasa maupun markdown `[teks](URL)`, ditampilkan sebagai tautan yang dapat diklik dan dibuka pada tab baru dengan `rel="noopener noreferrer"`. Pemrosesan tetap dilakukan setelah HTML escaping untuk menjaga teks jawaban tidak ditafsirkan sebagai markup.
 
 ## 9. Catatan Validasi dan Hal yang Perlu Diperbarui
 
