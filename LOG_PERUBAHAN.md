@@ -9,6 +9,8 @@ Dokumen ini mencatat perubahan arsitektur, kode, model, basis pengetahuan, dan f
 | Item | Keterangan |
 |---|---|
 | Nama proyek | Chatbot Layanan Informasi Akademik Program Studi Informatika UII |
+| Judul skripsi (usulan kerja; belum final) | Pengembangan Chatbot Layanan Akademik Program Studi Informatika Universitas Islam Indonesia Berbasis Retrieval-Augmented Generation (RAG) |
+| Status judul | Fokus kerja sementara dipilih: pengembangan chatbot; judul tetap memerlukan persetujuan dosen pembimbing |
 | Peneliti | Daviar Andrianoe Arhaburizky |
 | NIM | 23523193 |
 | Program studi | Informatika - Program Sarjana, Fakultas Teknologi Industri, UII |
@@ -31,18 +33,19 @@ flowchart LR
     VECTORS --> STORE[(ChromaDB lokal)]
   end
 
-  subgraph ONLINE[Alur chat mahasiswa]
-    STUDENT[Mahasiswa] --> UI[index.php: widget chat]
+  subgraph ONLINE[Alur percakapan pengguna]
+    USER[Pengguna] --> UI[index.php: widget chat]
     UI -->|query, mode, riwayat| API[Flask API: POST /chat]
     API --> PREP[Validasi query dan normalisasi mode]
     PREP --> IDENTITY[Deteksi perkenalan opsional dan redaksi nama]
+    PREP -->|Pertanyaan rekam pribadi| REFUSAL[Penolakan tanpa retrieval atau LLM]
+    PREP -->|Paket: cohort dan semester dikenali| PACKAGE[Jawaban kanonis dari metadata KB]
     IDENTITY --> QUERY[Perluas query dengan glossary]
     QUERY --> RETRIEVE[Embedding query dan semantic retrieval]
     STORE -->|Top 5 dokumen| RETRIEVE
     RETRIEVE --> PROMPT[Susun prompt: pertanyaan, konteks, riwayat, glossary]
     IDENTITY --> PROMPT
     PROMPT --> LLM[Groq Chat Completions API<br/>GROQ_MODEL: Qwen 27B | GPT-OSS 20B | GPT-OSS 120B]
-    PREP -->|Pertanyaan rekam pribadi| REFUSAL[Penolakan tanpa retrieval atau LLM]
     MODE{Mode jawaban}
     PREP --> MODE
     MODE -->|Regular| ID[Instruksi Bahasa Indonesia]
@@ -54,6 +57,7 @@ flowchart LR
     ANSWER --> GREETING
     REFUSAL --> GREETING
     GREETING -->|JSON answer, greeting, dan sources| UI
+    PACKAGE -->|JSON answer, mode, dan sources| UI
   end
 ```
 
@@ -85,9 +89,16 @@ Diagram ini dapat dilihat di VS Code melalui **Markdown: Open Preview** (`Ctrl+S
 | 2026-09-18 | System prompt | Instruksi hanya berisi persona dan konteks dokumen | Ditambahkan aturan pertanyaan umum, klarifikasi konteks, pembedaan angkatan/semester, dan batasan jawaban | Mengurangi salah tafsir pada jadwal Key-In, kurikulum, pendadaran, remedi, dan penjaluran |
 | 2026-09-18 | Endpoint frontend | `http://localhost:5000/chat` | `http://127.0.0.1:5000/chat` | Menghindari potensi latensi resolusi nama host lokal pada Windows |
 | 2026-09-18 | Format jawaban UI | Markdown dari LLM tampil mentah sebagai karakter `*` | Formatter frontend menampilkan paragraf, teks tebal/miring, daftar bernomor, dan bullet list | Meningkatkan keterbacaan jawaban pada floating widget berukuran kecil |
+| 2026-10-01 / `3a57345` | Panduan Key-In dan diagram model | KB belum memuat panduan lengkap Ganjil 2026/2027 | FAQ periode ditambahkan dan diagram arsitektur model mulai didokumentasikan | Menjawab pertanyaan periode akademik tertentu dan menjelaskan posisi model pada pipeline |
+| 2026-10-15 / `7a0efe4` | Benchmark dan bukti evaluasi | Perbandingan model/latensi belum tersimpan sebagai data terstruktur | `benchmark_models.py`, tabel perbandingan, serta CSV awal ditambahkan | Mendukung pencatatan hasil model, jawaban, sumber, status request, dan latensi |
+| 2026-10-23 / `33a6bbf` | FAQ alternatif dan metadata | FAQ dan pencarian belum cukup menangani parafrasa/periode | Variasi pertanyaan serta metadata ingest/KB diperluas | Meningkatkan kecocokan pertanyaan tanpa mengubah tujuan pipeline |
+| 2026-10-25 / `4bd58a0` | Evaluasi P06 | Belum ada satu dokumen P06 lengkap yang merekam evaluasi | Dokumen P06 dan pembaruan terkait pertanyaan KB disimpan | Menyediakan baseline hasil positif/negatif dan bahan audit sebelum perbaikan berikutnya |
 | 2026-11-04 | Dokumentasi arsitektur model | Diagram hanya menampilkan Qwen sebagai model LLM | Diagram menunjukkan satu jalur inferensi Groq dengan tiga alternatif model yang dipilih melalui `GROQ_MODEL` | Memperjelas bahwa eksperimen membandingkan model tanpa mengubah pipeline RAG |
+| 2026-11-05 / `91b2620` | Guard data pribadi dan tes regresi | Penanganan permintaan rekam pribadi belum memiliki cakupan tes unit khusus | `tests/test_personal_record_guard.py` ditambahkan untuk menguji skenario guard | Mencegah chatbot mengarang atau mengklaim akses ke rekam akademik individu |
 | 2026-11-21 | Personalisasi percakapan dan label pilihan | Tidak ada konteks sapaan pengguna; kontrol UI berlabel `Mode` | Nama/peran yang disebut eksplisit disimpan sementara di sesi browser, nama disapa secara deterministik dan disamarkan sebelum prompt LLM; kontrol ditampilkan sebagai `Program Studi` | Membuat percakapan lebih natural tanpa mengandalkan model untuk menyalin ejaan nama atau menganggap peran sebagai autentikasi |
 | 2026-11-21 | Tampilan tautan di chat | URL panjang ditampilkan sebagai teks biasa dan dapat melampaui bubble | URL dibungkus di dalam bubble dan tautan HTTP/HTTPS ditampilkan sebagai link yang dapat diklik | Memudahkan akses ke sumber dan menjaga layout chat pada layar sempit |
+| 2026-11-24 | Retrieval paket mata kuliah berbasis cohort | FAQ paket yang benar bercampur dengan konteks periode/semester lain dan jawaban tetap bergantung pada generasi LLM | Metadata `fact_type`, `cohort_year`, dan `semester` digunakan untuk mengambil jawaban paket yang cocok secara langsung; cohort yang belum tercatat tidak dipinjamkan jawaban cohort lain | Menghindari jawaban “tidak tersedia” saat fakta ada dan mencegah asumsi paket sama lintas angkatan |
+| 2026-11-26 | Audit naskah, fokus kerja, dan implementasi | Naskah Bab 1–3 dan catatan eksperimen belum seluruhnya selaras dengan kode aktif dan bukti pengujian | Ketidaksesuaian, batas bukti, fokus kerja pengembangan chatbot, judul usulan, dan roadmap enam tahap dicatat pada Bagian 9–13 | Menjaga revisi skripsi dan paper berbasis kondisi terverifikasi; audit ini tidak mengubah kode maupun naskah |
 
 ## 4. Catatan Perubahan Per Komponen
 
@@ -132,6 +143,8 @@ Perubahan dan fungsi utama:
 
 - Menggunakan embedding yang sama dengan proses ingest.
 - Mengambil lima dokumen teratas melalui `n_results=5`.
+- Memeriksa permintaan rekam akademik pribadi sebelum retrieval dan pemanggilan LLM; jawaban penolakan mengarahkan pengguna memeriksa akun UII Gateway/UIIRAS sendiri.
+- Menangani permintaan paket mata kuliah yang menyebut cohort dan semester melalui lookup metadata dan jawaban kanonis, tanpa pemanggilan LLM.
 - Memvalidasi JSON menggunakan `request.get_json(silent=True) or {}`.
 - Menolak query kosong dengan HTTP 400.
 - Menerima `conversation_history` dan hanya memproses role `user` serta `assistant` dengan isi yang valid.
@@ -197,7 +210,7 @@ Knowledge base dipisahkan secara modular agar sumber informasi mudah dirawat dan
 | `KnowledgeBasePanduanKeyIn` | Jadwal, aturan, paket mata kuliah, syarat, dan prosedur Key-In |
 | `KnowledgeBasePenjelasanAkademikIF` | Penjelasan akademik Informatika |
 
-Pada hasil ingest terakhir setelah penambahan alias pertanyaan multilingual, koleksi `akademik_uii` berisi 665 dokumen vektor. Jumlah ini dapat berubah ketika JSON atau jumlah alias pertanyaan diperbarui dan ingestion dijalankan kembali.
+Salah satu snapshot ingest setelah penambahan alias pertanyaan multilingual mencatat 665 dokumen vektor. Pemeriksaan langsung pada 2026-11-26 mencatat 667 vektor. Jumlah dapat berubah ketika JSON atau jumlah alias pertanyaan diperbarui dan ingestion dijalankan kembali; untuk eksperimen, gunakan jumlah pada snapshot yang benar-benar diuji.
 
 ### Penambahan FAQ Panduan Key-In
 
@@ -223,16 +236,16 @@ Pertanyaan masuk
             +-- Konteks belum tersedia: minta informasi yang kurang
 ```
 
-Contoh konteks yang dapat diminta:
+Konteks akademik non-sensitif yang dapat diminta untuk memperjelas jawaban:
 
 - Angkatan atau tahun masuk.
 - Semester saat ini.
 - Kelas atau jalur Reguler/IP.
 - Tahun akademik dan periode Ganjil/Genap.
 - Jenis Key-In: reguler, revisi, atau penjaluran.
-- Status pembayaran atau status penjaluran bila relevan.
+- Periode Ganjil/Genap atau jenis proses akademik yang ditanyakan.
 
-Data konteks hanya disimpan di memori JavaScript selama sesi halaman aktif. Belum ada penyimpanan profil pengguna secara permanen ke database.
+Data konteks sesi hanya disimpan sementara di sisi browser selama sesi halaman aktif. Perkenalan nama/peran bersifat pernyataan pengguna, bukan autentikasi atau verifikasi status mahasiswa/orang tua. Chatbot tidak meminta kredensial atau data identitas untuk mengakses rekam akademik pribadi, dan tidak ada penyimpanan profil pengguna permanen ke database yang dibuktikan pada implementasi saat ini.
 
 ## 7.1 Arsitektur Regular vs International Program (Satu KB, Mode Runtime)
 
@@ -282,15 +295,19 @@ flowchart TD
   HISTORY --> PROMPT
   REG --> PROMPT
   IP --> PROMPT
-  PROMPT --> GROQ[Groq API dengan model Qwen]
+  PROMPT --> GROQ[Groq API: model dipilih melalui GROQ_MODEL]
   GROQ --> ANSWER[Hasilkan jawaban sesuai bahasa mode aktif]
+  VALID -->|Rekam akademik pribadi| REFUSAL[Penolakan deterministik; tanpa retrieval/LLM]
+  VALID -->|Paket dengan cohort dan semester yang dikenali| PACKAGE[Lookup metadata dan jawaban kanonis]
   ANSWER --> RESULT[Respons JSON: answer, sources, dan mode]
+  REFUSAL --> RESULT
+  PACKAGE --> RESULT
   RESULT --> UI
 ```
 
-Embedding `paraphrase-multilingual-MiniLM-L12-v2` mendukung pencarian lintas Bahasa Indonesia dan Inggris pada knowledge base yang sama. Tidak ada komponen penerjemah terpisah: mode IP mengirim instruksi Bahasa Inggris ke Qwen, sementara query dan retrieval tetap menggunakan embedding multilingual. Knowledge base berasal dari berbagai file JSON, termasuk Panduan Key-In dan Key-in Talk, bukan hanya satu file `KeyInTalk`.
+Embedding `paraphrase-multilingual-MiniLM-L12-v2` mendukung pencarian lintas Bahasa Indonesia dan Inggris pada knowledge base yang sama. Tidak ada komponen penerjemah terpisah: mode IP mengirim instruksi Bahasa Inggris, sementara query dan retrieval tetap menggunakan embedding multilingual. Model generasi ditentukan oleh `GROQ_MODEL`; pilihan eksperimen yang tercatat adalah Qwen 27B, GPT-OSS 20B, dan GPT-OSS 120B. Knowledge base berasal dari berbagai file JSON, termasuk Panduan Key-In dan Key-in Talk, bukan hanya satu file `KeyInTalk`.
 
-Diagram ini lebih rinci daripada alur tingkat tinggi karena menampilkan pemilihan dan normalisasi mode, query berbasis riwayat, perluasan glossary, retrieval Top-5, metadata filter, penyusunan prompt, pemanggilan Qwen, serta format respons API. Filter mode mengikuti metadata `program_scope` jika query ChromaDB dengan filter berhasil; kode juga memiliki fallback retrieval tanpa filter apabila filter tersebut menimbulkan exception.
+Diagram ini lebih rinci daripada alur tingkat tinggi karena menampilkan pemilihan dan normalisasi mode, query berbasis riwayat, perluasan glossary, retrieval Top-5, metadata filter, penyusunan prompt, model Groq yang dipilih melalui konfigurasi, serta format respons API. Filter mode mengikuti metadata `program_scope` jika query ChromaDB dengan filter berhasil; kode juga memiliki fallback retrieval tanpa filter apabila filter tersebut menimbulkan exception.
 
 ### 7.2 Metadata KB dan filter retrieval mode
 
@@ -321,6 +338,8 @@ Tujuan utama dari penguatan glossary ini adalah menjaga agar istilah lokal UII t
 
 ## 8. Pengujian yang Telah Dilakukan
 
+Angka jumlah dokumen pada tabel dan catatan historis di bawah merupakan snapshot dari waktu ingest yang berbeda, bukan jumlah yang harus selalu sama. Jumlah dan konfigurasi koleksi harus dicatat bersama setiap eksperimen final. Pemeriksaan langsung pada 2026-11-26 menemukan koleksi lokal berisi 667 vektor.
+
 | Pengujian | Hasil |
 |---|---|
 | Compile Python `app.py` | Berhasil menggunakan `python -m py_compile app.py` |
@@ -335,6 +354,7 @@ Tujuan utama dari penguatan glossary ini adalah menjaga agar istilah lokal UII t
 | Uji semantic retrieval SKS kelulusan | Dokumen beban studi berada pada hasil teratas dengan distance 0.2721 |
 | Uji semantic retrieval jadwal revisi | Dokumen jadwal Key-In revisi berada pada hasil teratas dengan distance 0.1179 |
 | Uji semantic retrieval pertanyaan semester/kelas | Dokumen rekomendasi kelas FSD semester 3 berada pada hasil teratas dengan distance 0.2404 |
+| Tes unit/regresi yang tersedia pada 2026-11-26 | 13 tes lulus menggunakan `python -m unittest discover -s tests -v`; mencakup personal-record guard, identifikasi/personalisasi sesi, dan resolusi paket cohort |
 
 ### 8.1 Pengujian skenario nyata mahasiswa
 
@@ -360,13 +380,15 @@ Verifikasi khusus dilakukan untuk dua poin PR sebelum pengisian Google Form:
 | Menambahkan Knowledge Base Key-In Talk Ganjil 2026/2027 | File `KnowledgeBase/KnowledgeBaseKeyInTalk/KeyInTalk_Ganjil_2026_2027.json` tersedia dan koleksi aktif memuat 96 dokumen dari file tersebut. | Selesai secara implementasi dan ingest |
 | Menambahkan fitur Informatika Regular dan IP | Endpoint menerima `mode=regular` dan `mode=ip`; pertanyaan umum dan pertanyaan berbasis KB baru menghasilkan HTTP 200, field `mode` sesuai, lima sumber, serta bahasa keluaran yang sesuai. | Selesai secara fungsional |
 
-Catatan kesiapan: `.venv` lokal belum memiliki dependency `chromadb`, sehingga pengujian terakhir menggunakan Python global yang memiliki dependency proyek. Selain itu, satu query panjang terkena HTTP 429 dari Groq karena batas output token pada service tier, bukan karena kegagalan retrieval atau routing mode. Sebelum deployment atau demonstrasi ulang, dependency `.venv` perlu disamakan dan pengaturan batas token/ukuran output Groq sebaiknya diperiksa.
+Catatan historis pada verifikasi 2026-09-18: `.venv` saat itu belum memiliki dependency `chromadb`, sehingga pengujian menggunakan Python global yang memiliki dependency proyek. Satu query panjang juga terkena HTTP 429 dari Groq karena batas output token pada service tier, bukan karena kegagalan retrieval atau routing mode. Pemeriksaan lingkungan 2026-11-26 kemudian berhasil menjalankan 13 tes melalui `.venv`; catatan lama ini dipertahankan sebagai riwayat, bukan kondisi lingkungan terbaru.
 
 ### 8.3 Skrip benchmark model
 
 Skrip `benchmark_models.py` ditambahkan untuk membandingkan model yang tersedia pada Groq melalui alur endpoint Flask yang sama. Skrip mengukur latensi end-to-end dengan `time.perf_counter()`, menjalankan skenario dalam mode Regular dan IP, serta menyimpan model, input, kriteria acuan, status HTTP, median latensi, waktu tiap pengulangan, sumber, dan jawaban ke CSV. Kolom correctness sengaja dibiarkan kosong untuk penilaian manual terhadap kriteria acuan.
 
-Model awal yang disiapkan adalah Qwen aktif dan `openai/gpt-oss-20b` serta `openai/gpt-oss-120b`. Daftar model dapat diganti dengan opsi `--models`. Skrip meminta konfirmasi sebelum mengirim request ke Groq karena jumlah panggilan bergantung pada model, skenario, mode, pengulangan, dan warm-up. Hasil benchmark belum diambil; file ini baru divalidasi melalui compile dan pemeriksaan opsi CLI.
+Versi skrip yang diperiksa pada 2026-11-26 memiliki 10 kasus, nilai bawaan `--repeats 3` dan `--warmups 1`. Artefak `results/model_comparison.csv` yang tersedia hanya berisi enam baris hasil: dua kasus (`checklist_link` dan `keyin_schedule`) untuk tiga model, satu pengukuran per mode, status HTTP 200, dan label correctness kosong. Ini merupakan hasil parsial, bukan benchmark final atau rata-rata latensi yang memadai. Skrip belum identik dengan dataset P06 yang berisi 15 pertanyaan positif dan 4 pertanyaan negatif, serta tidak mengisi label correctness otomatis. Permintaan yang dijawab melalui personal-record guard atau resolver paket deterministik tidak melewati LLM; hasilnya harus dipisahkan atau ditandai jika tujuan evaluasi adalah membandingkan model generasi.
+
+Model yang disiapkan adalah Qwen aktif dan `openai/gpt-oss-20b` serta `openai/gpt-oss-120b`. Daftar model dapat diganti dengan opsi `--models`. Skrip meminta konfirmasi sebelum mengirim request ke Groq karena jumlah panggilan bergantung pada model, skenario, mode, pengulangan, dan warm-up.
 
 Pada implementasi, ketiga model memakai pipeline aplikasi yang sama: input dan mode melewati endpoint `/chat`, query diproses dengan aturan dan filter yang sama, ChromaDB mengambil konteks dari KB yang sama, lalu prompt yang dibentuk aplikasi dikirim ke Groq. Di `get_groq_response`, titik pergantian model hanya parameter `model=GROQ_MODEL`; skrip benchmark mengubah nilai tersebut untuk menjalankan tiap model melalui endpoint yang sama. Jadi untuk diagram arsitektur sistem, satu diagram sudah cukup dengan komponen generasi diberi label tiga alternatif model. Jika diperlukan, tiga diagram terpisah dapat dibuat sebagai tiga konfigurasi eksperimen yang sama, bukan tiga alur sistem yang berbeda.
 
@@ -465,42 +487,65 @@ Validasi regresi: 8 tes lulus, termasuk ejaan nama yang sengaja dibuat tidak bia
 
 Jawaban assistant kini membungkus URL panjang di dalam lebar bubble agar tidak meluber pada layar sempit. URL berprotokol HTTP/HTTPS, baik URL biasa maupun markdown `[teks](URL)`, ditampilkan sebagai tautan yang dapat diklik dan dibuka pada tab baru dengan `rel="noopener noreferrer"`. Pemrosesan tetap dilakukan setelah HTML escaping untuk menjaga teks jawaban tidak ditafsirkan sebagai markup.
 
+### 8.10 Resolusi paket mata kuliah berdasarkan angkatan
+
+Audit query lokal “Apa saja mata kuliah paket semester 1 angkatan 2026?” menemukan FAQ yang benar pada Top-5 peringkat ketiga, tetapi konteks di atasnya membahas paket lain. Jawaban model yang menyatakan informasi tidak tersedia bertentangan dengan konteks yang sudah terambil.
+
+FAQ paket semester 1 cohort 2026 kini diberi metadata `fact_type=course_package`, `cohort_year=2026`, dan `semester=1`, serta jawaban kanonis untuk Regular dan IP. `ingest.py` menyimpan atribut cakupan tersebut pada metadata Chroma. Endpoint mengidentifikasi pertanyaan paket yang menyebut angkatan dan semester, mengambil record dengan filter metadata yang tepat, lalu mengembalikan jawaban kanonis tanpa meminta LLM menyusun ulang daftar/SKS. Jika semester belum disebutkan, endpoint meminta klarifikasi. Jika pasangan angkatan-semester belum tercatat—termasuk angkatan 2040—endpoint menyatakan data terverifikasi belum tersedia dan tidak menyalin paket cohort lain.
+
+Koleksi lokal dibangun ulang dan berisi 667 dokumen. Verifikasi endpoint Flask lokal menghasilkan daftar enam mata kuliah dan total 20 SKS untuk cohort 2026 pada mode Regular dan IP; cohort 2040 mendapat jawaban keterbatasan yang aman tanpa retrieval semantik atau LLM. 13 tes regresi, compile Python, validasi JSON, dan `git diff --check` berhasil.
+
 ## 9. Catatan Validasi dan Hal yang Perlu Diperbarui
 
-Bagian ini penting untuk menjaga kesesuaian antara laporan dan implementasi aktual.
+Bagian ini membedakan fakta implementasi, bukti yang telah diperiksa, dan pekerjaan yang belum dilakukan. Jangan mengubah status “belum diuji” menjadi klaim hasil.
 
-1. **Model LLM pada dokumentasi lama perlu diperbarui.** Dokumen Word menyebut `llama-3.1-8b-instant` sebagai model final, sedangkan default implementasi saat ini adalah `qwen/qwen3.8-27b`. Eksperimen juga membandingkan `openai/gpt-oss-20b` dan `openai/gpt-oss-120b`; laporan perlu membedakan model default aplikasi dari model-model yang diuji.
-2. **Metrik ChromaDB perlu diverifikasi.** Pemeriksaan terhadap koleksi aktif menunjukkan `collection.metadata` bernilai `None`. Karena koleksi dibuat tanpa `metadata={"hnsw:space": "cosine"}`, nilai retrieval yang tampil saat ini tidak boleh langsung dilaporkan sebagai cosine similarity tanpa verifikasi tambahan.
-3. **Dokumentasi lama menyebut koleksi `informatika_uii` pada bagian ingesti, sedangkan kode aktif menggunakan `akademik_uii`.** Nama koleksi pada laporan harus mengikuti kode yang benar-benar digunakan saat eksperimen final.
-4. **Jumlah file knowledge base pada dokumen Word perlu diselaraskan dengan repository.** Repository saat ini memiliki beberapa file JSON untuk periode Ganjil dan Genap, bukan hanya lima file utama.
-5. **Tanggal jadwal pada knowledge base bersifat periodik.** Data Ganjil 2025/2026 dan Genap 2025/2026 perlu diberi penanda periode ketika digunakan pada pengujian agar hasil tidak dianggap berlaku untuk semua tahun akademik.
-6. **API key tidak dicatat dalam dokumen ini.** Nilai rahasia harus tetap berada di `.env`, tidak dimasukkan ke Git, dan sebaiknya diregenerasi apabila pernah terekspos.
+1. **Judul masih usulan.** Judul kerja yang direkomendasikan dicatat pada Bagian 1 dan 13. Judul final perlu mengikuti fokus penelitian yang disepakati dengan dosen pembimbing.
+2. **Tahun dan metadata naskah perlu dibetulkan.** Salinan DOCX Bab 1–3 yang diperiksa menampilkan tahun 2020 pada halaman judul; tahun harus mengikuti tahun pengajuan yang benar. Nama/judul di sampul, lembar persetujuan, P06, skripsi, dan paper harus konsisten.
+3. **Model LLM di naskah lama sudah tidak sesuai.** Naskah menyebut `llama-3.1-8b-instant`, sedangkan default aplikasi saat ini `qwen/qwen3.8-27b`; evaluasi juga mencakup `openai/gpt-oss-20b` dan `openai/gpt-oss-120b`. Bedakan model default aplikasi dari model yang dibandingkan.
+4. **Nama koleksi lama perlu diganti.** Kode aktif memakai koleksi `akademik_uii`; rujukan lama ke `informatika_uii` tidak menggambarkan implementasi saat ini.
+5. **Deskripsi ingesti perlu dikoreksi.** Pipeline menggabungkan pertanyaan dan jawaban menjadi dokumen vektor, serta dapat mengindeks `alternate_questions` sebagai variasi dokumen Q&A. Pipeline tidak melakukan pemotongan teks generik berbasis panjang/token seperti klaim “dokumen dipecah menjadi chunks”.
+6. **Konfigurasi jarak ChromaDB belum dipatok konsisten.** Pemeriksaan 2026-11-26 menemukan koleksi lokal aktif berkonfigurasi `hnsw.space=cosine`, walaupun `collection.metadata` bernilai `None`. Namun, `ingest.py` menghapus koleksi lalu membuatnya kembali tanpa konfigurasi metrik; fallback pembuatan koleksi di `app.py` juga tidak menetapkan metrik. Pada Chroma 1.5.9, koleksi baru yang diuji tanpa konfigurasi eksplisit menggunakan `l2`. Karena itu hasil aktif saat ini cosine, tetapi ingest ulang atau instalasi baru dapat menghasilkan L2. Metrik harus dipatok secara eksplisit, koleksi dibangun ulang, lalu konfigurasi diverifikasi sebelum pengumpulan data final.
+7. **Koleksi harus menjadi bagian dari snapshot eksperimen.** Jumlah 443, 575, 665, dan 667 pada catatan terdahulu berasal dari snapshot ingest yang berbeda. Catat commit kode, daftar/hash berkas KB, waktu ingest, jumlah vektor, versi ChromaDB, konfigurasi jarak, dan model embedding untuk setiap run final.
+8. **Hasil P06 adalah baseline versi sebelumnya.** Matriks 114 pengujian (TP=89, TN=20, FP=4, FN=1; akurasi 95.61%) mendokumentasikan masalah sebelum guard data pribadi dan perbaikan S13 divalidasi penuh. Belum ada hasil lengkap 3 model × 2 mode × 19 pertanyaan setelah seluruh perubahan tersebut; jangan mengklaim akurasi terbaru 100%.
+9. **Skrip benchmark belum merupakan pengganti evaluasi final.** `benchmark_models.py` saat ini berisi 10 kasus, mengulang tiga kali secara default, dan membiarkan label correctness untuk penilaian manual. Dataset final perlu memasukkan seluruh pertanyaan positif/negatif dan menyimpan jawaban mentah, sumber, status request, serta label penilai.
+10. **Resolver deterministik mengubah makna perbandingan model.** Permintaan paket cohort yang dikenali dijawab tanpa LLM. Pisahkan hasil jalur deterministik dari hasil generasi jika menyimpulkan model mana yang lebih akurat atau cepat.
+11. **Klaim retrieval dan kualitas jawaban harus dibedakan.** Nilai distance bukan akurasi jawaban. Precision/Recall@5 memerlukan label dokumen relevan per query; factuality/ketepatan jawaban memerlukan rubrik penilaian yang terpisah.
+12. **Klaim pengaruh embedding belum didukung perbandingan.** Implementasi saat ini menggunakan satu model embedding. Untuk menyimpulkan bahwa embedding tersebut lebih baik, perlu baseline embedding dan protokol yang sama; jika eksperimen itu tidak dilakukan, rumusan masalah/klaim tersebut harus dipersempit.
+13. **Klaim RAG unggul atas Rule-Based atau LLM murni belum dibuktikan.** Tidak ada baseline eksperimental tersebut pada bukti yang diperiksa. Demikian pula, jangan menyebut sistem “bebas halusinasi”, “bebas rate limit”, atau “berakurasi maksimal”; laporkan hasil terukur dan batas dataset.
+14. **Jumlah dan asal data uji perlu dibuktikan.** Bab 3 merencanakan pertanyaan dari Google Form, 30 variasi pertanyaan, 50 request latensi, dan pengujian factuality. Bukti yang diperiksa mencakup 15 positif dan 4 negatif pada P06 serta skrip benchmark 10 kasus. Lampirkan instrumen, data yang dianonimkan, kriteria label, dan catatan eksperimen jika pengumpulan lain telah dilakukan.
+15. **Perluas pelaporan latensi.** Catat model, mode, waktu pengulangan, warm-up, ukuran jawaban, status HTTP, error/rate limit, serta median dan sebaran. Klaim response time milidetik atau “tanpa rate limit” tidak boleh didasarkan pada deskripsi perangkat keras atau satu hasil pengukuran.
+16. **Jangan menyebut prototipe lokal sebagai deployment resmi.** Frontend saat ini mengarah ke `127.0.0.1:5000` dan ChromaDB berjalan lokal. Klaim terintegrasi pada website resmi/tersedia 24/7 hanya boleh digunakan jika deployment tersebut benar-benar dilakukan dan diuji.
+17. **Pengenalan nama/peran bukan autentikasi.** Peran mahasiswa/orang tua didapat dari perkenalan sukarela, bukan verifikasi identitas. Pertanyaan rekam akademik individu ditolak; jangan menggambarkan sistem sebagai mampu melihat IPK, pembayaran, atau jadwal pribadi.
+18. **Manfaat analitik histori belum terbukti sebagai fitur aktif.** Naskah menyebut histori percakapan dapat dipakai untuk evaluasi kebijakan, tetapi implementasi yang diperiksa belum menunjukkan penyimpanan analitik permanen. Jika fitur itu kelak ditambahkan, perlu kebijakan privasi, persetujuan, minimisasi data, retensi, dan anonimisasi.
+19. **Daftar pustaka perlu dilengkapi dan diverifikasi.** Pada ekstraksi DOCX Bab 1–3, bagian Daftar Pustaka hanya terlihat sebagai heading, sedangkan badan naskah mengandung sitasi. Pastikan semua sitasi mempunyai entri lengkap dan sumbernya benar-benar dibaca/diverifikasi.
+20. **PDF belum diaudit untuk kesetaraan visual halaman.** Analisis saat ini berfokus pada isi DOCX dan kode. Sebelum menyerahkan naskah, bandingkan PDF hasil ekspor untuk memastikan tabel, diagram, daftar isi, nomor halaman, dan tata letak sesuai.
+21. **Rahasia tidak boleh dicatat di log.** API key harus tetap berada di `.env`, tidak dimasukkan ke Git/dokumen, dan diregenerasi jika pernah terekspos.
 
 ## 10. Rekomendasi untuk Bab Implementasi dan Pengujian
 
-Untuk laporan skripsi, perubahan berikut sebaiknya dijelaskan dan dibuktikan dengan eksperimen:
+Roadmap berikut disusun berurutan agar perubahan naskah tidak mendahului keputusan metode atau hasil eksperimen. Statusnya adalah rencana, bukan klaim bahwa tahap sudah selesai.
 
-- Bandingkan retrieval embedding `all-MiniLM-L6-v2` dan `paraphrase-multilingual-MiniLM-L12-v2` menggunakan pertanyaan Bahasa Indonesia yang sama.
-- Gunakan dataset uji yang memiliki pertanyaan umum, pertanyaan kontekstual, paraphrase, singkatan, typo, dan pertanyaan di luar domain.
-- Laporkan Top-1/Top-5 relevance, bukan hanya distance, karena distance tidak otomatis sama dengan akurasi jawaban.
-- Ukur latensi retrieval lokal dan latensi generasi Groq secara terpisah.
-- Uji percakapan dua langkah, misalnya pertanyaan jadwal Key-In diikuti jawaban angkatan dan kelas.
-- Uji pertanyaan yang tidak menyebut konteks dan pastikan chatbot meminta klarifikasi sebelum memberi jawaban spesifik.
-- Uji out-of-domain untuk memastikan chatbot tidak mengarang informasi di luar knowledge base.
-- Catat model LLM, embedding, jumlah dokumen, tanggal ingest, `n_results`, temperature, dan konfigurasi environment pada setiap eksperimen.
+1. **Fondasi naskah dan ruang lingkup (fokus kerja dipilih).** Fokus sementara adalah pengembangan chatbot; evaluasi menjadi bukti kinerja sistem. Minta persetujuan dosen pembimbing atas judul dan ruang lingkup; samakan tahun, model, istilah arsitektur, pipeline ingest, metrik, dataset, klaim, sitasi, dan daftar pustaka. Jika komparasi tiga LLM tetap dilakukan, posisikan sebagai evaluasi pendukung kecuali pembimbing menetapkannya sebagai kontribusi utama.
+2. **Bekukan kondisi eksperimen (belum dimulai).** Catat commit kode dan perubahan yang masuk, versi Python/dependensi, hash/file sumber KB, jumlah vektor, konfigurasi cosine yang eksplisit, model embedding, model LLM, prompt, `n_results`, mode, temperature, serta tanggal dan lingkungan uji. Jangan menjalankan ingest final sampai konfigurasi metrik aman dan telah diverifikasi.
+3. **Uji ulang jawaban akhir (belum dimulai).** Gunakan 15 pertanyaan positif dan 4 negatif dalam Regular/IP untuk tiga model: secara nominal 3 × 2 × 19 = 114 penilaian. Simpan setiap input, jawaban mentah, sumber, model, mode, waktu, HTTP/error, rubrik, dan label. Pisahkan kasus yang dijawab jalur deterministik dari kasus yang memanggil LLM.
+4. **Evaluasi retrieval terpisah (belum dimulai).** Buat ground truth dokumen relevan untuk setiap query. Laporkan metrik retrieval yang sesuai (mis. Recall@5/MRR atau Precision@5 jika label relevansi memadai), selain skor distance. Nilai jawaban LLM tidak boleh dipakai sebagai pengganti label retrieval.
+5. **Ukur latensi dengan protokol terkendali (belum dimulai).** Lakukan warm-up dan pengulangan yang ditetapkan sebelumnya pada kondisi/model yang sama; catat end-to-end dan, bila memungkinkan, waktu retrieval serta generation secara terpisah. Laporkan median dan sebaran serta semua error/rate limit, bukan hanya rata-rata.
+6. **Tulis Bab 4 dan paper dari hasil final (belum dimulai).** Sajikan implementasi, dataset/metode, hasil per model dan mode, matriks kebingungan, retrieval, latensi, analisis kegagalan, keterbatasan, dan ancaman validitas. Gunakan angka dan batasan yang konsisten pada skripsi serta paper.
 
 ## 11. Perintah Operasional
 
 ### Ingest ulang knowledge base
 
 ```powershell
-python ingest.py
+.\.venv\Scripts\python.exe ingest.py
 ```
+
+**Peringatan:** `ingest.py` menghapus koleksi `akademik_uii` sebelum membuatnya kembali. Jangan menjalankan ingest untuk eksperimen final sampai konfigurasi metrik koleksi ditetapkan secara eksplisit dan snapshot data eksperimen sudah disiapkan.
 
 ### Menjalankan Flask API
 
 ```powershell
-python app.py
+.\.venv\Scripts\python.exe app.py
 ```
 
 ### Menjalankan benchmark model
@@ -508,7 +553,7 @@ python app.py
 Benchmark memakai Flask test client dan tidak memerlukan server Flask yang terpisah. Contoh uji kecil:
 
 ```powershell
-python benchmark_models.py --limit 2 --repeats 1 --warmups 0 --output results/model_comparison.csv
+.\.venv\Scripts\python.exe benchmark_models.py --limit 2 --repeats 1 --warmups 0 --output results\model_comparison.csv
 ```
 
 Untuk menguji seluruh skenario dengan pengulangan lebih banyak, hilangkan `--limit` atau sesuaikan nilainya. Periksa jumlah request yang ditampilkan dan konfirmasi sebelum benchmark berjalan. Isi kolom `regular_correctness` dan `ip_correctness` secara manual berdasarkan `expected_criteria` dan jawaban yang tersimpan di CSV.
@@ -530,9 +575,44 @@ GROQ_MODEL=qwen/qwen3.8-27b
 | Retrieval lima dokumen | Aktif |
 | Groq Cloud generation | Berfungsi dengan model aktif |
 | Conversational clarification | Diimplementasikan melalui riwayat sesi |
+| Guard pertanyaan rekam akademik pribadi | Diimplementasikan; diarahkan ke UII Gateway/UIIRAS tanpa retrieval/LLM |
+| Personalisasi sapaan nama/peran | Diimplementasikan berbasis perkenalan sukarela; bukan autentikasi |
+| Jawaban paket mata kuliah berbasis cohort | Diimplementasikan dengan lookup metadata; jalur ini melewati LLM |
 | Pencegahan double request | Aktif |
 | Formatter jawaban markdown dasar | Aktif |
-| Validasi cosine metric ChromaDB | Belum difinalkan |
+| Koleksi ChromaDB lokal pada pemeriksaan 2026-11-26 | 667 vektor; konfigurasi aktif `cosine` |
+| Konfigurasi metrik saat pembuatan/ingest ulang koleksi | Belum dipatok; koleksi baru tanpa konfigurasi eksplisit dapat memakai `l2` |
+| Uji unit/regresi lokal | 13 tes lulus pada 2026-11-26; bukan uji ulang akurasi semua model |
+| Confusion matrix setelah seluruh perubahan terbaru | Belum tersedia |
 | Pengujian kuantitatif 30 pertanyaan | Belum difinalkan |
 | Pengujian latensi 50 request | Belum difinalkan |
 | Pengujian factuality/hallucination | Belum difinalkan |
+
+## 13. Keputusan dan Panduan Kerja Skripsi/Paper
+
+### 13.1 Usulan judul
+
+Judul yang diajukan peneliti:
+
+> **Pengembangan Chatbot Layanan Akademik Program Studi Informatika Universitas Islam Indonesia Berbasis Retrieval-Augmented Generation (RAG)**
+
+Judul ini jelas menyebut aktivitas, sistem, domain, institusi, dan pendekatan. Penulisan “Retrieval-Augmented Generation” menggunakan tanda hubung. Bentuk lengkap “Program Studi Informatika Universitas Islam Indonesia” lebih formal daripada “Informatika UII”; singkatan UII dapat dikenalkan di abstrak atau isi.
+
+Fokus kerja sementara yang dipilih adalah **pengembangan chatbot**. Judul ini masih **usulan**, bukan keputusan final, dan tetap perlu persetujuan pembimbing. Jika setelah konsultasi komparasi tiga LLM menjadi fokus utama, pertimbangkan bentuk yang menonjolkan evaluasi, misalnya:
+
+> **Pengembangan dan Evaluasi Chatbot Layanan Akademik Program Studi Informatika Universitas Islam Indonesia Berbasis Retrieval-Augmented Generation (RAG)**
+
+Penambahan frasa “Perbandingan Kinerja Tiga Model LLM” hanya disarankan jika tujuan, rumusan masalah, dan eksperimen final memang menjadikan komparasi tiga model sebagai kontribusi utama. Minta persetujuan dosen pembimbing sebelum mengganti judul pada sampul.
+
+### 13.2 Progres bertahap
+
+| Tahap | Fokus | Status | Bukti/keluaran yang harus disiapkan |
+|---|---|---|---|
+| 1 | Menetapkan judul dan fokus penelitian | Fokus kerja pengembangan chatbot dipilih; menunggu persetujuan pembimbing | Persetujuan judul; rumusan masalah dan tujuan yang cocok dengan eksperimen yang benar-benar akan dilakukan |
+| 2 | Menyelaraskan Bab 1–3 dengan kode | Belum dimulai | Model aktif, arsitektur, ingest, metrik, dataset, klaim, sitasi, daftar pustaka |
+| 3 | Membekukan eksperimen | Belum dimulai | Commit/versi kode, snapshot KB, prompt, model, konfigurasi Chroma, environment, tanggal uji |
+| 4 | Menjalankan ulang evaluasi jawaban | Belum dimulai | 114 keputusan terlabel beserta jawaban mentah, sumber, dan alasan penilaian |
+| 5 | Evaluasi retrieval dan latensi | Belum dimulai | Ground truth dokumen relevan dan hasil pengukuran latensi yang berulang |
+| 6 | Menyusun Bab 4 dan paper | Belum dimulai | Tabel/gambar hasil final, analisis kesalahan, keterbatasan, dan angka konsisten |
+
+Tahapan berikutnya dikerjakan setelah tahap sebelumnya menghasilkan keputusan atau bukti yang diperlukan. Perubahan pada dokumen skripsi tidak dilakukan otomatis hanya dari usulan pada log ini; isi final perlu dikonfirmasi peneliti dan dosen pembimbing.

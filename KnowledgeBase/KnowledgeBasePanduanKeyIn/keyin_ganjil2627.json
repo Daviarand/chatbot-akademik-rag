@@ -41,12 +41,16 @@
   },
   {
     "question": "Apa saja mata kuliah paket semester 1 untuk mahasiswa angkatan 2026?",
+    "fact_type": "course_package",
+    "cohort_year": 2026,
+    "semester": 1,
     "alternate_questions": [
       "Which courses are included in the first-semester package for the 2026 cohort?",
       "What courses does the Informatics program register for new students entering in 2026?",
       "Daftar mata kuliah wajib mahasiswa baru Informatika semester 1 angkatan 2026."
     ],
-    "answer": "Paket semester 1 angkatan 2026 terdiri dari Pendidikan Agama Islam (2 SKS), Pendidikan Pancasila (2 SKS), Pemikiran Desain (4 SKS), Fundamen Matematika (6 SKS), Fundamen Informatika (3 SKS), dan Logika Pemrograman (3 SKS), total 20 SKS."
+    "answer": "Paket semester 1 angkatan 2026 terdiri dari Pendidikan Agama Islam (2 SKS), Pendidikan Pancasila (2 SKS), Pemikiran Desain (4 SKS), Fundamen Matematika (6 SKS), Fundamen Informatika (3 SKS), dan Logika Pemrograman (3 SKS), total 20 SKS.",
+    "answer_ip": "The first-semester package for the 2026 cohort consists of Pendidikan Agama Islam (Islamic Religious Education, 2 credits), Pendidikan Pancasila (Pancasila Education, 2 credits), Pemikiran Desain (Design Thinking, 4 credits), Fundamen Matematika (Mathematical Foundations, 6 credits), Fundamen Informatika (Fundamentals of Informatics, 3 credits), and Logika Pemrograman (Programming Logic, 3 credits), for a total of 20 credits (SKS)."
   },
   {
     "question": "Apa saja paket mata kuliah semester 3 untuk mahasiswa angkatan 2025?",
