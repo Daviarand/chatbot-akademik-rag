@@ -210,6 +210,118 @@ def normalize_mode(mode):
     return MODE_ALIASES.get(mode_key, "regular")
 
 
+PACKAGE_QUESTION_PATTERN = re.compile(
+    r"\b(?:paket|package)\b.*\b(?:mata kuliah|matkul|course|courses|kelas|class)\b"
+    r"|\b(?:mata kuliah|matkul|course|courses|kelas|class)\b.*\b(?:paket|package)\b",
+    re.IGNORECASE,
+)
+COHORT_YEAR_PATTERN = re.compile(
+    r"\b(?:angkatan|cohort(?:\s+of)?|class\s+of)\s*(20\d{2})\b"
+    r"|\b(20\d{2})\s+cohort\b",
+    re.IGNORECASE,
+)
+SEMESTER_PATTERN = re.compile(
+    r"\bsemester\s*(?:ke[- ]?)?(?P<number>[1-9]|pertama|kedua|ketiga|keempat|"
+    r"kelima|keenam|ketujuh|kedelapan)\b"
+    r"|\b(?P<ordinal>first|second|third|fourth|fifth|sixth|seventh|eighth)"
+    r"[- ]semester\b",
+    re.IGNORECASE,
+)
+SEMESTER_WORDS = {
+    "pertama": 1,
+    "kedua": 2,
+    "ketiga": 3,
+    "keempat": 4,
+    "kelima": 5,
+    "keenam": 6,
+    "ketujuh": 7,
+    "kedelapan": 8,
+    "first": 1,
+    "second": 2,
+    "third": 3,
+    "fourth": 4,
+    "fifth": 5,
+    "sixth": 6,
+    "seventh": 7,
+    "eighth": 8,
+}
+
+
+def extract_course_package_scope(question):
+    normalized_question = " ".join(str(question or "").split())
+    if not PACKAGE_QUESTION_PATTERN.search(normalized_question):
+        return None
+
+    cohort_match = COHORT_YEAR_PATTERN.search(normalized_question)
+    if not cohort_match:
+        return None
+
+    cohort_year = int(cohort_match.group(1) or cohort_match.group(2))
+    semester_match = SEMESTER_PATTERN.search(normalized_question)
+    semester = None
+    if semester_match:
+        semester_value = semester_match.group("number") or semester_match.group("ordinal")
+        semester = int(semester_value) if semester_value.isdigit() else SEMESTER_WORDS[semester_value.lower()]
+
+    return cohort_year, semester
+
+
+def resolve_course_package(question, mode):
+    scope = extract_course_package_scope(question)
+    if scope is None:
+        return None
+
+    cohort_year, semester = scope
+    if semester is None:
+        if normalize_mode(mode) == "ip":
+            answer = f"Which semester's course package for the {cohort_year} cohort are you asking about?"
+        else:
+            answer = f"Paket mata kuliah semester berapa untuk angkatan {cohort_year} yang Anda maksud?"
+        return {"answer": answer, "sources": []}
+
+    where = {
+        "$and": [
+            {"fact_type": {"$eq": "course_package"}},
+            {"cohort_year": {"$eq": cohort_year}},
+            {"semester": {"$eq": semester}},
+        ]
+    }
+    results = collection.get(where=where, include=["metadatas"])
+    metadatas = results.get("metadatas") or []
+    if not metadatas:
+        if normalize_mode(mode) == "ip":
+            answer = (
+                f"The available knowledge base does not contain a verified course package "
+                f"for semester {semester} of the {cohort_year} cohort. I cannot assume it "
+                "matches another cohort; please check the latest official curriculum or "
+                "contact the Informatics Study Program."
+            )
+        else:
+            answer = (
+                f"Knowledge Base yang tersedia belum memuat paket mata kuliah semester "
+                f"{semester} yang terverifikasi untuk angkatan {cohort_year}. Saya tidak "
+                "dapat menganggap paketnya sama dengan angkatan lain. Silakan cek kurikulum "
+                "resmi terbaru atau hubungi Prodi Informatika."
+            )
+        return {"answer": answer, "sources": []}
+
+    metadata = metadatas[0]
+    answer_field = "answer_ip" if normalize_mode(mode) == "ip" else "answer_regular"
+    answer = metadata.get(answer_field)
+    if not isinstance(answer, str) or not answer.strip():
+        raise ValueError(
+            f"Indexed course package for cohort {cohort_year}, semester {semester} "
+            f"is missing {answer_field}"
+        )
+
+    source = {
+        key: metadata[key]
+        for key in ("source", "file", "question")
+        if metadata.get(key)
+    }
+    return {"answer": answer, "sources": [source]}
+
+
 PERSONAL_RECORD_TERMS = (
     r"(?:gpa|ipk|grade|grades|nilai|tuition|payment|fee|spp|ukt|tagihan|"
     r"class times|class schedule|classes?|courses?|schedule|timetable|"
@@ -533,6 +645,22 @@ def chat():
         response_body = {
             "answer": personal_record_refusal,
             "sources": [],
+            "mode": mode,
+            "session_context": session_context,
+        }
+        if greeting:
+            response_body["greeting"] = greeting
+        return jsonify(response_body)
+
+    try:
+        course_package_response = resolve_course_package(user_query, mode)
+    except Exception as e:
+        app.logger.exception("Failed to resolve the requested course package")
+        return jsonify({"error": str(e)}), 500
+
+    if course_package_response:
+        response_body = {
+            **course_package_response,
             "mode": mode,
             "session_context": session_context,
         }

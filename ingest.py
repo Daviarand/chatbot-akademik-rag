@@ -106,7 +106,7 @@ KB_DIR = os.path.join(BASE_DIR, "KnowledgeBase")
 CHROMA_DATA_PATH = os.path.join(BASE_DIR, "chroma_db")
 
 
-def build_metadata(source_name, file_name, question):
+def build_metadata(source_name, file_name, question, item=None):
     normalized_source = source_name.lower()
     normalized_file = file_name.lower()
 
@@ -152,6 +152,24 @@ def build_metadata(source_name, file_name, question):
         metadata["program_scope"] = "ip"
     elif "reguler" in question.lower() and "ip" not in question.lower():
         metadata["program_scope"] = "regular"
+
+    item = item or {}
+    fact_type = item.get("fact_type")
+    if isinstance(fact_type, str) and fact_type.strip():
+        metadata["fact_type"] = fact_type.strip()
+
+    for key in ("cohort_year", "semester"):
+        value = item.get(key)
+        if isinstance(value, int) and not isinstance(value, bool):
+            metadata[key] = value
+
+    if metadata.get("fact_type") == "course_package":
+        answer = item.get("answer")
+        answer_ip = item.get("answer_ip")
+        if isinstance(answer, str) and answer.strip():
+            metadata["answer_regular"] = answer.strip()
+        if isinstance(answer_ip, str) and answer_ip.strip():
+            metadata["answer_ip"] = answer_ip.strip()
 
     return metadata
 
@@ -215,7 +233,7 @@ def ingest_knowledge_base():
                                 for question_variant in question_variants:
                                     content = f"Pertanyaan: {question_variant}\nJawaban: {answer}"
                                     documents.append(content)
-                                    metadatas.append(build_metadata(source_name, file, question))
+                                    metadatas.append(build_metadata(source_name, file, question, item))
                                     ids.append(f"doc_{source_name}_{file}_{count}")
                                     count += 1
                     except Exception as e:
